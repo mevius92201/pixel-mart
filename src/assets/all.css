@@ -38,8 +38,9 @@ a:visited {
 /* a:visited {
   color: whitesmoke;
 } */
-a:hover {
+.navbar-menu-txt .a:hover {
   color: rgb(153, 204, 194);
+  cursor: pointer;
 }
 .main-wrapper {
   width: 100vw;
@@ -203,6 +204,11 @@ navbar-menu > a {
 .navbar-menu-items {
   margin-right: 3rem;
   color: azure;
+  cursor: pointer;
+}
+.navbar-menu-txt {
+  padding: 0.2rem;
+  cursor: pointer;
 }
 .support-container {
   display: flex;
@@ -683,8 +689,9 @@ html {
   height: 1.8rem;
   background-color: rgb(145, 237, 237);
   color: #1c1d29;
+  cursor: pointer;
 }
-product-add-cart-btn .btn-disabled {
+.product-add-cart-btn .btn-disabled {
   background-color: rgba(209, 231, 231, 0.5);
   cursor: not-allowed;
 }

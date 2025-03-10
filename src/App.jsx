@@ -31,7 +31,7 @@ function App() {
               <div className="navbar-menu">
                 {navbarMenuItems.map((navbarMenuItem) => (
                   <div className="navbar-menu-items" key={navbarMenuItem.to}>
-                    <div>
+                    <div className="navbar-menu-txt">
                       <NavLink to={navbarMenuItem.to} className={activeClass}>
                         {navbarMenuItem.menu}
                       </NavLink>
