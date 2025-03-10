@@ -41,28 +41,40 @@ function News() {
   return (
     <>
       <section className="news-list">
-        <div className="news-list-group">
-          {newsList.map((news) => (
-            <div className="news-block" key={news.id}>
-              <div className="news-article">
-                <div className="news-list-article-content">
-                  <div className="news-title">{news.title}</div>
-                  <p className="news-description">{news.description}</p>
-                  <Link to={news.id} className="news-article-link">
-                    READ MORE
-                  </Link>
+        <div className="news-list-main-wrapper">
+          <div className="news-list-group">
+            {newsList.map((news) => (
+              <div className="news-block" key={news.id}>
+                <div className="news-article">
+                  <div className="news-list-article-content">
+                    <div className="news-title">
+                      <div className="news-title-txt">{news.title}</div>
+                    </div>
+                    <div className="news-description">
+                      <div className="news-description-txt">
+                        {news.description}
+                      </div>
+                    </div>
+                    <div className="news-info-btn">
+                      <Link to={news.id} className="news-article-link">
+                        READ MORE {">>"}
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="news-date">
+                  <div className="news-date-txt">
+                    {new Date(news.create_at).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </div>
                 </div>
               </div>
-              <div className="news-date">
-                {new Date(news.create_at).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
-              </div>
-            </div>
-          ))}
-          <Outlet />
+            ))}
+            <Outlet />
+          </div>
         </div>
       </section>
     </>

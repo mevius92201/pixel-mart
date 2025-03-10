@@ -1,9 +1,10 @@
 import { useState } from "react";
 // import AuthPage from "./Component/AuthPage.jsx";
 import "../../assets/all.css";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LoadingEffect from "../LoadingEffect.jsx";
+// import LoadingEffect from "../LoadingEffect.jsx";
+import LoadingEffectV2 from "../LoadingEffectV2.jsx";
 import GetCart from "../GetCart.jsx";
 // import PaymentForm from "./Component/PaymentForm.js";
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
@@ -15,7 +16,6 @@ function Cart() {
 
   return (
     <>
-      {/* <AuthPage getProducts={getProduct} setIsAuth={false} /> */}
       <div id="app">
         <div className="container">
           <GetCart
@@ -25,17 +25,11 @@ function Cart() {
             setCartProductData={setCartProductData}
             setLoading={setLoading}
           />
-          {/* <PaymentForm
-            setLoading={setLoading}
-            cartChanged={cartChanged}
-            setCartChanged={setCartChanged}
-            cartProductData={cartProductData}
-          /> */}
         </div>
       </div>
       <div>
         <ToastContainer />
-        <LoadingEffect loadingState={loading} />
+        <LoadingEffectV2 loadingState={loading} />
       </div>
     </>
   );

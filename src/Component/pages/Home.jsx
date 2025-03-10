@@ -1,8 +1,9 @@
 function Home() {
   return (
     <>
-      <div className="home-main-wrapper"></div>
-      <p>Home</p>
+      <section className="home">
+        <div className="home-main-wrapper"></div>
+      </section>
     </>
   );
 }
