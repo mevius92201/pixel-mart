@@ -57,7 +57,7 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
   };
 
   return (
-    <section className="product-board bg_01">
+    <div className="product-board">
       {productsData.map((product, index) => (
         <div
           className="product-card"
@@ -188,7 +188,7 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
           </div>
         </div>
       ))}
-    </section>
+    </div>
   );
 }
 GetProduct.propTypes = {

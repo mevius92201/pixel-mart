@@ -16,7 +16,7 @@ body {
 .layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
 }
 .main-content {
   flex: 1;
@@ -38,14 +38,15 @@ a:visited {
 /* a:visited {
   color: whitesmoke;
 } */
-.navbar-menu-txt .a:hover {
+.navbar-menu-txt > a:hover {
   color: rgb(153, 204, 194);
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 .main-wrapper {
-  width: 100vw;
-  height: 100%;
+  /* width: 100vw; */
+  /* height: 100vh; */
   overflow-x: hidden;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
@@ -152,7 +153,7 @@ a:visited {
   background-color: #000;
   color: white;
   padding: 14px 0;
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 104;
@@ -208,14 +209,13 @@ navbar-menu > a {
 }
 .navbar-menu-txt {
   padding: 0.2rem;
-  cursor: pointer;
 }
-.support-container {
+/* .support-center {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-}
+} */
 .auth-container {
   display: flex;
   flex-direction: column;
@@ -234,15 +234,17 @@ navbar-menu > a {
   min-height: 390px;
 }
 
-.form-label {
+.form-label,
+.support-form-label {
   margin-bottom: 0.4rem;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
-.floating__inner {
+.floating__inner,
+.support-form__inner {
   width: 100%;
 }
-.form-control {
+.support-form-msg {
   display: block;
   width: 100%;
   font-size: 1rem;
@@ -253,6 +255,9 @@ navbar-menu > a {
   padding: 0.375rem 0.75rem;
   border: 1px solid #ccc;
   border-radius: 5px;
+  box-sizing: border-box;
+  height: 170px;
+  resize: none;
 }
 .form-btn-submit {
   background-color: #2788a9;
@@ -266,12 +271,26 @@ navbar-menu > a {
 .form-submit-btn {
   margin-top: 1rem;
 }
-.auth-form {
-  position: relative;
+.auth-form,
+.support-form {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0.6rem 2rem 2rem;
+}
+.support-form {
+  background-image: url("./images/12.png");
+  background-size: 70%;
+  background-position: top;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+.support-form-container {
+  height: 90vh;
+}
+.support-input-fields {
+  margin-top: 11rem;
+  width: 420px;
 }
 .signIn-createAccount-tab {
   display: flex;
@@ -337,6 +356,9 @@ input:not(:placeholder-shown) + .passWord {
   flex-direction: column;
   justify-content: center;
 }
+.support-floating {
+  margin-top: 30px;
+}
 .signin-btn,
 .create-btn {
   text-align: center;
@@ -348,6 +370,7 @@ input:not(:placeholder-shown) + .passWord {
   border-radius: 5px;
   font-size: 1rem;
   outline: none;
+  box-sizing: border-box;
 }
 .error_auth-input {
   width: 100%;
@@ -356,6 +379,7 @@ input:not(:placeholder-shown) + .passWord {
   font-size: 1rem;
   outline: none;
   border: 1px solid #dea1a1;
+  box-sizing: border-box;
 }
 .login-form-title {
   text-align: center;
@@ -544,13 +568,7 @@ input:not(:placeholder-shown) + .passWord {
   align-items: center;
   font-weight: 700;
 }
-.bg_01 {
-  background-image: url(./images/bg_01_pc.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-}
+
 #app {
   background-color: rgb(33 37 42);
   color: #ffffff;
@@ -561,7 +579,7 @@ html {
   background-color: rgb(33 37 42);
 }
 @media only screen and (max-width: 750px) and (orientation: portrait) {
-  .bg_01 {
+  .product-board {
     background-image: url(./images/bg_01_mb.png);
   }
 }
@@ -924,22 +942,26 @@ html {
   color: #4a4a4a;
 }
 .footer-wrapper {
-  position: absolute;
-  bottom: 0;
+  /* position: absolute;
+  bottom: 0; */
   background-color: #000;
   color: white;
   padding: 0.8rem 0;
   width: 100%;
-  z-index: 104;
+  margin-top: auto;
 }
 .home,
-.news-list {
-  margin-top: 4rem;
+.news-list,
+.product-display,
+.support-center {
+  padding-top: 4rem;
 }
 .home-main-wrapper,
-.news-list-main-wrapper {
+.news-list-main-wrapper,
+.product-display-main-wrapper,
+.support-center-main-wrapper {
   background-image: url("./images/bg_main_pc.jpg");
-  width: 100vw;
+  /* width: 100vw; */
   height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
@@ -949,8 +971,21 @@ html {
 }
 .news-list-main-wrapper {
   background-image: url("./images/bg_news_list_pc.png");
-  height: 100%;
   background-position: right;
+  height: 100%;
+}
+.product-display-main-wrapper {
+  background-image: url("./images/bg_01_pc.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.support-center-main-wrapper {
+  background-image: url("./images/bg_support_pc.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
 }
 .news-article-link {
   color: #611085 !important;

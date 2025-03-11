@@ -37,11 +37,11 @@ function SupportCenter() {
 
   return (
     <>
-      <div className="main-wrapper">
-        <section className="support-container">
+      <section className="support-center">
+        <div className="support-center-main-wrapper">
           <SupportForm setLoading={setLoading} />
-        </section>
-      </div>
+        </div>
+      </section>
       <div>
         <ToastContainer />
         <LoadingEffect loadingState={loading} />

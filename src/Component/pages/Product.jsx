@@ -35,15 +35,15 @@ function Product() {
 
   return (
     <>
-      <div id="app">
-        <section className="container">
+      <section className="product-display">
+        <div className="product-display-main-wrapper">
           <GetProduct
             productsData={productsData}
             cartChanged={cartChanged}
             setCartChanged={setCartChanged}
           />
-        </section>
-      </div>
+        </div>
+      </section>
       <div>
         <ToastContainer />
         <LoadingEffect loadingState={loading} />

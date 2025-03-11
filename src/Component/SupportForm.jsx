@@ -17,10 +17,9 @@ function SupportForm({ setLoading }) {
   } = useForm({
     mode: "onTouched",
     defaultValues: {
-      email: "",
       name: "",
+      email: "",
       tel: "",
-      address: "",
       message: "",
     },
   });
@@ -33,7 +32,6 @@ function SupportForm({ setLoading }) {
             name: data.name,
             email: data.email,
             tel: data.tel,
-            address: data.address,
           },
           message: data.message,
         },
@@ -81,43 +79,17 @@ function SupportForm({ setLoading }) {
         draggable: false,
         theme: "colored",
       });
-      reset({ email: "", name: "", tel: "", address: "", message: "" });
+      reset({ name: "", email: "", tel: "", message: "" });
     }
   }, [isSubmitSuccessful, reset]);
 
   return (
-    <div className="form-wrapper">
-      <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
-        <div className="input-fields">
-          <div className="floating">
-            <div className="floating__inner">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                {...register("email", {
-                  required: {
-                    value: true,
-                    message: "此欄位必填",
-                  },
-                  pattern: {
-                    value: /^\S+@\S+\.\S+$/i,
-                    message: "請輸入正確的 Email 格式",
-                  },
-                })}
-                className={errors.email ? "error_auth-input" : "auth-input"}
-                placeholder="請輸入 Email"
-              />
-              {errors.email && (
-                <div className="invalid-hint">{errors?.email?.message}</div>
-              )}
-            </div>
-
-            <div className="floating__inner">
-              <label htmlFor="name" className="form-label">
+    <div className="support-form-container">
+      <form className="support-form" onSubmit={handleSubmit(onSubmit)}>
+        <div className="support-input-fields">
+          <div className="support-floating">
+            <div className="support-form__inner">
+              <label htmlFor="name" className="support-form-label">
                 姓名
               </label>
               <input
@@ -139,15 +111,40 @@ function SupportForm({ setLoading }) {
                   },
                 })}
                 className={errors.name ? "error_auth-input" : "auth-input"}
-                placeholder="請輸入姓名"
+                placeholder="大胖狗"
               />
               {errors.name && (
                 <div className="invalid-hint">{errors?.name?.message}</div>
               )}
             </div>
+            <div className="support-form__inner">
+              <label htmlFor="email" className="support-form-label">
+                信箱
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                {...register("email", {
+                  required: {
+                    value: true,
+                    message: "此欄位必填",
+                  },
+                  pattern: {
+                    value: /^\S+@\S+\.\S+$/i,
+                    message: "請輸入正確的 Email 格式",
+                  },
+                })}
+                className={errors.email ? "error_auth-input" : "auth-input"}
+                placeholder="example@example.com"
+              />
+              {errors.email && (
+                <div className="invalid-hint">{errors?.email?.message}</div>
+              )}
+            </div>
 
-            <div className="floating__inner">
-              <label htmlFor="tel" className="form-label">
+            {/* <div className="support-form__inner">
+              <label htmlFor="tel" className="support-form-label">
                 電話
               </label>
               <input
@@ -165,50 +162,20 @@ function SupportForm({ setLoading }) {
                   },
                 })}
                 className={errors.tel ? "error_auth-input" : "auth-input"}
-                placeholder="請輸入電話"
+                placeholder="09XXXXXXXX"
               />
               {errors.tel && (
                 <div className="invalid-hint">{errors?.tel?.message}</div>
               )}
-            </div>
-
-            <div className="floating__inner">
-              <label htmlFor="address" className="form-label">
-                地址
-              </label>
-              <input
-                id="address"
-                name="地址"
-                type="text"
-                {...register("address", {
-                  required: {
-                    value: true,
-                    message: "此欄位位必填",
-                  },
-                  minLength: {
-                    value: 5,
-                    message: "請輸入至少5個字",
-                  },
-                  maxLength: {
-                    value: 150,
-                    message: "請勿超過150個字",
-                  },
-                })}
-                className={errors.address ? "error_auth-input" : "auth-input"}
-                placeholder="請輸入地址"
-              />
-              {errors.address && (
-                <div className="invalid-hint">{errors?.address?.message}</div>
-              )}
-            </div>
-
-            <div className="floating__inner">
-              <label htmlFor="message" className="form-label">
+            </div> */}
+            <div className="support-form__inner">
+              <label htmlFor="message" className="support-form-label">
                 留言
               </label>
               <textarea
                 id="message"
-                className="form-control"
+                maxlength="300"
+                className="support-form-msg"
                 {...register("message", {
                   maxLength: {
                     value: 300,
@@ -220,12 +187,8 @@ function SupportForm({ setLoading }) {
               ></textarea>
             </div>
             <div className="form-submit-btn">
-              <button
-                type="submit"
-                className="btn form-btn-submit"
-                // disabled={cartProductData.length === 0}
-              >
-                送出訂單
+              <button type="submit" className="btn form-btn-submit">
+                提交
               </button>
             </div>
           </div>
