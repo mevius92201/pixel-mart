@@ -196,7 +196,7 @@ navbar-menu > a {
   background-size: 100%;
 }
 .icon-logo {
-  background-image: url("../../logo.png");
+  background-image: url("/logo.png");
 }
 .navbar-menu {
   display: flex;
@@ -363,7 +363,8 @@ input:not(:placeholder-shown) + .passWord {
 .create-btn {
   text-align: center;
 }
-.auth-input {
+.auth-input,
+.support-input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -372,7 +373,17 @@ input:not(:placeholder-shown) + .passWord {
   outline: none;
   box-sizing: border-box;
 }
-.error_auth-input {
+.support-input,
+.support-form-msg {
+  background-color: #f9ecd699;
+  scrollbar-color: #aedbfa94 #f9ecd699;
+  scrollbar-width: thin;
+}
+.support-form-msg:focus-visible {
+  outline: none;
+}
+.error_auth-input,
+.error_support-input {
   width: 100%;
   padding: 10px;
   border-radius: 5px;

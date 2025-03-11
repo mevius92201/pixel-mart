@@ -110,7 +110,9 @@ function SupportForm({ setLoading }) {
                     message: "請勿超過20個字",
                   },
                 })}
-                className={errors.name ? "error_auth-input" : "auth-input"}
+                className={
+                  errors.name ? "error_support-input" : "support-input"
+                }
                 placeholder="大胖狗"
               />
               {errors.name && (
@@ -135,7 +137,9 @@ function SupportForm({ setLoading }) {
                     message: "請輸入正確的 Email 格式",
                   },
                 })}
-                className={errors.email ? "error_auth-input" : "auth-input"}
+                className={
+                  errors.email ? "error_support-input" : "support-input"
+                }
                 placeholder="example@example.com"
               />
               {errors.email && (
