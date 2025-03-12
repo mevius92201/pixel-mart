@@ -221,13 +221,15 @@ navbar-menu > a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #ffffff;
+  height: 80vh;
+  padding: 1rem 10rem;
+  /* background-color: #ffffff; */
 }
 .router-container {
   background-color: #fff;
   box-shadow: 0 2px 6px #6c8596;
   border: 1px solid #e5e4ec;
+  border-radius: 3px;
 }
 .form-content {
   padding: 12px 0;
@@ -280,13 +282,13 @@ navbar-menu > a {
 }
 .support-form {
   background-image: url("./images/12.png");
-  background-size: 70%;
-  background-position: top;
+  background-size: contain;
+  background-position: center;
   background-repeat: no-repeat;
-  height: 100vh;
+  height: 100%;
 }
 .support-form-container {
-  height: 90vh;
+  height: 100%;
 }
 .support-input-fields {
   margin-top: 11rem;
@@ -304,6 +306,7 @@ navbar-menu > a {
   background-color: transparent !important;
   border: none;
   color: #000;
+  font-size: 1.1rem;
 }
 .accountTab.active {
   color: #2788a9;
@@ -322,7 +325,7 @@ navbar-menu > a {
   top: 50% !important;
   left: 1rem !important;
   transform: translateY(-50%) !important;
-  font-size: 16px !important;
+  font-size: 1.1rem !important;
   background-color: #ffffff !important;
   transition: all 0.3s ease !important;
   pointer-events: none !important;
@@ -693,12 +696,14 @@ html {
 }
 .product-info-title {
   text-align: center;
+  font-size: 1.4rem;
 }
 .product-info-price-display {
   display: inline-flex;
   align-items: center;
   font-weight: 700;
 }
+
 .product-add-cart {
   display: flex;
   align-self: center;
@@ -741,6 +746,8 @@ html {
   overflow-y: auto;
   line-height: 1.5;
   font-size: 0.8rem;
+  scrollbar-color: #86c5f094 #b9cbdd;
+  scrollbar-width: thin;
 }
 .loadingBlock {
   display: flex;
@@ -960,17 +967,20 @@ html {
   padding: 0.8rem 0;
   width: 100%;
   margin-top: auto;
+  z-index: 104;
 }
 .home,
 .news-list,
 .product-display,
-.support-center {
+.support-center,
+.auth-center {
   padding-top: 4rem;
 }
 .home-main-wrapper,
 .news-list-main-wrapper,
 .product-display-main-wrapper,
-.support-center-main-wrapper {
+.support-center-main-wrapper,
+.auth-center-main-wrapper {
   background-image: url("./images/bg_main_pc.jpg");
   /* width: 100vw; */
   height: 100vh;
@@ -990,13 +1000,19 @@ html {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  height: 100%;
 }
 .support-center-main-wrapper {
   background-image: url("./images/bg_support_pc.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  height: 100vh;
+}
+.auth-center-main-wrapper {
+  background-image: url("images/bg_auth_pc.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 .news-article-link {
   color: #611085 !important;

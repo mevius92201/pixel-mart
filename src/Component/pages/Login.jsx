@@ -7,14 +7,8 @@ const Login = ({ getProducts, setIsAuth }) => {
   const [tab, setTab] = useState("login");
 
   return (
-    <div className="wrapper">
-      <div
-        style={{
-          display: "grid",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+    <section className="auth-center">
+      <div className="auth-center-main-wrapper">
         <div className="auth-container">
           <div className="router-container">
             <div className="form-container">
@@ -46,7 +40,7 @@ const Login = ({ getProducts, setIsAuth }) => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

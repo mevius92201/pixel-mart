@@ -178,7 +178,7 @@ function SupportForm({ setLoading }) {
               </label>
               <textarea
                 id="message"
-                maxlength="300"
+                maxLength="300"
                 className="support-form-msg"
                 {...register("message", {
                   maxLength: {

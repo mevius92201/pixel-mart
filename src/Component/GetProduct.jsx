@@ -77,7 +77,11 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
               {product.origin_price > product.price ? (
                 <>
                   <del
-                    style={{ fontSize: "1.1rem", padding: "0 .3rem 0 .3rem" }}
+                    style={{
+                      color: "rgb(228 225 225)",
+                      fontSize: "1.1rem",
+                      padding: "0 .3rem 0 .3rem",
+                    }}
                   >
                     {product.origin_price}
                   </del>
