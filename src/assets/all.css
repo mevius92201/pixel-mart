@@ -20,6 +20,7 @@ body {
 }
 .main-content {
   flex: 1;
+  background-color: #f6f7f7;
   /* padding: 4.5rem; */
 }
 a,
