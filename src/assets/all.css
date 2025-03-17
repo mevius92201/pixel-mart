@@ -914,7 +914,43 @@ html {
   font-size: 1.4rem;
 }
 .no-product-txt {
-  text-align: center;
+  font-size: 4rem;
+  color: cadetblue;
+  position: relative;
+}
+.no-product-txt::after {
+  content: attr(noproducttxt);
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: txtAnimate 3.3s steps(8) infinite;
+  border-right: 2px solid #000;
+  margin: 5rem 3.5rem;
+}
+@keyframes txtAnimate {
+  0% {
+    width: 0%;
+  }
+  30% {
+    width: 14%;
+  }
+  50% {
+    width: 25%;
+  }
+  75% {
+    width: 61%;
+  }
+  90% {
+    width: 86%;
+  }
+  99% {
+    width: 86%;
+  }
+  100% {
+    width: 0;
+  }
 }
 .news-list-group {
   display: flex;

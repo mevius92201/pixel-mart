@@ -310,7 +310,12 @@ function GetCart({
             ))
           ) : (
             <tr>
-              <td className="no-product-txt">no product in the cart yet</td>
+              <td colSpan={4}>
+                <div
+                  className="no-product-txt"
+                  noproducttxt="no product in the cart yet..."
+                ></div>
+              </td>
             </tr>
           )}
         </tbody>
