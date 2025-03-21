@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
 
 const RegisterForm = ({ getProducts, setIsAuth }) => {
@@ -11,13 +13,20 @@ const RegisterForm = ({ getProducts, setIsAuth }) => {
     watch,
     formState: { errors },
   } = useForm();
+
   const [passwordType, setPasswordType] = useState("password");
+
   const hasPasswordShow = () => {
     setPasswordType((prev) => (prev === "password" ? "text" : "password"));
   };
+
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post(`${API_BASE}/admin/signup`, data);
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
       const { token, expired } = res.data;
       document.cookie = `access_token=${token};expires=${new Date(expired)};`;
       axios.defaults.headers.common.Authorization = token;

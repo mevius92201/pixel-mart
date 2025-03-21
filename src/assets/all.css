@@ -918,7 +918,7 @@ html {
   color: cadetblue;
   position: relative;
 }
-.no-product-txt::after {
+.no-product-txt::before {
   content: attr(noproducttxt);
   position: absolute;
   left: 0;
@@ -943,10 +943,10 @@ html {
     width: 61%;
   }
   90% {
-    width: 86%;
+    width: 72%;
   }
   99% {
-    width: 86%;
+    width: 72%;
   }
   100% {
     width: 0;

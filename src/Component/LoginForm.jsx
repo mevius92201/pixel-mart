@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
+import { useContext } from "react";
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
 const LoginForm = () => {
   const {
@@ -10,7 +11,7 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  // const {data.username} = useContext(UserContext);
   const [passwordType, setPasswordType] = useState("password");
   const [isAuth, setIsAuth] = useState(false);
   const navigate = useNavigate();
@@ -77,7 +78,7 @@ const LoginForm = () => {
               Email
             </label>
           </div>
-          {errors.email && (
+          {errors.username && (
             <div className="error-hint">{errors?.username?.message}</div>
           )}
         </div>
@@ -118,4 +119,13 @@ const LoginForm = () => {
 LoginForm.propTypes = {
   setIsAuth: PropTypes.func.isRequired,
 };
+
+// const LoginGreet = (data) => {
+//   const {data.username, data.password} = useContext(UserContext);
+//   return (
+//     <div className="login-greet">
+//       <div>{data.username}</div>
+//     </div>
+//   );
+// };
 export default LoginForm;
