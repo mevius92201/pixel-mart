@@ -1,6 +1,5 @@
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";

@@ -1,12 +1,12 @@
+import axios from "axios";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { toast } from "react-toastify";
+import { useState, useEffect } from "react";
 import useAuthStore from "./store/auth-store";
 
-// const API_BASE = "https://ec-course-api.hexschool.io/v2";
-const LoginForm = () => {
+const API_BASE = "https://ec-course-api.hexschool.io/v2";
+const AdminLogin = () => {
   const { login: loginUser } = useAuthStore();
   const {
     register,
@@ -15,54 +15,44 @@ const LoginForm = () => {
   } = useForm();
 
   const [passwordType, setPasswordType] = useState("password");
-  // const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
   const navigate = useNavigate();
   const hasPasswordShow = () => {
     setPasswordType((prev) => (prev === "password" ? "text" : "password"));
   };
 
-  // useEffect(() => {
-  //   const token = document.cookie.replace(
-  //     /(?:(?:^|.*;\s*)access_token\s*=\s*([^;]*).*$)|^.*$/,
-  //     "$1"
-  //   );
-  //   axios.defaults.headers.common.Authorization = token;
-  //   if (!token) return;
-  //   checkAdmin();
-  // }, []);
+  useEffect(() => {
+    const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)access_token\s*=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
+    axios.defaults.headers.common.Authorization = token;
+    if (!token) return;
+    checkAdmin();
+  }, []);
 
-  // const checkAdmin = async () => {
-  //   try {
-  //     await axios.post(`${API_BASE}/api/user/check`);
-  //     setIsAuth(true);
-  //   } catch (err) {
-  //     console.log(err.response.data.message);
-  //   }
-  // };
+  const checkAdmin = async () => {
+    try {
+      await axios.post(`${API_BASE}/api/user/check`);
+      setIsAuth(true);
+    } catch (err) {
+      console.log(err.response.data.message);
+    }
+  };
 
   const onSubmit = async (data) => {
-    const { success, message } = await loginUser(data.username, data.password);
-    if (success) {
-      toast.success("登入成功", {
-        position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "colored",
-      });
-      navigate("/");
-    } else {
-      toast.error(message, {
-        position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "colored",
-      });
+    try {
+      console.log("送出的 data:", data);
+      const res = await axios.post(`${API_BASE}/admin/signin`, data);
+      const { token, expired } = res.data;
+      document.cookie = `access_token=${token};expires=${new Date(
+        expired
+      )};path=/`;
+      axios.defaults.headers.common.Authorization = token;
+      setIsAuth(true);
+      navigate("/admin");
+    } catch (error) {
+      alert("登入失敗: " + error.response.data.message);
     }
   };
 
@@ -128,7 +118,7 @@ const LoginForm = () => {
     </form>
   );
 };
-LoginForm.propTypes = {
+AdminLogin.propTypes = {
   setIsAuth: PropTypes.func.isRequired,
 };
 
@@ -140,4 +130,4 @@ LoginForm.propTypes = {
 //     </div>
 //   );
 // };
-export default LoginForm;
+export default AdminLogin;

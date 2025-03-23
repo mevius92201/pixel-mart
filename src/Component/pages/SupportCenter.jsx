@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import LoadingEffect from "../LoadingEffect.jsx";
 import SupportForm from "../supportForm.jsx";
 
@@ -43,7 +42,6 @@ function SupportCenter() {
         </div>
       </section>
       <div>
-        <ToastContainer />
         <LoadingEffect loadingState={loading} />
       </div>
     </>

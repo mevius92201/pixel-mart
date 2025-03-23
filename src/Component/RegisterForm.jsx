@@ -1,19 +1,21 @@
-import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-const API_BASE = "https://ec-course-api.hexschool.io/v2";
+import useAuthStore from "./store/auth-store";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
-const RegisterForm = ({ getProducts, setIsAuth }) => {
+// const API_BASE = "https://ec-course-api.hexschool.io/v2";
+
+const RegisterForm = () => {
+  const { register: registerUser } = useAuthStore();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-
+  const navigate = useNavigate();
   const [passwordType, setPasswordType] = useState("password");
 
   const hasPasswordShow = () => {
@@ -22,16 +24,37 @@ const RegisterForm = ({ getProducts, setIsAuth }) => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await createUserWithEmailAndPassword(
-        auth,
+      const { success, message } = await registerUser(
         data.email,
         data.password
       );
-      const { token, expired } = res.data;
-      document.cookie = `access_token=${token};expires=${new Date(expired)};`;
-      axios.defaults.headers.common.Authorization = token;
-      setIsAuth(true);
-      getProducts();
+      if (success) {
+        toast.success("註冊成功", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "colored",
+        });
+        navigate("/Home");
+      } else {
+        toast.error(message, {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "colored",
+        });
+      }
+      // const { token, expired } = res.data;
+      // document.cookie = `access_token=${token};expires=${new Date(expired)};`;
+      // axios.defaults.headers.common.Authorization = token;
+      // setIsAuth(true);
+      // getProducts();
     } catch (error) {
       alert("註冊失敗: " + error.response.data.message);
     }

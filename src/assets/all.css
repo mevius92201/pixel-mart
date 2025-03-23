@@ -440,7 +440,6 @@ input:not(:placeholder-shown) + .passWord {
   border-color: #2788a9;
 }
 .Toastify__toast {
-  width: 160px !important;
   height: 3px !important;
   line-height: 3px !important;
   background-color: #000 !important;

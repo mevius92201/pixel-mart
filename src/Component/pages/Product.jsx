@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
-import "../../assets/all.css";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import LoadingEffect from "../LoadingEffect.jsx";
-import Cart from "../GetCart.jsx";
 import GetProduct from "../GetProduct.jsx";
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
 const API_PATH = "mevius";
@@ -45,7 +42,6 @@ function Product() {
         </div>
       </section>
       <div>
-        <ToastContainer />
         <LoadingEffect loadingState={loading} />
       </div>
     </>

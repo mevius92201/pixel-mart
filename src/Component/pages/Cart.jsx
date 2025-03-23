@@ -1,7 +1,4 @@
 import { useState } from "react";
-import "../../assets/all.css";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 // import LoadingEffect from "../LoadingEffect.jsx";
 import LoadingEffectV2 from "../LoadingEffectV2.jsx";
 import GetCart from "../GetCart.jsx";

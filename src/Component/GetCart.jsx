@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Icon from "./Icon";
 import PropTypes from "prop-types";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
 const API_PATH = "mevius";
 function GetCart({
