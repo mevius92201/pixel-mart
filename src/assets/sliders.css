@@ -1,0 +1,75 @@
+.slick-slider {
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* padding: 0 20px; */
+}
+.slick-list {
+  position: relative;
+  display: block !important;
+  overflow: hidden;
+  padding: 20px !important;
+  width: 100%;
+}
+.slick-track {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: flex;
+}
+.slick-slide div {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.slick-slide .image {
+  object-fit: cover;
+  min-width: 1076px !important;
+  width: 100%;
+}
+@media screen and (max-width: 1400px) {
+  .slick-slide .image {
+    min-width: 876px !important;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .slick-slide .image {
+    min-width: 676px !important;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 750px) {
+  .slick-slide .image {
+    min-width: 765px !important;
+    width: 100%;
+  }
+}
+.slick-slide:not(.slick-active) {
+  position: relative;
+  z-index: 997;
+  transform: scale(0.8);
+}
+.slick-slide.slick-active:not(.slick-current) {
+  position: relative;
+  z-index: 998;
+  transform: scale(0.8);
+  transition: 0.25s;
+}
+.slick-slide.slick-active.slick-current {
+  position: relative;
+  z-index: 999;
+  transform: scale(1);
+  transition: 0.25s;
+}
+.slick-slide.slick-active:not(.slick-current) .image,
+.slick-slide.slick-active.slick-current .image,
+.slick-slide:not(.slick-active) .image {
+  width: 100% !important;
+}
+.slick-dots li button:before {
+  font-size: 13px;
+}
