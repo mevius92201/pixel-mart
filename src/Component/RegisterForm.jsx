@@ -38,7 +38,7 @@ const RegisterForm = () => {
           draggable: false,
           theme: "colored",
         });
-        navigate("/Home");
+        navigate("/");
       } else {
         toast.error(message, {
           position: "top-center",

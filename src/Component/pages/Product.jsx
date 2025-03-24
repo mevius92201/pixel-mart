@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import LoadingEffect from "../LoadingEffect.jsx";
 import GetProduct from "../GetProduct.jsx";
+import CenterMode from "../Slider.jsx";
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
 const API_PATH = "mevius";
 function Product() {
@@ -32,6 +33,9 @@ function Product() {
 
   return (
     <>
+      <section className="product-display">
+        <CenterMode />
+      </section>
       <section className="product-display">
         <div className="product-display-main-wrapper">
           <GetProduct
