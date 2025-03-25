@@ -8,7 +8,7 @@ import Admin from "../Component/pages/admin/Admin";
 import CustomerService from "../Component/pages/admin/CustomerService";
 import ProductConfig from "../Component/pages/admin/ProductConfig";
 import NewsConfig from "../Component/pages/admin/NewsConfig";
-import Login from "../Component/pages/Login";
+import Auth from "../Component/pages/Auth";
 import Home from "../Component/pages/Home";
 import SupportCenter from "../Component/pages/SupportCenter";
 
@@ -35,8 +35,8 @@ const routes = [
         element: <NewsArticle />,
       },
       {
-        path: "admin_login",
-        element: <Login />,
+        path: "auth",
+        element: <Auth />,
       },
       {
         path: "support",

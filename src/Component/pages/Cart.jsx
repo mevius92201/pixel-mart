@@ -23,7 +23,6 @@ function Cart() {
         </div>
       </section>
       <div>
-        <ToastContainer />
         <LoadingEffectV2 loadingState={loading} />
       </div>
     </>

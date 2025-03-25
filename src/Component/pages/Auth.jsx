@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import RegisterForm from "../RegisterForm";
 import LoginForm from "../LoginForm";
 
-const Login = ({ getProducts, setIsAuth }) => {
+const Auth = ({ getProducts, setIsAuth }) => {
   const [tab, setTab] = useState("login");
 
   return (
@@ -44,8 +44,8 @@ const Login = ({ getProducts, setIsAuth }) => {
   );
 };
 
-Login.propTypes = {
+Auth.propTypes = {
   setIsAuth: PropTypes.bool.isRequired,
   getProducts: PropTypes.func.isRequired,
 };
-export default Login;
+export default Auth;

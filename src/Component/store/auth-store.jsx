@@ -3,13 +3,16 @@ import { auth } from "../../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
   signOut,
 } from "firebase/auth";
 
 const useAuthStore = create((set) => ({
   user: null,
   isAuth: false,
+  cart: [],
   setUser: (user) => set({ user }),
+
   register: async (email, password) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -41,10 +44,21 @@ const useAuthStore = create((set) => ({
   logout: async () => {
     try {
       await signOut(auth);
-      set({ user: null, isAuth: false });
+      set({ user: null, isAuth: false, cart: [] });
     } catch (error) {
       console.error(error.message);
     }
+  },
+  //TBC
+  setCart: (cartData) => set({ cart: cartData }),
+  initAuth: () => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        set({ user, isAuth: true });
+      } else {
+        set({ user: null, isAuth: false });
+      }
+    });
   },
 }));
 

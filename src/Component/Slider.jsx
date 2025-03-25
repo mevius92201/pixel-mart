@@ -17,6 +17,7 @@ const Sliders = ({ sliderData }) => {
     cssEase: "linear",
     pauseOnHover: true,
     speed: 500,
+    arrows: false,
     responsive: [
       {
         breakpoints: 750,

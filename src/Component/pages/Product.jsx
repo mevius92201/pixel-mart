@@ -5,6 +5,7 @@ import LoadingEffect from "../LoadingEffect.jsx";
 import GetProduct from "../GetProduct.jsx";
 import CenterMode from "../Slider.jsx";
 import sliderData from "../../data.json";
+import SearchBar from "../SearchBar.jsx";
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
 const API_PATH = "mevius";
 function Product() {
@@ -35,15 +36,16 @@ function Product() {
   return (
     <>
       <section className="product-display">
-        <CenterMode sliderData={sliderData} />
-      </section>
-      <section className="product-display">
         <div className="product-display-main-wrapper">
-          <GetProduct
-            productsData={productsData}
-            cartChanged={cartChanged}
-            setCartChanged={setCartChanged}
-          />
+          <CenterMode sliderData={sliderData} />
+          <div className="product-display">
+            <SearchBar />
+            <GetProduct
+              productsData={productsData}
+              cartChanged={cartChanged}
+              setCartChanged={setCartChanged}
+            />
+          </div>
         </div>
       </section>
       <div>
