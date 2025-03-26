@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import TestFirestore from "./Firestore";
 
 function App() {
-  const { initAuth } = useAuthStore();
+  const initAuth = useAuthStore((state) => state.initAuth);
 
   useEffect(() => {
     initAuth();

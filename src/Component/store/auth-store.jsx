@@ -6,7 +6,7 @@ import {
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, Timestamp } from "firebase/firestore";
 
 const useAuthStore = create((set) => ({
   user: null,
@@ -29,7 +29,7 @@ const useAuthStore = create((set) => ({
         // username,
         avatar: randomAvatar,
         balance: initialBalance,
-        createdAt: new Date(),
+        createdAt: Timestamp.now(),
       };
       await setDoc(doc(db, "users", userCredential.user.uid), userData);
       set({
@@ -84,9 +84,26 @@ const useAuthStore = create((set) => ({
   //TBC
   setCart: (cartData) => set({ cart: cartData }),
   initAuth: () => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        set({ user, isAuth: true });
+    onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        try {
+          const userRef = doc(db, "users", currentUser.uid);
+          const userSnap = await getDoc(userRef);
+          if (userSnap.exists()) {
+            const userData = userSnap.data();
+            set({
+              user: { uid: currentUser.uid, ...userData },
+              isAuth: true,
+            });
+          } else {
+            set({
+              user: { uid: currentUser.uid, email: currentUser.email },
+              isAuth: true,
+            });
+          }
+        } catch (error) {
+          console.error(error);
+        }
       } else {
         set({ user: null, isAuth: false });
       }

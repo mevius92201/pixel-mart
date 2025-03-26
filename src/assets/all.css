@@ -48,6 +48,17 @@ a:visited {
   height: 20px;
   border-radius: 50%;
   background-color: #fff;
+  margin-right: 0.3rem;
+  object-fit: contain;
+}
+.navbar-menu-userInfo-name {
+  font-size: 1.2rem;
+  margin-right: 0.5em;
+  letter-spacing: 0.1rem;
+}
+.navbar-menu-userInfo-balance {
+  font-size: 1.3rem;
+  margin-right: 0.5em;
 }
 .logout-btn {
   color: #fff;

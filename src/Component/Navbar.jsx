@@ -5,7 +5,13 @@ const activeClass = ({ isActive }) => {
   return isActive ? "linkIsActive" : "";
 };
 export const Navbar = () => {
-  const { user, logout, cart, isAuth } = useAuthStore();
+  const { user, logout, cart, isAuth } = useAuthStore((state) => ({
+    user: state.user,
+    logout: state.logout,
+    cart: state.cart,
+    isAuth: state.isAuth,
+  }));
+
   const cartIcon = <Icon type="shopping_cart" />;
   const navbarMenuItems = [
     { to: "", menu: "首頁" },
