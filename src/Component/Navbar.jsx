@@ -1,16 +1,23 @@
 import { NavLink } from "react-router";
 import Icon from "./Icon";
 import useAuthStore from "./store/auth-store";
+import { useShallow } from "zustand/shallow";
 const activeClass = ({ isActive }) => {
   return isActive ? "linkIsActive" : "";
 };
 export const Navbar = () => {
-  const { user, logout, cart, isAuth } = useAuthStore((state) => ({
-    user: state.user,
-    logout: state.logout,
-    cart: state.cart,
-    isAuth: state.isAuth,
-  }));
+  const { user, logout, cart } = useAuthStore(
+    useShallow((state) => ({
+      user: state.user,
+      logout: state.logout,
+      cart: state.cart,
+    }))
+  );
+  //另一種做法
+  //   const user = useAuthStore((state) => state.user);
+  // const logout = useAuthStore((state) => state.logout);
+  // const cart = useAuthStore((state) => state.cart);
+  // const isAuth = useAuthStore((state) => state.isAuth);
 
   const cartIcon = <Icon type="shopping_cart" />;
   const navbarMenuItems = [
