@@ -53,18 +53,18 @@
 .slick-slide:not(.slick-active) {
   position: relative;
   z-index: 997;
-  transform: scale(0.8);
+  transform: scale(0.6);
 }
 .slick-slide.slick-active:not(.slick-current) {
   position: relative;
   z-index: 998;
-  transform: scale(0.8);
+  transform: scale(0.6);
   transition: 0.25s;
 }
 .slick-slide.slick-active.slick-current {
   position: relative;
   z-index: 999;
-  transform: scale(1);
+  transform: scale(0.8);
   transition: 0.25s;
 }
 .slick-slide.slick-active:not(.slick-current) .image,

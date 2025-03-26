@@ -36,12 +36,23 @@ export const Navbar = () => {
           {navbarMenuItems.map((navbarMenuItem) => (
             <div className="navbar-menu-items" key={navbarMenuItem.to}>
               <div className="navbar-menu-txt">
-                <NavLink to={navbarMenuItem.to} className={activeClass}>
-                  {navbarMenuItem.menu}
-                </NavLink>
+                {navbarMenuItem.to === "#" ? (
+                  navbarMenuItem.menu
+                ) : (
+                  <NavLink to={navbarMenuItem.to} className={activeClass}>
+                    {navbarMenuItem.menu}
+                  </NavLink>
+                )}
               </div>
             </div>
           ))}
+          {user && (
+            <div className="navbar-menu-items" key="logout">
+              <button className="navbar-menu-txt logout-btn" onClick={logout}>
+                登出
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </nav>

@@ -1,11 +1,12 @@
 import { create } from "zustand";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const useAuthStore = create((set) => ({
   user: null,
@@ -13,13 +14,22 @@ const useAuthStore = create((set) => ({
   cart: [],
   setUser: (user) => set({ user }),
 
-  register: async (email, password) => {
+  register: async (email, password, username) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
+      const randomAvatar = `https://avatars.dicebear.com/api/avataaars/${user.uid}.svg`;
+      const initialBalance = 9999;
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        email,
+        username,
+        avatar: randomAvatar,
+        balance: initialBalance,
+        createdAt: new Date(),
+      });
       set({ user: userCredential.user });
       return { success: true };
     } catch (error) {
