@@ -1,4 +1,3 @@
-import "../assets/icons/age_limit.png";
 const Icon = ({ type }) => {
   return (
     <div

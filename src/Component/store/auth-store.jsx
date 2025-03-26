@@ -13,24 +13,29 @@ const useAuthStore = create((set) => ({
   isAuth: false,
   cart: [],
   setUser: (user) => set({ user }),
-
-  register: async (email, password, username) => {
+  //no username this time
+  register: async (email, password) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      const randomAvatar = `https://avatars.dicebear.com/api/avataaars/${user.uid}.svg`;
+      const randomAvatar = `https://api.dicebear.com/9.x/pixel-art/svg?seed=${userCredential.user.uid}`;
       const initialBalance = 9999;
-      await setDoc(doc(db, "users", userCredential.user.uid), {
+      const userData = {
+        uid: userCredential.user.uid,
         email,
-        username,
+        // username,
         avatar: randomAvatar,
         balance: initialBalance,
         createdAt: new Date(),
+      };
+      await setDoc(doc(db, "users", userCredential.user.uid), userData);
+      set({
+        user: userData,
+        isAuth: true,
       });
-      set({ user: userCredential.user });
       return { success: true };
     } catch (error) {
       console.error("failed", error);
@@ -44,7 +49,24 @@ const useAuthStore = create((set) => ({
         email,
         password
       );
-      set({ user: userCredential.user, isAuth: true });
+      const userRef = doc(db, "users", userCredential.user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        set({
+          user: { ...userData, uid: userCredential.user.uid },
+          isAuth: true,
+        });
+      } else {
+        set({
+          user: {
+            uid: userCredential.user.uid,
+            email: userCredential.user.email,
+          },
+          isAuth: true,
+        });
+      }
       return { success: true };
     } catch (error) {
       console.error(error.message);

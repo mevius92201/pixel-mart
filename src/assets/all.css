@@ -43,6 +43,20 @@ a:visited {
   color: rgb(153, 204, 194);
   /* cursor: pointer; */
 }
+.navbar-menu-userInfo-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #fff;
+}
+.logout-btn {
+  color: #fff;
+  background-color: #5fcdf5;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
 .main-wrapper {
   /* width: 100vw; */
   /* height: 100vh; */
