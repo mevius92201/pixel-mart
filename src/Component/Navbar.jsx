@@ -2,6 +2,8 @@ import { NavLink } from "react-router";
 import Icon from "./Icon";
 import useAuthStore from "./store/auth-store";
 import { useShallow } from "zustand/shallow";
+import { useState, useRef } from "react";
+import useCloseOutside from "../Hook/useCloseOutside";
 const activeClass = ({ isActive }) => {
   return isActive ? "linkIsActive" : "";
 };
@@ -19,6 +21,16 @@ export const Navbar = () => {
   // const cart = useAuthStore((state) => state.cart);
   // const isAuth = useAuthStore((state) => state.isAuth);
 
+  const [infoShow, setInfoShow] = useState(false);
+  const handleInfoShow = () => {
+    setInfoShow(!infoShow);
+  };
+  const dropdownRef = useRef(null);
+  const hideInfo = () => {
+    setInfoShow(false);
+  };
+  useCloseOutside(dropdownRef, hideInfo);
+
   const cartIcon = <Icon type="shopping_cart" />;
   const navbarMenuItems = [
     { to: "", menu: "首頁" },
@@ -29,10 +41,9 @@ export const Navbar = () => {
       to: "/cart",
       menu: cart.length > 0 ? `${cartIcon}(${cart.length})` : cartIcon,
     },
-    // user && (
-    //   <div className="navbar-menu-items" key="logout"></div> ),
   ];
   console.log(user);
+
   return (
     <nav className="navbar">
       <div className="nav-container">
@@ -55,23 +66,49 @@ export const Navbar = () => {
           ))}
           {user ? (
             <div className="navbar-menu-items">
-              <div
-                className="navbar-menu-txt"
-                style={{ display: "flex", alignItems: "center" }}
-              >
+              <div className="navbar-menu-txt" onClick={handleInfoShow}>
                 <img
                   className="navbar-menu-userInfo-avatar"
                   src={user.avatar}
                   alt={user.email}
                 />
-                <div className="navbar-menu-userInfo-name">{user.email}</div>
-                <Icon type="CP" />
-                <div className="navbar-menu-userInfo-balance">
-                  {user.balance}
+                <div className="navbar-menu-userInfo">
+                  <div className="navbar-menu-userInfo-name">{user.email}</div>
+                  <div
+                    className={`navbar-menu-userInfo-btn_group ${
+                      !infoShow ? "" : "rotate"
+                    }`}
+                  >
+                    <div
+                      className={`navbar-menu-userInfo-btn ${
+                        !infoShow ? "" : "rotate"
+                      }`}
+                    ></div>
+                  </div>
                 </div>
-                <button className="navbar-menu-txt logout-btn" onClick={logout}>
-                  登出
-                </button>
+                <div
+                  className={`userInfo-dropdown ${!infoShow ? "" : "show"}`}
+                  ref={dropdownRef}
+                >
+                  <ul className="userInfo-dropdown-list">
+                    <li>
+                      <div className="userInfo-CP-group">
+                        <Icon type="CP" />
+                        <span className="navbar-menu-userInfo-balance">
+                          {user.balance}{" "}
+                        </span>
+                      </div>
+                    </li>
+                    <li>
+                      <button
+                        className="navbar-menu-txt logout-btn"
+                        onClick={logout}
+                      >
+                        登出
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           ) : (
