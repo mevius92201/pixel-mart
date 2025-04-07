@@ -65,7 +65,7 @@ export const Navbar = () => {
             </div>
           ))}
           {user ? (
-            <div className="navbar-menu-items">
+            <div className="navbar-menu-items" ref={dropdownRef}>
               <div className="navbar-menu-txt" onClick={handleInfoShow}>
                 <img
                   className="navbar-menu-userInfo-avatar"
@@ -73,12 +73,14 @@ export const Navbar = () => {
                   alt={user.email}
                 />
                 <div className="navbar-menu-userInfo">
-                  <div className="navbar-menu-userInfo-name">{user.email}</div>
                   <div
-                    className={`navbar-menu-userInfo-btn_group ${
+                    className={`navbar-menu-userInfo-name ${
                       !infoShow ? "" : "rotate"
                     }`}
                   >
+                    {user.email}
+                  </div>
+                  <div className="navbar-menu-userInfo-btn_group">
                     <div
                       className={`navbar-menu-userInfo-btn ${
                         !infoShow ? "" : "rotate"
@@ -86,10 +88,7 @@ export const Navbar = () => {
                     ></div>
                   </div>
                 </div>
-                <div
-                  className={`userInfo-dropdown ${!infoShow ? "" : "show"}`}
-                  ref={dropdownRef}
-                >
+                <div className={`userInfo-dropdown ${!infoShow ? "" : "show"}`}>
                   <ul className="userInfo-dropdown-list">
                     <li>
                       <div className="userInfo-CP-group">
