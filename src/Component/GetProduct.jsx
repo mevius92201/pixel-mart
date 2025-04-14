@@ -64,10 +64,10 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
           onMouseEnter={handleMouseEnter}
         >
           <div className="product-card-body">
-            <div className="product-title">{product.title}</div>
+            <div className="product-title">{product.name}</div>
             <Icon type="frame" />
             <div
-              style={{ backgroundImage: `url(${product?.imageUrl})` }}
+              style={{ backgroundImage: `url(${product?.image.main})` }}
               className="product-main-img"
               alt="..."
             />
@@ -124,7 +124,7 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
                           <div className="product-info-product-name">
                             商品：
                             <span style={{ color: "rgb(248 248 248 / 77%)" }}>
-                              {product.title}
+                              {product.name}
                             </span>
                           </div>
                           <div className="product-info-product-category">
@@ -136,7 +136,7 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
                           <div className="product-info-product-description">
                             說明：
                             <span style={{ color: "rgb(248 248 248 / 77%)" }}>
-                              {product.description}
+                              {product.summary}
                             </span>
                           </div>
                           <div className="product-info-product-content">
@@ -150,7 +150,7 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
                           <div className="product-info-price-display">
                             售價：
                             <Icon type="CP" style={{ marginRight: "8px" }} />
-                            {product.origin_price > product.price ? (
+                            {product.origin_price > product.discount_price ? (
                               <>
                                 <del
                                   style={{
@@ -161,10 +161,10 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
                                 >
                                   {product.origin_price}
                                 </del>
-                                <div>{product.price}</div>
+                                <div>{product.discount_price}</div>
                               </>
                             ) : (
-                              <div>{product.price}</div>
+                              <div>{product.discount_price}</div>
                             )}
                           </div>
                           {/* <div className="product-info-product-thumbnail">

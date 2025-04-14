@@ -1,11 +1,21 @@
 const { onRequest } = require("firebase-functions/v2/https");
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
-const { getCountFromServer } = require("firebase-admin/firestore");
+// const { getCountFromServer } = require("firebase-admin/firestore");
 
 initializeApp();
 
 exports.getProducts = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, POST");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  // 處理 preflight request
+  if (req.method === "OPTIONS") {
+    res.status(204).send("");
+    return;
+  }
+
   try {
     const db = getFirestore();
 
@@ -35,8 +45,8 @@ exports.getProducts = onRequest(async (req, res) => {
     }
 
     // 總數量查詢
-    const countSnapshot = await getCountFromServer(queryRef);
-    const total = countSnapshot.data().count;
+    // const countSnapshot = await getCountFromServer(queryRef);
+    // const total = countSnapshot.data().count;
 
     // 分頁游標處理
     if (lastVisible) {
@@ -91,7 +101,7 @@ exports.getProducts = onRequest(async (req, res) => {
       data = data.filter(
         (item) =>
           item.name.toLowerCase().includes(lower) ||
-          item.content.toLowerCasve().includes(lower) ||
+          item.content.toLowerCase().includes(lower) ||
           item.summary.toLowerCase().includes(lower)
       );
     }
@@ -115,7 +125,7 @@ exports.getProducts = onRequest(async (req, res) => {
       products: data,
       messages: [],
       lastVisible: lastDoc ? lastDoc.id : null,
-      total,
+      total: data.length,
       page: Number(page),
       pageSize,
     });

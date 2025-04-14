@@ -18,16 +18,27 @@ console.log("產品：", products);
 // 取得資料
 
 async function importData() {
-  const batch = db.batch();
   const collectionRef = db.collection("products");
 
-  products.forEach((product) => {
+  const batch = db.batch();
+
+  for (const product of products) {
+    const existingSnapshot = await collectionRef
+      .where("name", "==", product.name)
+      .get();
+
+    if (!existingSnapshot.empty) {
+      console.log(`產品已存在，跳過：${product.name}`);
+      continue;
+    }
+
     const docRef = collectionRef.doc(); // 自動產生 ID
     batch.set(docRef, product);
-  });
+    console.log(`加入上傳：${product.name}`);
+  }
 
   await batch.commit();
-  console.log("產品已成功匯入 Firestore");
+  console.log("新增產品已成功匯入 Firestore（跳過已存在產品）");
 }
 
 importData().catch((err) => console.error("發生錯誤：", err));

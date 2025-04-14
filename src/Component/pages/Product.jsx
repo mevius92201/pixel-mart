@@ -14,11 +14,15 @@ function Product() {
   const [productsData, setProductsData] = useState([]);
 
   const getProduct = async () => {
+    setLoading(true);
     try {
-      const res = await axios.get(`${API_BASE}/api/${API_PATH}/products/all`);
-      setProductsData(res.data.products);
+      const res = await axios.get(
+        "https://getproducts-3xt565hwvq-uc.a.run.app"
+      );
+      console.log("res", res);
+      setProductsData(res.data?.products || []);
     } catch (err) {
-      toast.error(err.response.data.message, {
+      toast.error(err?.response?.data?.message || "無法取得商品資料", {
         position: "top-center",
         autoClose: 1500,
         hideProgressBar: true,
@@ -27,6 +31,8 @@ function Product() {
         draggable: false,
         theme: "colored",
       });
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
