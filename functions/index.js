@@ -1,6 +1,7 @@
 const { onRequest } = require("firebase-functions/v2/https");
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
+const { getCountFromServer } = require("firebase-admin/firestore");
 
 initializeApp();
 
@@ -33,6 +34,10 @@ exports.getProducts = onRequest(async (req, res) => {
       queryRef = queryRef.orderBy("name"); // 預設按名稱排序
     }
 
+    // 總數量查詢
+    const countSnapshot = await getCountFromServer(queryRef);
+    const total = countSnapshot.data().count;
+
     // 分頁游標處理
     if (lastVisible) {
       const lastDocSnapshot = await db
@@ -53,6 +58,9 @@ exports.getProducts = onRequest(async (req, res) => {
         products: [],
         messages: ["No products found."],
         lastVisible: null,
+        total: 0,
+        page: Number(page),
+        pageSize,
       });
     }
 
@@ -87,6 +95,17 @@ exports.getProducts = onRequest(async (req, res) => {
           item.summary.toLowerCase().includes(lower)
       );
     }
+    if (data.length === 0) {
+      return res.json({
+        success: true,
+        products: [],
+        messages: ["查無商品資料"],
+        lastVisible: null,
+        total: 0,
+        page: Number(page),
+        pageSize,
+      });
+    }
 
     // 回傳結果
     const lastDoc = snapshot.docs[snapshot.docs.length - 1];
@@ -96,6 +115,9 @@ exports.getProducts = onRequest(async (req, res) => {
       products: data,
       messages: [],
       lastVisible: lastDoc ? lastDoc.id : null,
+      total,
+      page: Number(page),
+      pageSize,
     });
   } catch (error) {
     console.error("getProducts error:", error);
@@ -103,6 +125,70 @@ exports.getProducts = onRequest(async (req, res) => {
       success: false,
       products: [],
       messages: [error.message || "Internal server error"],
+    });
+  }
+});
+
+exports.addProduct = onRequest(async (req, res) => {
+  // 只允許 POST 請求
+  if (req.method !== "POST") {
+    return res
+      .status(405)
+      .json({ success: false, message: "Method Not Allowed" });
+  }
+
+  try {
+    const db = getFirestore();
+    const {
+      name,
+      category,
+      content,
+      summary,
+      image,
+      num,
+      origin_price,
+      discount_price,
+      tag,
+      is_enabled = 1,
+    } = req.body;
+
+    // 簡單驗證
+    if (!name || !category || !image || !image.main) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields: name, category, or image.main",
+      });
+    }
+
+    const newProduct = {
+      name,
+      category,
+      content: content || "",
+      summary: summary || "",
+      image: {
+        main: image.main,
+        thumbnails: image.thumbnails || [],
+      },
+      num: num || 0,
+      origin_price: origin_price || 0,
+      discount_price: discount_price || 0,
+      tag: tag || [],
+      is_enabled,
+      created_at: new Date(),
+    };
+
+    const docRef = await db.collection("products").add(newProduct);
+
+    res.json({
+      success: true,
+      id: docRef.id,
+      message: "Product added successfully",
+    });
+  } catch (error) {
+    console.error("addProduct error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 });
