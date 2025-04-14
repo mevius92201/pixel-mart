@@ -91,7 +91,7 @@ exports.getProducts = onRequest(async (req, res) => {
       data = data.filter(
         (item) =>
           item.name.toLowerCase().includes(lower) ||
-          item.content.toLowerCase().includes(lower) ||
+          item.content.toLowerCasve().includes(lower) ||
           item.summary.toLowerCase().includes(lower)
       );
     }
