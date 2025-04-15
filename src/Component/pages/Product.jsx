@@ -12,12 +12,18 @@ function Product() {
   const [cartChanged, setCartChanged] = useState(false);
   const [loading, setLoading] = useState(false);
   const [productsData, setProductsData] = useState([]);
+  const [keyword, setKeyword] = useState("");
 
-  const getProduct = async () => {
+  const getProduct = async (searchTerm = "") => {
     setLoading(true);
     try {
       const res = await axios.get(
-        "https://getproducts-3xt565hwvq-uc.a.run.app"
+        "https://getproducts-3xt565hwvq-uc.a.run.app",
+        {
+          params: {
+            keyword: searchTerm,
+          },
+        }
       );
       console.log("res", res);
       setProductsData(res.data?.products || []);
@@ -39,13 +45,17 @@ function Product() {
     getProduct();
   }, []);
 
+  const handleSearch = (value) => {
+    setKeyword(value);
+    getProduct(value);
+  };
   return (
     <>
       <section className="product-display">
         <div className="product-display-main-wrapper">
           <CenterMode sliderData={sliderData} />
           <div className="product-display">
-            <SearchBar />
+            <SearchBar onSearch={handleSearch} />
             <GetProduct
               productsData={productsData}
               cartChanged={cartChanged}
