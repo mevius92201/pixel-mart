@@ -1,0 +1,182 @@
+[
+  {
+    "name": "火焰魔核",
+    "summary": "這個魔核蘊含熾熱的火焰力量。",
+    "content": "使用後可提升火焰屬性攻擊30%，並使攻擊有機率點燃敵人，造成額外燃燒傷害。火焰魔核是火焰巫師的必備道具，讓你的火焰法術更加強大，對敵人造成無情打擊。",
+    "category": "飾品",
+    "image": {
+      "main": "https://storage.googleapis.com/vue-course-api.appspot.com/mevius/1742226341496.png",
+      "thumbnails": []
+    },
+    "num": 28,
+    "origin_price": 3000,
+    "discount_price": 2800,
+    "tag": [],
+    "is_enabled": 1
+  },
+  {
+    "name": "星光寶石",
+    "summary": "一顆閃耀著星光的神秘寶石。",
+    "content": "這顆寶石能夠增強使用者的魔法抗性10%，並有機會反彈部分魔法傷害。這顆星光寶石是遠古星座的遺物，擁有星空的祝福，能讓冒險者在對抗強大魔法敵人時擁有更多優勢。",
+    "category": "飾品",
+    "image": {
+      "main": "https://storage.googleapis.com/vue-course-api.appspot.com/mevius/1742226306300.png",
+      "thumbnails": []
+    },
+    "num": 26,
+    "origin_price": 4000,
+    "discount_price": 3900,
+    "tag": [],
+    "is_enabled": 1
+  },
+  {
+    "name": "光明戒指",
+    "summary": "散發著溫暖光芒的神聖戒指。",
+    "content": "佩戴後可提升角色15%的治療效果，並且每次受到傷害時，有機率激活「光明庇護」，為自己或周圍隊友恢復少量生命值。此戒指由聖光教團的高僧所製，充滿神聖的力量，能提供持久的生命支持，是牧師與治療者的必備寶物。它不僅能保護佩戴者免受黑暗力量侵蝕，還能為隊友提供額外的療癒效果，適合長時間的戰鬥或冒險中使用。",
+    "category": "飾品",
+    "image": {
+      "main": "https://storage.googleapis.com/vue-course-api.appspot.com/mevius/1742226189114.png",
+      "thumbnails": []
+    },
+    "num": 13,
+    "origin_price": 3000,
+    "discount_price": 2999,
+    "tag": [],
+    "is_enabled": 1
+  },
+  {
+    "name": "龍魂戒指",
+    "summary": "蘊含古龍靈魂力量的神秘戒指。",
+    "content": "佩戴後可提升角色20%的攻擊力，並且每次攻擊有機率激發「龍魂震擊」，對範圍內敵人造成額外的火焰與龍息傷害。這枚戒指通過古老的龍族儀式鍛造，能將龍魂的力量注入佩戴者的體內，賦予強大的攻擊能力和極高的爆發潛力。對於戰士與冒險者來說，這是提升戰鬥力的必備神器。",
+    "category": "飾品",
+    "image": {
+      "main": "https://storage.googleapis.com/vue-course-api.appspot.com/mevius/1742225945822.png",
+      "thumbnails": []
+    },
+    "num": 11,
+    "origin_price": 1200,
+    "discount_price": 1100,
+    "tag": [],
+    "is_enabled": 1
+  },
+  {
+    "name": "星輝秘法權杖",
+    "summary": "星辰之力凝聚的神秘法杖。",
+    "content": "使用後提升10%法術傷害，並有機會使法術攻擊觸發「星輝之爆」，對目標造成額外的星辰爆炸傷害。這根權杖適合所有施法職業，能增強你的戰鬥力並使技能效果更加華麗。",
+    "category": "武器",
+    "image": {
+      "main": "https://storage.googleapis.com/vue-course-api.appspot.com/mevius/1742225800480.png",
+      "thumbnails": []
+    },
+    "num": 8,
+    "origin_price": 20,
+    "discount_price": 20,
+    "tag": [],
+    "is_enabled": 1
+  },
+  {
+    "name": "粉色雨傘",
+    "summary": "這把雨傘不僅防雨，還擁有神奇效果。",
+    "content": "使用後可減少20%所受的風雨與魔法攻擊傷害，並擁有隱身效果，隱匿時間為5秒。這把雨傘的魔法效果讓它在惡劣環境中成為冒險者的必備良品，尤其在面對強大敵人時格外有用。",
+    "category": "武器",
+    "image": {
+      "main": "https://storage.googleapis.com/vue-course-api.appspot.com/mevius/1742225823209.png",
+      "thumbnails": []
+    },
+    "num": 7,
+    "origin_price": 30,
+    "discount_price": 30,
+    "tag": [],
+    "is_enabled": 1
+  },
+  {
+    "name": "蒼藍魔力戒指",
+    "summary": "蘊含蒼藍魔力的神秘戒指。",
+    "content": "佩戴後提升5%法術傷害，並有機率觸發「魔力增幅」，使下一次技能傷害提升30%。此戒指是由海底神殿的寶物商會獲得，擁有強大的魔法加持，適合各類法術使用者。",
+    "category": "飾品",
+    "image": {
+      "main": "https://storage.googleapis.com/vue-course-api.appspot.com/mevius/1742225865491.png",
+      "thumbnails": []
+    },
+    "num": 6,
+    "origin_price": 100,
+    "discount_price": 80,
+    "tag": [],
+    "is_enabled": 1
+  },
+  {
+    "name": "藍色魔藥瓶",
+    "summary": "這瓶藍色魔藥蘊含強大魔法力量。",
+    "content": "飲用後10分鐘內每秒恢復20MP，並提高魔法技能的施放速度10%。這瓶魔藥專為法師與巫師設計，能在魔法燃燒殆盡時提供必需的支持，讓你持續發揮強大魔力。",
+    "category": "藥劑",
+    "image": {
+      "main": "https://storage.googleapis.com/vue-course-api.appspot.com/mevius/1742225894081.png",
+      "thumbnails": []
+    },
+    "num": 5,
+    "origin_price": 30,
+    "discount_price": 10,
+    "tag": [],
+    "is_enabled": 1
+  },
+  {
+    "name": "應該是落蘇",
+    "summary": "這看似普通的落蘇卻充滿神秘紫顏色能量。",
+    "content": "使用後可恢復200HP並提升25%的物理攻擊力，持續15分鐘。這個落蘇是由神秘農場的魔法植物所種植，能讓戰士在激烈的戰鬥中保持強大的戰鬥力。",
+    "category": "食材",
+    "image": {
+      "main": "https://storage.googleapis.com/vue-course-api.appspot.com/mevius/1742225707607.png",
+      "thumbnails": []
+    },
+    "num": 4,
+    "origin_price": 50,
+    "discount_price": 10,
+    "tag": [],
+    "is_enabled": 1
+  },
+  {
+    "name": "精靈蜜露",
+    "summary": "由森林精靈精心調製的天然蜜露。",
+    "content": "飲用後可立即恢復400MP，並提高10%的法術傷害，持續5分鐘。這瓶蜜露含有精靈之力，能夠幫助施法者迅速補充魔力，提升戰鬥中的持久力與強度。",
+    "category": "食材",
+    "image": {
+      "main": "https://storage.googleapis.com/vue-course-api.appspot.com/mevius/1742225643073.png",
+      "thumbnails": []
+    },
+    "num": 3,
+    "origin_price": 10,
+    "discount_price": 5,
+    "tag": [],
+    "is_enabled": 1
+  },
+  {
+    "name": "不是小玉西瓜",
+    "summary": "雖然不是小玉西瓜，但也同樣清爽。",
+    "content": "食用後恢復300HP，並可減少20%敵人造成的傷害，持續10分鐘。此西瓜採自特殊樹木，含有魔法能量，能在危急時刻為冒險者提供額外的保護。",
+    "category": "食材",
+    "image": {
+      "main": "https://storage.googleapis.com/vue-course-api.appspot.com/mevius/1742225617535.png",
+      "thumbnails": []
+    },
+    "num": 2,
+    "origin_price": 100,
+    "discount_price": 50,
+    "tag": [],
+    "is_enabled": 1
+  },
+  {
+    "name": "草莓蛋糕(單片)",
+    "summary": "美味的草莓蛋糕，甜美可口。",
+    "content": "使用後立即恢復500HP，並提升角色的愉悅感，使下一次攻擊傷害增加10%。此蛋糕不僅能療癒身體，還能提升精神狀態，對冒險者的戰鬥有極大幫助。",
+    "category": "食材",
+    "image": {
+      "main": "https://storage.googleapis.com/vue-course-api.appspot.com/mevius/1742225560832.png",
+      "thumbnails": []
+    },
+    "num": 1,
+    "origin_price": 50,
+    "discount_price": 50,
+    "tag": [],
+    "is_enabled": 1
+  }
+]

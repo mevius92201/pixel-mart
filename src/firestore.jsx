@@ -19,6 +19,6 @@ const TestFirestore = () => {
 
     addUserToFirestore();
   }, []);
-  return <div>TestFirestore</div>;
+  // return <div>TestFirestore</div>;
 };
 export default TestFirestore;

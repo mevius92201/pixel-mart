@@ -6,14 +6,23 @@ import GetProduct from "../GetProduct.jsx";
 import CenterMode from "../Slider.jsx";
 import sliderData from "../../data.json";
 import SearchBar from "../SearchBar.jsx";
-const API_BASE = "https://ec-course-api.hexschool.io/v2";
-const API_PATH = "mevius";
+import ScrollToTop from "../ScrollToTop.jsx";
 function Product() {
   const [cartChanged, setCartChanged] = useState(false);
   const [loading, setLoading] = useState(false);
   const [productsData, setProductsData] = useState([]);
   const [keyword, setKeyword] = useState("");
+  const [category, setCategory] = useState("");
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState("");
 
+  const clearSearch = () => {
+    setKeyword("");
+    setCategory("");
+    setPage(1);
+    setSort("");
+    getProduct();
+  };
   const getProduct = async (searchTerm = "") => {
     setLoading(true);
     try {
@@ -22,6 +31,9 @@ function Product() {
         {
           params: {
             keyword: searchTerm,
+            category,
+            page,
+            sort,
           },
         }
       );
@@ -61,6 +73,7 @@ function Product() {
               cartChanged={cartChanged}
               setCartChanged={setCartChanged}
             />
+            <ScrollToTop />
           </div>
         </div>
       </section>
