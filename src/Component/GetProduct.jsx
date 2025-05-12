@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Icon from "./Icon";
+
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
 const API_PATH = "mevius";
 function GetProduct({ productsData, cartChanged, setCartChanged }) {
