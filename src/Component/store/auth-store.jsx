@@ -11,6 +11,7 @@ import { doc, setDoc, getDoc, Timestamp } from "firebase/firestore";
 const useAuthStore = create((set) => ({
   user: null,
   isAuth: false,
+  authReady: false,
   cart: [],
   setUser: (user) => set({ user }),
   //no username this time
@@ -76,7 +77,7 @@ const useAuthStore = create((set) => ({
   logout: async () => {
     try {
       await signOut(auth);
-      set({ user: null, isAuth: false, cart: [] });
+      set({ user: null, isAuth: false, cart: [], authReady: true });
     } catch (error) {
       console.error(error.message);
     }
@@ -94,6 +95,7 @@ const useAuthStore = create((set) => ({
             set({
               user: { uid: currentUser.uid, ...userData },
               isAuth: true,
+              authReady: true,
             });
           } else {
             set({
@@ -103,9 +105,10 @@ const useAuthStore = create((set) => ({
           }
         } catch (error) {
           console.error(error);
+          set({ authReady: true });
         }
       } else {
-        set({ user: null, isAuth: false });
+        set({ user: null, isAuth: false, authReady: true });
       }
     });
   },

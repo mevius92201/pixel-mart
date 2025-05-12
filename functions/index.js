@@ -1,6 +1,7 @@
 const { onRequest } = require("firebase-functions/v2/https");
 const { initializeApp } = require("firebase-admin/app");
-const { getFirestore } = require("firebase-admin/firestore");
+const { getFirestore, Timestamp } = require("firebase-admin/firestore");
+const { getAuth } = require("firebase-admin/auth");
 // const { getCountFromServer } = require("firebase-admin/firestore");
 
 initializeApp();
@@ -199,6 +200,225 @@ exports.addProduct = onRequest(async (req, res) => {
     res.status(500).json({
       success: false,
       message: error.message,
+    });
+  }
+});
+
+exports.addCart = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "POST");
+  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") {
+    res.status(204).send("");
+    return;
+  }
+
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        message: "請先登入好ㄇ",
+      });
+    }
+
+    const idToken = authHeader.split("Bearer ")[1];
+    const decodedToken = await getAuth().verifyIdToken(idToken);
+    const userId = decodedToken.uid;
+
+    const { product_id, qty } = req.body;
+
+    if (!product_id || typeof qty !== "number") {
+      return res.status(400).json({
+        success: false,
+        message: "缺少必要欄位 product_id 或 qty",
+      });
+    }
+
+    const db = getFirestore();
+    const cartRef = db.collection("carts").doc(userId);
+    const cartSnap = await cartRef.get();
+    let cartItems = cartSnap.exists ? cartSnap.data().items || [] : [];
+
+    const now = Timestamp.now();
+    const index = cartItems.findIndex((item) => item.product_id === product_id);
+    let updatedItem;
+
+    if (index !== -1) {
+      cartItems[index].qty += qty;
+      cartItems[index].updated_at = now;
+      updatedItem = cartItems[index];
+    } else {
+      updatedItem = {
+        product_id,
+        qty,
+        added_at: now,
+        updated_at: now,
+      };
+      cartItems.push(updatedItem);
+    }
+
+    await cartRef.set({ items: cartItems }, { merge: true });
+
+    // 取得商品資料
+    const productSnap = await db.collection("products").doc(product_id).get();
+    if (!productSnap.exists) {
+      return res.status(404).json({
+        success: false,
+        message: "查無此商品",
+      });
+    }
+
+    const productData = productSnap.data();
+
+    const responseData = {
+      product_id: product_id,
+      qty: updatedItem.qty,
+      total:
+        updatedItem.qty *
+        (productData.discount_price || productData.origin_price || 0),
+      product: {
+        id: product_id,
+        name: productData.name || "",
+        category: productData.category || "",
+        content: productData.content || "",
+        summary: productData.summary || "",
+        image: {
+          main: productData.image?.main || "",
+          thumbnails: productData.image?.thumbnails || [],
+        },
+        num: productData.num || 0,
+        origin_price: productData.origin_price || 0,
+        discount_price: productData.discount_price || 0,
+        tag: productData.tag || [],
+        is_enabled: productData.is_enabled ?? 1,
+      },
+    };
+
+    return res.status(200).json({
+      success: true,
+      message: "已加入購物車",
+      data: responseData,
+    });
+  } catch (error) {
+    console.error("addCart error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "伺服器錯誤",
+    });
+  }
+});
+
+exports.getCart = onRequest(async (req, res) => {
+  const { getFirestore } = require("firebase-admin/firestore");
+  const { getAuth } = require("firebase-admin/auth");
+
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET");
+  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") {
+    res.status(204).send("");
+    return;
+  }
+
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        messages: ["請先登入"],
+      });
+    }
+
+    const idToken = authHeader.split("Bearer ")[1];
+    const decodedToken = await getAuth().verifyIdToken(idToken);
+    const userId = decodedToken.uid;
+
+    const db = getFirestore();
+    const cartDoc = await db.collection("carts").doc(userId).get();
+
+    if (!cartDoc.exists || !Array.isArray(cartDoc.data().items)) {
+      return res.json({
+        success: true,
+        data: {
+          carts: [],
+          original_total: 0,
+          final_total: 0,
+        },
+        messages: [],
+      });
+    }
+
+    const cartItems = cartDoc.data().items;
+
+    const productRefs = cartItems.map((item) =>
+      db.collection("products").doc(item.product_id)
+    );
+
+    const productSnaps = await db.getAll(...productRefs);
+
+    let carts = [];
+    let original_total = 0;
+    let final_total = 0;
+
+    cartItems.forEach((item, index) => {
+      const productSnap = productSnaps[index];
+      if (!productSnap.exists) return;
+
+      const productData = productSnap.data();
+      const product_id = productSnap.id;
+
+      const origin = productData.origin_price || 0;
+      const discount = productData.discount_price || origin;
+      const qty = item.qty || 0;
+
+      const itemOriginalTotal = origin * qty;
+      const itemFinalTotal = discount * qty;
+
+      original_total += itemOriginalTotal;
+      final_total += itemFinalTotal;
+
+      carts.push({
+        id: product_id,
+        product_id: product_id,
+        qty,
+        total: itemOriginalTotal,
+        final_total: itemFinalTotal,
+        product: {
+          id: product_id,
+          name: productData.name || "",
+          category: productData.category || "",
+          content: productData.content || "",
+          summary: productData.summary || "",
+          image: {
+            main: productData.image?.main || "",
+            thumbnails: productData.image?.thumbnails || [],
+          },
+          is_enabled: productData.is_enabled ?? 1,
+          num: productData.num || 0,
+          origin_price: origin,
+          discount_price: discount,
+          tag: productData.tag || [],
+        },
+      });
+    });
+
+    return res.json({
+      success: true,
+      data: {
+        carts,
+        original_total,
+        final_total,
+      },
+      messages: [],
+    });
+  } catch (error) {
+    console.error("getCart error:", error);
+    return res.status(500).json({
+      success: false,
+      messages: [error.message || "伺服器錯誤"],
     });
   }
 });
