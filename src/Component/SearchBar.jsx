@@ -1,6 +1,13 @@
 import Icon from "./Icon";
-
-function SearchBar() {
+import { useState } from "react";
+function SearchBar({ onSearch }) {
+  const [searchValue, setSearchValue] = useState("");
+  const handleSearch = () => {
+    if (onSearch) {
+      onSearch(searchValue);
+      // setSearchValue("");
+    }
+  };
   return (
     <div className="searchBar">
       <div className="searchBar-container">
@@ -8,10 +15,21 @@ function SearchBar() {
           type="search"
           className="productSearch"
           placeholder="Search product"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
+          }}
         />
         <Icon type="search" />
         <div>
-          <button type="button" className="product-search_btn">
+          <button
+            type="button"
+            className="product-search_btn"
+            onClick={handleSearch}
+          >
             Search
           </button>
         </div>

@@ -73,7 +73,7 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
             />
             <div className="product-price-display">
               <Icon type="CP" style={{ marginRight: "8px" }} />
-              {product.origin_price > product.price ? (
+              {product.origin_price > product.discount_price ? (
                 <>
                   <del
                     style={{
@@ -85,12 +85,12 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
                     {product.origin_price}
                   </del>
                   <div style={{ color: "#000", fontSize: "1.3rem" }}>
-                    {product.price}
+                    {product.discount_price}
                   </div>
                 </>
               ) : (
                 <div style={{ color: "#000", fontSize: "1.3rem" }}>
-                  {product.price}
+                  {product.origin_price}
                 </div>
               )}
             </div>
