@@ -16,7 +16,12 @@ function SearchBar({ onSearch }) {
           className="productSearch"
           placeholder="Search product"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+            if (e.target.value === "" && onSearch) {
+              onSearch("");
+            }
+          }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleSearch();
