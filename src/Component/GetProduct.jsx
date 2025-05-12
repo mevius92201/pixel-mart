@@ -3,9 +3,12 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Icon from "./Icon";
+import { getAuth } from "firebase/auth";
 
-const API_BASE = "https://ec-course-api.hexschool.io/v2";
-const API_PATH = "mevius";
+// const API_BASE = "https://ec-course-api.hexschool.io/v2";
+// const API_PATH = "mevius";
+const ADD_CART_URL =
+  "https://us-central1-pixel-mart-14008.cloudfunctions.net/addCart";
 function GetProduct({ productsData, cartChanged, setCartChanged }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [hoveredProduct, setHoveredProduct] = useState(null);
@@ -13,15 +16,46 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
   const [cardInfoPosition, setCardInfoPosition] = useState("right");
 
   const addProductToCart = async (productId) => {
-    if (isButtonDisabled) return;
+    // try {
+    //   setIsButtonDisabled(true);
+    // await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
+    //   data: {
+    //     product_id: productId,
+    //     qty: 1,
+    //   },
+    // });
     try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        toast.error("請先登入", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "colored",
+        });
+        return;
+      }
+      if (isButtonDisabled) return;
       setIsButtonDisabled(true);
-      await axios.post(`${API_BASE}/api/${API_PATH}/cart`, {
-        data: {
+      const token = await user.getIdToken();
+
+      await axios.post(
+        ADD_CART_URL,
+        {
           product_id: productId,
           qty: 1,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       toast.success("商品已加入購物車", {
         position: "top-center",
         autoClose: 1500,
@@ -34,15 +68,19 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
       setCartChanged(!cartChanged);
       setTimeout(() => setIsButtonDisabled(false), 1000);
     } catch (err) {
-      toast.error(err.response.data.message, {
-        position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "colored",
-      });
+      console.error("加入購物車失敗", err);
+      toast.error(
+        err.response?.data?.message || "加入購物車失敗，請稍後再試試",
+        {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "colored",
+        }
+      );
     }
   };
 
@@ -68,7 +106,11 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
             <div className="product-title">{product.name}</div>
             <Icon type="frame" />
             <div
-              style={{ backgroundImage: `url(${product?.image.main})` }}
+              style={{
+                backgroundImage: product?.image?.main
+                  ? `url(${product.image.main})`
+                  : "none",
+              }}
               className="product-main-img"
               alt="..."
             />
