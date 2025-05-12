@@ -3,8 +3,12 @@ import axios from "axios";
 import Icon from "./Icon";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
+import { getAuth } from "firebase/auth";
+import useAuthStore from "./store/auth-store";
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
 const API_PATH = "mevius";
+const GET_CART_URL =
+  "https://us-central1-pixel-mart-14008.cloudfunctions.net/getCart";
 function GetCart({
   cartChanged,
   setCartChanged,
@@ -14,16 +18,45 @@ function GetCart({
 }) {
   const [showDetailProducts, setShowDetailProducts] = useState([]);
   const [productQuantity, setProductQuantity] = useState([]);
-
+  const authReady = useAuthStore((state) => state.authReady);
   useEffect(() => {
     const getCartProducts = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/api/${API_PATH}/cart`);
-        console.log(res.data.data.carts);
-        setCartProductData(res.data.data.carts);
-        setProductQuantity(res.data.data.carts.map((product) => product.qty));
+        // const res = await axios.get(GET_CART_URL);
+        // console.log(res.data.data.carts);
+        // setCartProductData(res.data.data.carts);
+        // setProductQuantity(res.data.data.carts.map((product) => product.qty));
+        setLoading(true);
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (!user) {
+          toast.error("請先登入", {
+            position: "top-center",
+            autoClose: 1500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "colored",
+          });
+          return;
+        }
+
+        const token = await user.getIdToken();
+
+        const res = await axios.get(GET_CART_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const cartData = res.data.data;
+        console.log(cartData);
+        setCartProductData(cartData.carts);
+        setProductQuantity(cartData.carts.map((item) => item.qty));
       } catch (err) {
-        toast.error(err.response.data.message, {
+        toast.error(err?.response?.data?.message?.[0] || "產品獲取失敗", {
           position: "top-center",
           autoClose: 1500,
           hideProgressBar: true,
@@ -32,10 +65,14 @@ function GetCart({
           draggable: false,
           theme: "colored",
         });
+      } finally {
+        setLoading(false);
       }
     };
-    getCartProducts();
-  }, [cartChanged]);
+    if (authReady) {
+      getCartProducts();
+    }
+  }, [cartChanged, authReady]);
 
   const removeCartProduct = async (id) => {
     try {
@@ -204,16 +241,16 @@ function GetCart({
         <tbody>
           {cartProductData.length > 0 ? (
             cartProductData.map((cartProduct, index) => (
-              <tr className="cart_product-row-container" key={index}>
+              <tr className="cart_product-row-container" key={cartProduct.id}>
                 <td className="cart-product-order-info">
                   <div
                     className="cart-product-image"
                     style={{
-                      backgroundImage: `url(${cartProduct.product.imageUrl})`,
+                      backgroundImage: `url(${cartProduct.product?.image?.main})`,
                     }}
                   ></div>
                   <div className="cart-product-info">
-                    <div className="h6">{cartProduct.product.title}</div>
+                    <div className="h6">{cartProduct.product.name}</div>
                     <div
                       className="cart-product-detail-group"
                       onClick={() => hasProductDetailShow(cartProduct.id)}
@@ -236,7 +273,7 @@ function GetCart({
                       {showDetailProducts.includes(cartProduct.id) && (
                         <div className="product-details">
                           <div className="details">
-                            {cartProduct.product.description}
+                            {cartProduct.product.summary}
                           </div>
                         </div>
                       )}
@@ -249,7 +286,7 @@ function GetCart({
                   >
                     <Icon type="CP" style={{ marginRight: "8px" }} />
                     <div style={{ fontSize: "1.3rem" }}>
-                      {cartProduct.product.price}
+                      {cartProduct.product.discount_price}
                     </div>
                   </span>
                 </td>
