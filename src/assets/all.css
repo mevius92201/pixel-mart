@@ -623,9 +623,9 @@ input:not(:placeholder-shown) + .passWord {
 .product-board {
   padding: 0 8rem 5rem 8rem;
   display: grid;
-  flex-wrap: wrap;
   justify-content: space-evenly;
-  grid-template-columns: repeat(auto-fill, 16rem);
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 7rem;
   align-content: flex-start;
   &::after {
     content: "";
@@ -1305,7 +1305,7 @@ html {
   height: 40px;
   position: relative;
   width: 1076px;
-  min-width: 746px;
+  min-width: 350px;
 }
 .productSearch {
   text-overflow: ellipsis;
