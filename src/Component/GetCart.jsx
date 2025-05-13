@@ -9,6 +9,8 @@ const API_BASE = "https://ec-course-api.hexschool.io/v2";
 const API_PATH = "mevius";
 const GET_CART_URL =
   "https://us-central1-pixel-mart-14008.cloudfunctions.net/getCart";
+const Remove_CART_PRODUCT_URL =
+  "https://us-central1-pixel-mart-14008.cloudfunctions.net/removeCartProduct";
 function GetCart({
   cartChanged,
   setCartChanged,
@@ -77,7 +79,25 @@ function GetCart({
   const removeCartProduct = async (id) => {
     try {
       setLoading(true);
-      await axios.delete(`${API_BASE}/api/${API_PATH}/cart/${id}`);
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        toast.error("請先登入", {
+          position: "top-center",
+          autoClose: 1500,
+          theme: "colored",
+        });
+        return;
+      }
+
+      const token = await user.getIdToken();
+
+      await axios.delete(`${Remove_CART_PRODUCT_URL}?product_id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!toast.isActive("remove-toast")) {
         toast.success("商品已刪除", {
           position: "top-center",

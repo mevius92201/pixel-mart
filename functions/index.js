@@ -422,3 +422,70 @@ exports.getCart = onRequest(async (req, res) => {
     });
   }
 });
+
+exports.removeCartProduct = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") {
+    res.status(204).send("");
+    return;
+  }
+
+  if (req.method !== "DELETE") {
+    return res.status(405).json({
+      success: false,
+      message: "Method Not Allowed",
+    });
+  }
+
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        message: "請先登入",
+      });
+    }
+
+    const idToken = authHeader.split("Bearer ")[1];
+    const decodedToken = await getAuth().verifyIdToken(idToken);
+    const userId = decodedToken.uid;
+
+    const productId = req.query.product_id;
+    if (!productId) {
+      return res.status(400).json({
+        success: false,
+        message: "缺少產品id",
+      });
+    }
+
+    const db = getFirestore();
+    const cartRef = db.collection("carts").doc(userId);
+    const cartSnap = await cartRef.get();
+
+    if (!cartSnap.exists) {
+      return res.status(404).json({
+        success: false,
+        message: "購物車不存在",
+      });
+    }
+
+    const items = cartSnap.data().items || [];
+    const updatedItems = items.filter((item) => item.product_id !== productId);
+
+    await cartRef.set({ items: updatedItems }, { merge: true });
+
+    return res.status(200).json({
+      success: true,
+      message: "已移除商品",
+    });
+  } catch (error) {
+    console.error("removeCartProduct error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "伺服器錯誤",
+    });
+  }
+});
