@@ -549,3 +549,107 @@ exports.clearCart = onRequest(async (req, res) => {
     });
   }
 });
+
+exports.updateCartItem = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "PUT");
+  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") {
+    res.status(204).send("");
+    return;
+  }
+
+  if (req.method !== "PUT") {
+    return res.status(405).json({
+      success: false,
+      message: "Method Not Allowed",
+    });
+  }
+
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        message: "請先登入",
+      });
+    }
+
+    const idToken = authHeader.split("Bearer ")[1];
+    const decodedToken = await getAuth().verifyIdToken(idToken);
+    const userId = decodedToken.uid;
+
+    const { data } = req.body || {};
+    const { product_id, qty } = data || {};
+
+    if (!product_id || typeof qty !== "number" || qty < 1 || qty > 99) {
+      return res.status(400).json({
+        success: false,
+        message: "請提供有效的 product_id 與 qty（1-99）",
+      });
+    }
+
+    const db = getFirestore();
+    const cartRef = db.collection("carts").doc(userId);
+    const cartSnap = await cartRef.get();
+    let cartItems = cartSnap.exists ? cartSnap.data().items || [] : [];
+
+    const index = cartItems.findIndex((item) => item.product_id === product_id);
+    if (index === -1) {
+      return res.status(404).json({
+        success: false,
+        message: "購物車中找不到該商品",
+      });
+    }
+
+    cartItems[index].qty = qty;
+    cartItems[index].updated_at = Timestamp.now();
+
+    await cartRef.set({ items: cartItems }, { merge: true });
+
+    // 回傳商品資訊（對齊 addCart）
+    const productSnap = await db.collection("products").doc(product_id).get();
+    if (!productSnap.exists) {
+      return res.status(404).json({
+        success: false,
+        message: "查無此商品",
+      });
+    }
+
+    const product = productSnap.data();
+    const price = product.discount_price || product.origin_price || 0;
+
+    return res.status(200).json({
+      success: true,
+      message: "商品數量已更新",
+      data: {
+        product_id,
+        qty,
+        total: price * qty,
+        product: {
+          id: product_id,
+          name: product.name || "",
+          category: product.category || "",
+          content: product.content || "",
+          summary: product.summary || "",
+          image: {
+            main: product.image?.main || "",
+            thumbnails: product.image?.thumbnails || [],
+          },
+          num: product.num || 0,
+          origin_price: product.origin_price || 0,
+          discount_price: product.discount_price || 0,
+          tag: product.tag || [],
+          is_enabled: product.is_enabled ?? 1,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("updateCartItem error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "伺服器錯誤",
+    });
+  }
+});
