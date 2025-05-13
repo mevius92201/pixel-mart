@@ -339,7 +339,7 @@ exports.getCart = onRequest(async (req, res) => {
     const db = getFirestore();
     const cartDoc = await db.collection("carts").doc(userId).get();
 
-    if (!cartDoc.exists || !Array.isArray(cartDoc.data().items)) {
+    if (!cartDoc.exists) {
       return res.json({
         success: true,
         data: {
@@ -352,6 +352,18 @@ exports.getCart = onRequest(async (req, res) => {
     }
 
     const cartItems = cartDoc.data().items;
+
+    if (!Array.isArray(cartItems) || cartItems.length === 0) {
+      return res.json({
+        success: true,
+        data: {
+          carts: [],
+          original_total: 0,
+          final_total: 0,
+        },
+        messages: [],
+      });
+    }
 
     const productRefs = cartItems.map((item) =>
       db.collection("products").doc(item.product_id)
@@ -483,6 +495,54 @@ exports.removeCartProduct = onRequest(async (req, res) => {
     });
   } catch (error) {
     console.error("removeCartProduct error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "伺服器錯誤",
+    });
+  }
+});
+
+exports.clearCart = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "DELETE");
+  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") {
+    res.status(204).send("");
+    return;
+  }
+
+  if (req.method !== "DELETE") {
+    return res.status(405).json({
+      success: false,
+      message: "Method Not Allowed",
+    });
+  }
+
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        message: "請先登入",
+      });
+    }
+
+    const idToken = authHeader.split("Bearer ")[1];
+    const decodedToken = await getAuth().verifyIdToken(idToken);
+    const userId = decodedToken.uid;
+
+    const db = getFirestore();
+    const cartRef = db.collection("carts").doc(userId);
+
+    await cartRef.set({ items: [] }, { merge: true });
+
+    return res.status(200).json({
+      success: true,
+      message: "購物車已清空",
+    });
+  } catch (error) {
+    console.error("clearCart error:", error);
     return res.status(500).json({
       success: false,
       message: error.message || "伺服器錯誤",

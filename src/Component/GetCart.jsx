@@ -9,8 +9,10 @@ const API_BASE = "https://ec-course-api.hexschool.io/v2";
 const API_PATH = "mevius";
 const GET_CART_URL =
   "https://us-central1-pixel-mart-14008.cloudfunctions.net/getCart";
-const Remove_CART_PRODUCT_URL =
+const REMOVE_CART_PRODUCT_URL =
   "https://us-central1-pixel-mart-14008.cloudfunctions.net/removeCartProduct";
+const CLEAR_CART_URL =
+  "https://us-central1-pixel-mart-14008.cloudfunctions.net/clearCart";
 function GetCart({
   cartChanged,
   setCartChanged,
@@ -93,7 +95,7 @@ function GetCart({
 
       const token = await user.getIdToken();
 
-      await axios.delete(`${Remove_CART_PRODUCT_URL}?product_id=${id}`, {
+      await axios.delete(`${REMOVE_CART_PRODUCT_URL}?product_id=${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -125,11 +127,30 @@ function GetCart({
     }
   };
 
-  const removeAllCartProducts = async () => {
+  const clearCart = async () => {
     try {
       setLoading(true);
-      await axios.delete(`${API_BASE}/api/${API_PATH}/carts`);
-      toast.success("商品已全數刪除", {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        toast.error("請先登入", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "colored",
+        });
+        return;
+      }
+      const token = await user.getIdToken();
+      await axios.delete(CLEAR_CART_URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("購物車已清空", {
         position: "top-center",
         autoClose: 1500,
         hideProgressBar: true,
@@ -140,7 +161,7 @@ function GetCart({
       });
       setCartChanged(!cartChanged);
     } catch (err) {
-      toast.error(err.response.data.message, {
+      toast.error(err?.response?.data?.message || "請重新嘗試一遍", {
         position: "top-center",
         autoClose: 1500,
         hideProgressBar: true,
@@ -211,11 +232,11 @@ function GetCart({
       <div className="cart_header">
         <div className="cart_header_container">
           <button
-            className="remove_all_products_button"
+            className="clear_cart_button"
             type="button"
-            onClick={removeAllCartProducts}
+            onClick={clearCart}
           >
-            <div className="remove_all_products_button_bg">REMOVE</div>
+            <div className="clear_cart_button_bg">REMOVE</div>
           </button>
           {/* <div className="remove_all_products_button_bg">清空購物車</div> */}
         </div>
@@ -367,10 +388,11 @@ function GetCart({
           ) : (
             <tr>
               <td colSpan={4}>
-                <div
-                  className="no-product-txt"
-                  noproducttxt="no product in the cart yet..."
-                ></div>
+                <div className="no-product-txt">
+                  <span className="no-product-txt-typing">
+                    no product in the cart yet...
+                  </span>
+                </div>
               </td>
             </tr>
           )}
