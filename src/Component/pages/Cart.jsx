@@ -2,8 +2,7 @@ import { useState } from "react";
 // import LoadingEffect from "../LoadingEffect.jsx";
 import LoadingEffectV2 from "../LoadingEffectV2.jsx";
 import GetCart from "../GetCart.jsx";
-const API_BASE = "https://ec-course-api.hexschool.io/v2";
-const API_PATH = "mevius";
+
 function Cart() {
   const [cartProductData, setCartProductData] = useState([]);
   const [cartChanged, setCartChanged] = useState(false);

@@ -924,7 +924,7 @@ html {
   padding: 0.3rem 0;
   display: flex;
 }
-.remove_all_products_button {
+.clear_cart_button {
   background: no-repeat url("./icons/red_btn_01.png");
   background-size: 100% 100%;
   padding: 0.2rem 0.3rem 0.3rem 0.3rem;
@@ -934,14 +934,14 @@ html {
   border: none;
   cursor: pointer;
 }
-.remove_all_products_button_bg {
+.clear_cart_button_bg {
   color: black;
   background-color: transparent;
   cursor: pointer;
   font-size: 0.3rem;
   font-weight: 700;
 }
-.remove_all_products_button:active {
+.clear_cart_button:active {
   background: no-repeat url("./icons/red_btn_02.png");
 }
 .cart-table {
@@ -1026,38 +1026,33 @@ html {
   color: cadetblue;
   position: relative;
 }
-.no-product-txt::before {
-  content: attr(noproducttxt);
-  position: absolute;
+.no-product-txt-typing {
+  display: inline-block;
+  /* position: absolute;
   left: 0;
-  top: 0;
+  top: 0; */
   white-space: nowrap;
   overflow: hidden;
-  animation: txtAnimate 3.3s steps(8) infinite;
+  /* width: 0ch; */
+  animation: txtAnimate 5s steps(26, end) infinite, blink 0.7s step-end infinite;
   border-right: 2px solid #000;
   margin: 5rem 3.5rem;
 }
 @keyframes txtAnimate {
   0% {
-    width: 0%;
+    width: 0ch;
   }
-  30% {
-    width: 14%;
-  }
-  50% {
-    width: 25%;
-  }
-  75% {
-    width: 61%;
-  }
+
   90% {
-    width: 72%;
-  }
-  99% {
-    width: 72%;
+    width: 27ch;
   }
   100% {
-    width: 0;
+    width: 0ch;
+  }
+}
+@keyframes blink {
+  50% {
+    border-color: transparent;
   }
 }
 .news-list-group {

@@ -5,10 +5,18 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { getAuth } from "firebase/auth";
 import useAuthStore from "./store/auth-store";
-const API_BASE = "https://ec-course-api.hexschool.io/v2";
-const API_PATH = "mevius";
+import useDebouncedUpdate from "../Hook/useDebouncedUpdate";
+
+// const API_BASE = "https://ec-course-api.hexschool.io/v2";
+// const API_PATH = "mevius";
 const GET_CART_URL =
   "https://us-central1-pixel-mart-14008.cloudfunctions.net/getCart";
+const REMOVE_CART_PRODUCT_URL =
+  "https://us-central1-pixel-mart-14008.cloudfunctions.net/removeCartProduct";
+const CLEAR_CART_URL =
+  "https://us-central1-pixel-mart-14008.cloudfunctions.net/clearCart";
+const ADJUST_CART_PRODUCT_QTY_URL =
+  "https://us-central1-pixel-mart-14008.cloudfunctions.net/updateCartItem";
 function GetCart({
   cartChanged,
   setCartChanged,
@@ -77,7 +85,25 @@ function GetCart({
   const removeCartProduct = async (id) => {
     try {
       setLoading(true);
-      await axios.delete(`${API_BASE}/api/${API_PATH}/cart/${id}`);
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        toast.error("請先登入", {
+          position: "top-center",
+          autoClose: 1500,
+          theme: "colored",
+        });
+        return;
+      }
+
+      const token = await user.getIdToken();
+
+      await axios.delete(`${REMOVE_CART_PRODUCT_URL}?product_id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!toast.isActive("remove-toast")) {
         toast.success("商品已刪除", {
           position: "top-center",
@@ -105,11 +131,30 @@ function GetCart({
     }
   };
 
-  const removeAllCartProducts = async () => {
+  const clearCart = async () => {
     try {
       setLoading(true);
-      await axios.delete(`${API_BASE}/api/${API_PATH}/carts`);
-      toast.success("商品已全數刪除", {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        toast.error("請先登入", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "colored",
+        });
+        return;
+      }
+      const token = await user.getIdToken();
+      await axios.delete(CLEAR_CART_URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("購物車已清空", {
         position: "top-center",
         autoClose: 1500,
         hideProgressBar: true,
@@ -120,7 +165,7 @@ function GetCart({
       });
       setCartChanged(!cartChanged);
     } catch (err) {
-      toast.error(err.response.data.message, {
+      toast.error(err?.response?.data?.message || "請重新嘗試一遍", {
         position: "top-center",
         autoClose: 1500,
         hideProgressBar: true,
@@ -147,55 +192,136 @@ function GetCart({
   function calTotalPrice() {
     return cartProductData.reduce((acc, cur) => acc + cur.final_total, 0);
   }
-  const updateProductQuantity = async (id, index, value) => {
+  // const updateProductQuantity = async (id, index, value) => {
+  //   const current = productQuantity[index];
+  //   const updateQuantity = current + value;
+
+  //   if (updateQuantity > 99 || updateQuantity < 1) {
+  //     toast.error("數量超出限制", {
+  //       position: "top-center",
+  //       autoClose: 1500,
+  //       hideProgressBar: true,
+  //       closeOnClick: true,
+  //       pauseOnHover: false,
+  //       draggable: false,
+  //       theme: "colored",
+  //     });
+  //     return;
+  //   }
+
+  //   try {
+  //     setLoading(true);
+
+  //     const auth = getAuth();
+  //     const user = auth.currentUser;
+  //     if (!user) {
+  //       toast.error("請先登入", {
+  //         position: "top-center",
+  //         autoClose: 1500,
+  //         hideProgressBar: true,
+  //         closeOnClick: true,
+  //         pauseOnHover: false,
+  //         draggable: false,
+  //         theme: "colored",
+  //       });
+  //       return;
+  //     }
+
+  //     const token = await user.getIdToken();
+  //     await axios.put(
+  //       ADJUST_CART_PRODUCT_QTY_URL,
+  //       {
+  //         data: {
+  //           product_id: id,
+  //           qty: updateQuantity,
+  //         },
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     setCartChanged(!cartChanged);
+  //   } catch (err) {
+  //     toast.error(err.response.data.message, {
+  //       position: "top-center",
+  //       autoClose: 1500,
+  //       hideProgressBar: true,
+  //       closeOnClick: true,
+  //       pauseOnHover: false,
+  //       draggable: false,
+  //       theme: "colored",
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  const updateProductQuantity = (productId, index, delta) => {
     const current = productQuantity[index];
-    const updateQuantity = current + value;
-    if (updateQuantity > 99 || updateQuantity < 1) {
+    const newQty = current + delta;
+
+    if (newQty < 1 || newQty > 99) {
       toast.error("數量超出限制", {
         position: "top-center",
         autoClose: 1500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
         theme: "colored",
       });
       return;
     }
+
+    //立即更新UI
+    const newQuantityArray = [...productQuantity];
+    newQuantityArray[index] = newQty;
+    setProductQuantity(newQuantityArray);
+    //發送 debounced API
+    debouncedUpdate(productId, newQty);
+  };
+  //建立debounce包裝函式(只送last)
+  const debouncedUpdate = useDebouncedUpdate(async (productId, qty) => {
     try {
-      setLoading(true);
-      await axios.put(`${API_BASE}/api/${API_PATH}/cart/${id}`, {
-        data: {
-          product_id: id,
-          qty: updateQuantity,
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        toast.error("請先登入", { position: "top-center", autoClose: 1500 });
+        return;
+      }
+      const token = await user.getIdToken();
+      await axios.put(
+        ADJUST_CART_PRODUCT_QTY_URL,
+        {
+          data: {
+            product_id: productId,
+            qty,
+          },
         },
-      });
-      setCartChanged(!cartChanged);
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      //成功後更新cartChanged
+      setCartChanged((prev) => !prev);
     } catch (err) {
-      toast.error(err.response.data.message, {
+      toast.error(err?.response?.data?.message || "更新失敗", {
         position: "top-center",
         autoClose: 1500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
         theme: "colored",
       });
-    } finally {
-      setLoading(false);
     }
-  };
+  }, 500);
 
   return (
     <div className="cart_container">
       <div className="cart_header">
         <div className="cart_header_container">
           <button
-            className="remove_all_products_button"
+            className="clear_cart_button"
             type="button"
-            onClick={removeAllCartProducts}
+            onClick={clearCart}
           >
-            <div className="remove_all_products_button_bg">REMOVE</div>
+            <div className="clear_cart_button_bg">REMOVE</div>
           </button>
           {/* <div className="remove_all_products_button_bg">清空購物車</div> */}
         </div>
@@ -347,10 +473,11 @@ function GetCart({
           ) : (
             <tr>
               <td colSpan={4}>
-                <div
-                  className="no-product-txt"
-                  noproducttxt="no product in the cart yet..."
-                ></div>
+                <div className="no-product-txt">
+                  <span className="no-product-txt-typing">
+                    no product in the cart yet...
+                  </span>
+                </div>
               </td>
             </tr>
           )}
