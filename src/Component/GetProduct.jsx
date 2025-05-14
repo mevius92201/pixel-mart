@@ -121,18 +121,18 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
                   <del
                     style={{
                       color: "rgb(228 225 225)",
-                      fontSize: "1.1rem",
+                      fontSize: "1.6rem",
                       padding: "0 .3rem 0 .3rem",
                     }}
                   >
                     {product.origin_price}
                   </del>
-                  <div style={{ color: "#000", fontSize: "1.3rem" }}>
+                  <div style={{ color: "#000", fontSize: "2rem" }}>
                     {product.discount_price}
                   </div>
                 </>
               ) : (
-                <div style={{ color: "#000", fontSize: "1.3rem" }}>
+                <div style={{ color: "#000", fontSize: "2rem" }}>
                   {product.origin_price}
                 </div>
               )}
@@ -197,7 +197,7 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
                               <>
                                 <del
                                   style={{
-                                    fontSize: ".8rem",
+                                    fontSize: "1.6rem",
                                     paddingRight: ".2rem",
                                     color: "rgb(248 248 248 / 77%)",
                                   }}

@@ -329,7 +329,7 @@ function GetCart({
       <hr></hr>
       <table className="cart-table">
         <thead>
-          <tr>
+          <tr style={{ fontSize: "1.6rem" }}>
             <th>
               <div style={{ paddingRight: "7rem" }}>訂單商品</div>
             </th>
@@ -376,7 +376,14 @@ function GetCart({
                     }}
                   ></div>
                   <div className="cart-product-info">
-                    <div className="h6">{cartProduct.product.name}</div>
+                    <div
+                      className="h6"
+                      style={{
+                        fontSize: "1.6rem",
+                      }}
+                    >
+                      {cartProduct.product.name}
+                    </div>
                     <div
                       className="cart-product-detail-group"
                       onClick={() => hasProductDetailShow(cartProduct.id)}
@@ -388,9 +395,8 @@ function GetCart({
                               ? "icon-rotate"
                               : ""
                           }`}
-                          style={{ marginRight: "8px" }}
                         />
-                        <span style={{ fontSize: ".8rem", color: "#d394d6" }}>
+                        <span style={{ fontSize: "1.28rem", color: "#d394d6" }}>
                           {showDetailProducts.includes(cartProduct.id)
                             ? "隱藏商品詳細資訊"
                             : "點擊展開商品顯示詳情"}
@@ -410,8 +416,8 @@ function GetCart({
                   <span
                     style={{ display: "inline-flex", alignItems: "center" }}
                   >
-                    <Icon type="CP" style={{ marginRight: "8px" }} />
-                    <div style={{ fontSize: "1.3rem" }}>
+                    <Icon type="CP" />
+                    <div style={{ fontSize: "2.08rem" }}>
                       {cartProduct.product.discount_price}
                     </div>
                   </span>
@@ -443,10 +449,10 @@ function GetCart({
                       style={{
                         display: "inline-flex",
                         alignItems: "center",
-                        fontSize: "1.3rem",
+                        fontSize: "2.08rem",
                       }}
                     >
-                      <Icon type="CP" style={{ marginRight: "8px" }} />
+                      <Icon type="CP" />
                       {cartProduct.final_total}
                     </span>
                     <div className="remove">
@@ -456,7 +462,7 @@ function GetCart({
                           alignItems: "center",
                         }}
                       >
-                        <Icon type="remove" style={{ marginRight: "8px" }} />
+                        <Icon type="remove" />
                       </span>
                       <button
                         className="remove-btn"
@@ -484,11 +490,33 @@ function GetCart({
         </tbody>
         <tfoot></tfoot>
       </table>
+      <hr className="separate-line-in-cart" />
       <div className="cart-price-total">
         <span>總計</span>
         <div className="cart-price-total-num">
-          <Icon type="CP" style={{ marginRight: "8px" }} />
+          <Icon type="CP" />
           {calTotalPrice()}
+        </div>
+      </div>
+      <div className="checkout-btn-container">
+        <div className="checkout-btn-wrapper">
+          <button
+            className="checkout-button"
+            type="button"
+            onClick={() => {
+              toast.error("尚未開放", {
+                position: "top-center",
+                autoClose: 1500,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                theme: "colored",
+              });
+            }}
+          >
+            <div className="checkout-button-txt">花錢消災去</div>
+          </button>
         </div>
       </div>
     </div>
