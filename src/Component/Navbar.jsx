@@ -4,15 +4,18 @@ import useAuthStore from "./store/auth-store";
 import { useShallow } from "zustand/shallow";
 import { useState, useRef } from "react";
 import useCloseOutside from "../Hook/useCloseOutside";
+import { resetBalance } from "../utils/firebaseApi";
+import { toast } from "react-toastify";
 const activeClass = ({ isActive }) => {
   return isActive ? "linkIsActive" : "";
 };
 export const Navbar = () => {
-  const { user, logout, cart } = useAuthStore(
+  const { user, logout, cart, setUser } = useAuthStore(
     useShallow((state) => ({
       user: state.user,
       logout: state.logout,
       cart: state.cart,
+      setUser: state.setUser,
     }))
   );
   //另一種做法
@@ -43,6 +46,32 @@ export const Navbar = () => {
     },
   ];
   console.log(user);
+
+  const handleResetBalance = async () => {
+    try {
+      const res = await resetBalance();
+      toast.success("餘額重置成功", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "colored",
+      });
+      setUser({ ...user, balance: 9999 });
+    } catch (error) {
+      toast.error("餘額重置失敗", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "colored",
+      });
+    }
+  };
 
   return (
     <nav className="navbar">
@@ -97,6 +126,14 @@ export const Navbar = () => {
                           {user.balance}{" "}
                         </span>
                       </div>
+                    </li>
+                    <li>
+                      <button
+                        className="reset-balance-btn"
+                        onClick={handleResetBalance}
+                      >
+                        重置餘額
+                      </button>
                     </li>
                     <li>
                       <button

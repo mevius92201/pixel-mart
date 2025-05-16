@@ -6,6 +6,32 @@ const { getAuth } = require("firebase-admin/auth");
 
 initializeApp();
 
+exports.resetBalance = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "POST");
+  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") return res.status(204).send("");
+
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith("Bearer ")) {
+      return res.status(401).json({ success: false, message: "請先登入" });
+    }
+
+    const idToken = authHeader.split("Bearer ")[1];
+    const decodedToken = await getAuth().verifyIdToken(idToken);
+    const userId = decodedToken.uid;
+
+    const db = getFirestore();
+    await db.collection("users").doc(userId).update({ balance: 9999 });
+
+    return res.json({ success: true, message: "餘額已重設為 9999" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 exports.getProducts = onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET, POST");
@@ -647,6 +673,123 @@ exports.updateCartItem = onRequest(async (req, res) => {
     });
   } catch (error) {
     console.error("updateCartItem error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "伺服器錯誤",
+    });
+  }
+});
+
+exports.deduct = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "POST");
+  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") return res.status(204).send("");
+
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        message: "請先登入",
+      });
+    }
+
+    const idToken = authHeader.split("Bearer ")[1];
+    const decodedToken = await getAuth().verifyIdToken(idToken);
+    const userId = decodedToken.uid;
+
+    const db = getFirestore();
+    const userRef = db.collection("users").doc(userId);
+    const cartRef = db.collection("carts").doc(userId);
+
+    const [userSnap, cartSnap] = await Promise.all([
+      userRef.get(),
+      cartRef.get(),
+    ]);
+
+    if (!userSnap.exists || !cartSnap.exists) {
+      return res.status(400).json({
+        success: false,
+        message: "無法取得使用者或購物車資料",
+      });
+    }
+
+    const user = userSnap.data();
+    const cartItems = cartSnap.data().items || [];
+
+    if (cartItems.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "購物車為空，無法結帳",
+      });
+    }
+
+    // 取得所有商品資料
+    const productRefs = cartItems.map((item) =>
+      db.collection("products").doc(item.product_id)
+    );
+    const productSnaps = await db.getAll(...productRefs);
+
+    let totalAmount = 0;
+    let itemDetails = [];
+
+    cartItems.forEach((item, i) => {
+      const productDoc = productSnaps[i];
+      if (!productDoc.exists) return;
+      const product = productDoc.data();
+      const price = product.discount_price || product.origin_price || 0;
+      const subtotal = price * item.qty;
+      totalAmount += subtotal;
+
+      itemDetails.push({
+        product_id: item.product_id,
+        product_name: product.name || "",
+        qty: item.qty,
+        unit_price: price,
+        subtotal,
+      });
+    });
+
+    const originalBalance = user.balance || 0;
+    const remainingBalance = originalBalance - totalAmount;
+
+    if (remainingBalance < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "餘額不足",
+        data: {
+          original_balance: originalBalance,
+          required_amount: totalAmount,
+        },
+      });
+    }
+
+    // 更新使用者餘額 & 清空購物車
+    await Promise.all([
+      userRef.update({ balance: remainingBalance }),
+      cartRef.set({ items: [] }, { merge: true }),
+    ]);
+
+    return res.json({
+      success: true,
+      message: "扣款成功",
+      data: {
+        id: `${userId}-${Date.now()}`,
+        original_balance: originalBalance,
+        deducted_amount: totalAmount,
+        remaining_balance: remainingBalance,
+        purchased_items: itemDetails,
+        user: {
+          uid: userId,
+          email: user.email,
+        },
+        cart: [],
+      },
+    });
+  } catch (error) {
+    console.error("deduct error:", error);
     return res.status(500).json({
       success: false,
       message: error.message || "伺服器錯誤",

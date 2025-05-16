@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { getAuth } from "firebase/auth";
 import useAuthStore from "./store/auth-store";
 import useDebouncedUpdate from "../Hook/useDebouncedUpdate";
+import { checkout } from "../utils/firebaseApi";
 
 // const API_BASE = "https://ec-course-api.hexschool.io/v2";
 // const API_PATH = "mevius";
@@ -192,6 +193,41 @@ function GetCart({
   function calTotalPrice() {
     return cartProductData.reduce((acc, cur) => acc + cur.final_total, 0);
   }
+
+  const handleCheckout = async () => {
+    try {
+      setLoading(true);
+      const res = await checkout();
+
+      toast.success("付款成功", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "colored",
+      });
+      console.log("res.data", res.data);
+      setCartChanged((prev) => !prev);
+      setUser((prev) => ({
+        ...prev,
+        balance: res.data.remaining_balance,
+      }));
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "付款失敗", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "colored",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
   // const updateProductQuantity = async (id, index, value) => {
   //   const current = productQuantity[index];
   //   const updateQuantity = current + value;
@@ -503,17 +539,18 @@ function GetCart({
           <button
             className="checkout-button"
             type="button"
-            onClick={() => {
-              toast.error("尚未開放", {
-                position: "top-center",
-                autoClose: 1500,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                theme: "colored",
-              });
-            }}
+            onClick={handleCheckout}
+            // onClick={() => {
+            //   toast.error("尚未開放", {
+            //     position: "top-center",
+            //     autoClose: 1500,
+            //     hideProgressBar: true,
+            //     closeOnClick: true,
+            //     pauseOnHover: false,
+            //     draggable: false,
+            //     theme: "colored",
+            //   });
+            // }}
           >
             <div className="checkout-button-txt">花錢消災去</div>
           </button>
