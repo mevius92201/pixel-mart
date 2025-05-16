@@ -210,10 +210,10 @@ function GetCart({
       });
       console.log("res.data", res.data);
       setCartChanged((prev) => !prev);
-      // setUser((prev) => ({
-      //   ...prev,
-      //   balance: res.data.remaining_balance,
-      // }));
+      setUser((prev) => ({
+        ...prev,
+        balance: res.data.remaining_balance,
+      }));
     } catch (err) {
       toast.error(err?.response?.data?.message || "付款失敗", {
         position: "top-center",
