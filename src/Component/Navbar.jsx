@@ -5,6 +5,7 @@ import { useShallow } from "zustand/shallow";
 import { useState, useRef } from "react";
 import useCloseOutside from "../Hook/useCloseOutside";
 import { resetBalance } from "../utils/firebaseApi";
+import { toast } from "react-toastify";
 const activeClass = ({ isActive }) => {
   return isActive ? "linkIsActive" : "";
 };
@@ -46,9 +47,9 @@ export const Navbar = () => {
   ];
   console.log(user);
 
-  const resetBalance = async () => {
+  const handleResetBalance = async () => {
     try {
-      const response = await resetBalance();
+      const res = await resetBalance();
       toast.success("餘額重置成功", {
         position: "top-center",
         autoClose: 1500,
@@ -129,7 +130,7 @@ export const Navbar = () => {
                     <li>
                       <button
                         className="reset-balance-btn"
-                        onClick={resetBalance}
+                        onClick={handleResetBalance}
                       >
                         重置餘額
                       </button>
