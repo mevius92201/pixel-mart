@@ -45,7 +45,6 @@ export const Navbar = () => {
       menu: cart.length > 0 ? `${cartIcon}(${cart.length})` : cartIcon,
     },
   ];
-  console.log(user);
 
   const handleResetBalance = async () => {
     try {
