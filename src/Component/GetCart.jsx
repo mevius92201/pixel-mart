@@ -372,7 +372,9 @@ function GetCart({
       <div className="cart_header">
         <div className="cart_header_container">
           <button
-            className="clear_cart_button"
+            className={`clear_cart_button ${
+              cartProductData.length > 0 ? "" : "disabled"
+            }`}
             type="button"
             onClick={clearCart}
           >
@@ -568,7 +570,11 @@ function GetCart({
         </div>
       </div>
       <div className="checkout-btn-container">
-        <div className="checkout-btn-wrapper">
+        <div
+          className={`checkout-btn-wrapper ${
+            cartProductData.length > 0 ? "" : "disabled"
+          }`}
+        >
           <button
             className="checkout-button"
             type="button"
@@ -585,7 +591,9 @@ function GetCart({
             //   });
             // }}
           >
-            <div className="checkout-button-txt">花錢消災去</div>
+            <div className="checkout-button-txt">
+              {cartProductData.length > 0 ? "花錢消災去" : "暫無商品"}
+            </div>
           </button>
         </div>
       </div>
