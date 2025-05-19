@@ -29,6 +29,7 @@ function GetCart({
   const [showDetailProducts, setShowDetailProducts] = useState([]);
   const [productQuantity, setProductQuantity] = useState([]);
   const authReady = useAuthStore((state) => state.authReady);
+  //useShallow是用來優化性能的，當state的值沒有改變時，組件不會重新渲染。屬於淺層比較
   const { user, setUser } = useAuthStore(
     useShallow((state) => ({
       user: state.user,
@@ -314,55 +315,66 @@ function GetCart({
       });
       return;
     }
-
+    const oldQty = current;
     //立即更新UI
     const newQuantityArray = [...productQuantity];
     newQuantityArray[index] = newQty;
     setProductQuantity(newQuantityArray);
+
     //發送 debounced API
-    debouncedUpdate(productId, newQty);
+    debouncedUpdate(productId, newQty, index, oldQty);
   };
   //建立debounce包裝函式(只送last)
-  const debouncedUpdate = useDebouncedUpdate(async (productId, qty) => {
-    try {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      if (!user) {
-        toast.error("請先登入", { position: "top-center", autoClose: 1500 });
-        return;
-      }
-      const token = await user.getIdToken();
-      await axios.put(
-        ADJUST_CART_PRODUCT_QTY_URL,
-        {
-          data: {
-            product_id: productId,
-            qty,
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+  const debouncedUpdate = useDebouncedUpdate(
+    async (productId, qty, index, oldQty) => {
+      try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (!user) {
+          toast.error("請先登入", { position: "top-center", autoClose: 1500 });
+          return;
         }
-      );
-      //成功後更新cartChanged
-      setCartChanged((prev) => !prev);
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "更新失敗", {
-        position: "top-center",
-        autoClose: 1500,
-        theme: "colored",
-      });
-    }
-  }, 500);
+        const token = await user.getIdToken();
+        await axios.put(
+          ADJUST_CART_PRODUCT_QTY_URL,
+          {
+            data: {
+              product_id: productId,
+              qty,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        //成功後更新cartChanged
+        setCartChanged((prev) => !prev);
+      } catch (err) {
+        setProductQuantity((prev) => {
+          const rollbackArray = [...prev];
+          rollbackArray[index] = oldQty;
+          return rollbackArray;
+        });
+        toast.error(err?.response?.data?.message || "更新失敗", {
+          position: "top-center",
+          autoClose: 1500,
+          theme: "colored",
+        });
+      }
+    },
+    500
+  );
 
   return (
     <div className="cart_container">
       <div className="cart_header">
         <div className="cart_header_container">
           <button
-            className="clear_cart_button"
+            className={`clear_cart_button ${
+              cartProductData.length > 0 ? "" : "disabled"
+            }`}
             type="button"
             onClick={clearCart}
           >
@@ -470,18 +482,32 @@ function GetCart({
                 <td className="cart-product-quantity">
                   <div className="quantity-group">
                     <div
-                      className="minus-container"
+                      className={`minus-container ${
+                        productQuantity[index] <= 1
+                          ? "productQuantity-disabled"
+                          : ""
+                      }`}
                       onClick={() => {
-                        updateProductQuantity(cartProduct.id, index, -1);
+                        if (productQuantity[index] > 1) {
+                          updateProductQuantity(cartProduct.id, index, -1);
+                        }
                       }}
                     >
                       <div>-</div>
                     </div>
-                    <div className="product-quantity">{cartProduct.qty}</div>
+                    <div className="product-quantity">
+                      {productQuantity[index]}
+                    </div>
                     <div
-                      className="plus-container"
+                      className={`plus-container ${
+                        productQuantity[index] >= 99
+                          ? "productQuantity-disabled"
+                          : ""
+                      }`}
                       onClick={() => {
-                        updateProductQuantity(cartProduct.id, index, 1);
+                        if (productQuantity[index] < 99) {
+                          updateProductQuantity(cartProduct.id, index, 1);
+                        }
                       }}
                     >
                       <div>+</div>
@@ -544,7 +570,11 @@ function GetCart({
         </div>
       </div>
       <div className="checkout-btn-container">
-        <div className="checkout-btn-wrapper">
+        <div
+          className={`checkout-btn-wrapper ${
+            cartProductData.length > 0 ? "" : "disabled"
+          }`}
+        >
           <button
             className="checkout-button"
             type="button"
@@ -561,7 +591,9 @@ function GetCart({
             //   });
             // }}
           >
-            <div className="checkout-button-txt">花錢消災去</div>
+            <div className="checkout-button-txt">
+              {cartProductData.length > 0 ? "花錢消災去" : "暫無商品"}
+            </div>
           </button>
         </div>
       </div>
