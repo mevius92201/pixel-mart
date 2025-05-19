@@ -7,6 +7,7 @@ import { getAuth } from "firebase/auth";
 import useAuthStore from "./store/auth-store";
 import useDebouncedUpdate from "../Hook/useDebouncedUpdate";
 import { checkout } from "../utils/firebaseApi";
+import { useShallow } from "zustand/shallow";
 
 // const API_BASE = "https://ec-course-api.hexschool.io/v2";
 // const API_PATH = "mevius";
@@ -28,6 +29,14 @@ function GetCart({
   const [showDetailProducts, setShowDetailProducts] = useState([]);
   const [productQuantity, setProductQuantity] = useState([]);
   const authReady = useAuthStore((state) => state.authReady);
+  const { user, setUser } = useAuthStore(
+    useShallow((state) => ({
+      user: state.user,
+      logout: state.logout,
+      cart: state.cart,
+      setUser: state.setUser,
+    }))
+  );
   useEffect(() => {
     const getCartProducts = async () => {
       try {
@@ -208,12 +217,12 @@ function GetCart({
         draggable: false,
         theme: "colored",
       });
-      console.log("res.data", res.data);
+      console.log("res.data!!", res.data.remaining_balance);
       setCartChanged((prev) => !prev);
-      setUser((prev) => ({
-        ...prev,
+      setUser({
+        ...user,
         balance: res.data.remaining_balance,
-      }));
+      });
     } catch (err) {
       toast.error(err?.response?.data?.message || "付款失敗", {
         position: "top-center",
