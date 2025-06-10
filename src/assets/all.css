@@ -115,11 +115,17 @@ a:visited {
 .userInfo-dropdown-list > li {
   padding: 0.64rem 0.64rem 0;
 }
+.userInfo-dropdown-list > li:hover {
+  background-color: #5ac8fa;
+}
+.userInfo-dropdown-list > li:first-child:hover {
+  background-color: transparent;
+  cursor: default;
+}
 .userInfo-dropdown-list li:last-child {
   padding-bottom: 0.48rem;
 }
 .userInfo-dropdown-list li:last-child:hover {
-  background-color: #5ac8fa;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   cursor: pointer;
@@ -136,6 +142,17 @@ a:visited {
 .navbar-menu-userInfo-balance {
   font-size: 2.08rem;
   margin: 0 0.8rem 0 0.32rem;
+}
+.reset-balance-btn {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 0.32rem;
+}
+.reset-balance-btn:hover {
+  background-color: #5ac8fa;
 }
 .logout-btn {
   color: #fff;
@@ -1095,7 +1112,7 @@ html {
   white-space: nowrap;
   overflow: hidden;
   /* width: 0ch; */
-  animation: txtAnimate 5s steps(26, end) infinite, blink 0.7s step-end infinite;
+  animation: txtAnimate 6s steps(26, end) infinite, blink 0.7s step-end infinite;
   border-right: 2px solid #000;
   margin: 8rem 5.6rem;
 }
