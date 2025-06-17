@@ -7,6 +7,7 @@ import CenterMode from "../Slider.jsx";
 import sliderData from "../../data.json";
 import SearchBar from "../SearchBar.jsx";
 import ScrollToTop from "../ScrollToTop.jsx";
+import FilterTabs from "../FilterTabs.jsx";
 function Product() {
   const [cartChanged, setCartChanged] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,8 @@ function Product() {
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState("");
+  const [selectedTab, setSelectedTab] = useState("");
+  const [tabs, setTabs] = useState(["全部", "食材", "飾品", "藥劑"]);
 
   const clearSearch = () => {
     setKeyword("");
@@ -25,6 +28,7 @@ function Product() {
   };
   const getProduct = async (searchTerm = "") => {
     setLoading(true);
+    const category = selectedTab === "全部" ? "" : selectedTab;
     try {
       const res = await axios.get(
         "https://getproducts-3xt565hwvq-uc.a.run.app",
@@ -55,7 +59,7 @@ function Product() {
   };
   useEffect(() => {
     getProduct();
-  }, []);
+  }, [selectedTab]);
 
   const handleSearch = (value) => {
     setKeyword(value);
@@ -68,6 +72,11 @@ function Product() {
           <CenterMode sliderData={sliderData} />
           <div className="product-display">
             <SearchBar onSearch={handleSearch} />
+            <FilterTabs
+              tabs={tabs}
+              activeTab={selectedTab}
+              onChange={setSelectedTab}
+            />
             <GetProduct
               productsData={productsData}
               cartChanged={cartChanged}
