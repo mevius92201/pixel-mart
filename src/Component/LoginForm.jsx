@@ -41,7 +41,14 @@ const LoginForm = () => {
   // };
 
   const onSubmit = async (data) => {
-    const { success, message } = await loginUser(data.username, data.password);
+    const cleanedData = {
+      username: (data.username || "").trim(),
+      password: (data.password || "").trim(),
+    };
+    const { success, message } = await loginUser(
+      cleanedData.username,
+      cleanedData.password
+    );
     if (success) {
       toast.success("登入成功", {
         position: "top-center",
@@ -127,9 +134,6 @@ const LoginForm = () => {
       </button>
     </form>
   );
-};
-LoginForm.propTypes = {
-  setIsAuth: PropTypes.func.isRequired,
 };
 
 // const LoginGreet = (data) => {

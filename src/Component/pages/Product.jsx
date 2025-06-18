@@ -8,6 +8,7 @@ import sliderData from "../../data.json";
 import SearchBar from "../SearchBar.jsx";
 import ScrollToTop from "../ScrollToTop.jsx";
 import FilterTabs from "../FilterTabs.jsx";
+import SortItems from "../SortItems.jsx";
 function Product() {
   const [cartChanged, setCartChanged] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -15,9 +16,14 @@ function Product() {
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
-  const [sort, setSort] = useState("");
   const [selectedTab, setSelectedTab] = useState("");
   const [tabs, setTabs] = useState(["全部", "食材", "飾品", "藥劑"]);
+  const [sortOptions, setSortOptions] = useState([
+    { label: "價格低到高", value: "price_asc" },
+    { label: "價格高到低", value: "price_desc" },
+    { label: "預設排序", value: "name" },
+  ]);
+  const [sort, setSort] = useState("name");
 
   const clearSearch = () => {
     setKeyword("");
@@ -29,6 +35,7 @@ function Product() {
   const getProduct = async (searchTerm = "") => {
     setLoading(true);
     const category = selectedTab === "全部" ? "" : selectedTab;
+    const sort = sortOptions === "name" ? "" : sortOptions;
     try {
       const res = await axios.get(
         "https://getproducts-3xt565hwvq-uc.a.run.app",
@@ -76,6 +83,11 @@ function Product() {
               tabs={tabs}
               activeTab={selectedTab}
               onChange={setSelectedTab}
+            />
+            <SortItems
+              sortOptions={sortOptions}
+              sort={sort}
+              onChange={setSort}
             />
             <GetProduct
               productsData={productsData}

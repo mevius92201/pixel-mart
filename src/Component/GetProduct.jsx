@@ -115,19 +115,25 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
               alt="..."
             />
             <div className="product-price-display">
-              <Icon type="CP" style={{ marginRight: "8px" }} />
+              <Icon type="CP" style={{ marginRight: "2px" }} />
               {product.origin_price > product.discount_price ? (
                 <>
                   <del
                     style={{
-                      color: "rgb(228 225 225)",
+                      color: "rgb(102 102 102)",
                       fontSize: "1.6rem",
-                      padding: "0 .3rem 0 .3rem",
+                      padding: "0 .4rem 0 0rem",
                     }}
                   >
                     {product.origin_price}
                   </del>
-                  <div style={{ color: "#000", fontSize: "2rem" }}>
+                  <div
+                    style={{
+                      color: "#000",
+                      fontSize: "2rem",
+                      letterSpacing: "0.5px",
+                    }}
+                  >
                     {product.discount_price}
                   </div>
                 </>
@@ -192,13 +198,13 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
                           </div>
                           <div className="product-info-price-display">
                             售價：
-                            <Icon type="CP" style={{ marginRight: "8px" }} />
+                            <Icon type="CP" style={{ marginRight: "2px" }} />
                             {product.origin_price > product.discount_price ? (
                               <>
                                 <del
                                   style={{
                                     fontSize: "1.6rem",
-                                    paddingRight: ".2rem",
+                                    paddingRight: ".3rem",
                                     color: "rgb(248 248 248 / 77%)",
                                   }}
                                 >

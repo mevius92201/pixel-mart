@@ -23,10 +23,16 @@ const RegisterForm = () => {
   };
 
   const onSubmit = async (data) => {
+    const cleanedData = {
+      email: (data.email || "").trim(),
+      password: (data.password || "").trim(),
+      confirmPassword: (data.confirmPassword || "").trim(),
+    };
     try {
       const { success, message } = await registerUser(
-        data.email,
-        data.password
+        cleanedData.email,
+        cleanedData.password,
+        cleanedData.confirmPassword
       );
       if (success) {
         toast.success("註冊成功", {
@@ -130,7 +136,7 @@ const RegisterForm = () => {
                   message: "請確認密碼",
                 },
                 validate: (value) =>
-                  value === watch("password") || "密碼一樣嗎？",
+                  value === watch("password") || "密碼好像不一樣？",
               })}
               placeholder=""
               type={passwordType}
