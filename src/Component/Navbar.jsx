@@ -112,11 +112,9 @@ export const Navbar = () => {
                   >
                     {user.email}
                   </div>
-                  <div className="navbar-menu-userInfo-btn_group">
+                  <div className="icon-arrow-rotate">
                     <div
-                      className={`navbar-menu-userInfo-btn ${
-                        !infoShow ? "" : "rotate"
-                      }`}
+                      className={`arrow-rotate ${!infoShow ? "" : "rotate"}`}
                     ></div>
                   </div>
                 </div>

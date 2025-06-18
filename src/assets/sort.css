@@ -1,5 +1,31 @@
-sort-items {
+.sort-items {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+.sort-items-dropdown {
+  display: flex;
+  flex-direction: row;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  color: #d1f7f4;
+}
+.sort-items-txt {
+  color: #d1f7f4;
+  text-wrap: nowrap;
+  font-size: 1.4rem;
+  margin-right: 0.5rem;
+}
+.sort-dropdown-list {
+  padding: 1rem;
+  margin: 0.3rem 0rem 0 0.8rem;
+  list-style: none;
+  color: #4c7976;
+  background-color: #ebe6e6;
+  border-radius: 0.4rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  z-index: 1000;
+  font-size: 1.5rem;
 }

@@ -79,16 +79,20 @@ function Product() {
           <CenterMode sliderData={sliderData} />
           <div className="product-display">
             <SearchBar onSearch={handleSearch} />
-            <FilterTabs
-              tabs={tabs}
-              activeTab={selectedTab}
-              onChange={setSelectedTab}
-            />
-            <SortItems
-              sortOptions={sortOptions}
-              sort={sort}
-              onChange={setSort}
-            />
+            <div className="product-tabs-group">
+              <div className="product-tabs-container">
+                <FilterTabs
+                  tabs={tabs}
+                  activeTab={selectedTab}
+                  onChange={setSelectedTab}
+                />
+                <SortItems
+                  sortOptions={sortOptions}
+                  sort={sort}
+                  onChange={setSort}
+                />
+              </div>
+            </div>
             <GetProduct
               productsData={productsData}
               cartChanged={cartChanged}
