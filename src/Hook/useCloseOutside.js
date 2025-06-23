@@ -8,9 +8,9 @@ function useCloseOutside(ref, handler) {
       }
       handler(e);
     };
-    document.addEventListener("mousedown", handleCloseOutside);
+    document.addEventListener("click", handleCloseOutside);
     return () => {
-      document.removeEventListener("mousedown", handleCloseOutside);
+      document.removeEventListener("click", handleCloseOutside);
     };
   }, [handler, ref]);
 }

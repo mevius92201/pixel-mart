@@ -128,21 +128,17 @@ export const Navbar = () => {
                         </span>
                       </div>
                     </li>
-                    <li>
-                      <button
-                        className="reset-balance-btn"
-                        onClick={handleResetBalance}
-                      >
-                        重置餘額
-                      </button>
+                    <li onClick={handleResetBalance}>
+                      <div className="userInfo-reset-group">
+                        <div className="reset-icon"></div>
+                        <div className="reset-balance-txt">重置餘額</div>
+                      </div>
                     </li>
-                    <li>
-                      <button
-                        className="navbar-menu-txt logout-btn"
-                        onClick={logout}
-                      >
-                        登出
-                      </button>
+                    <li onClick={logout}>
+                      <div className="userInfo-logout-group">
+                        <div className="logout-icon"></div>
+                        <div className="logout-txt">登出</div>
+                      </div>
                     </li>
                   </ul>
                 </div>
