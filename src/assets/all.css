@@ -3,14 +3,24 @@ body {
   padding: 0;
   border: 0;
   overflow-x: hidden;
-  font-family: "CustomFont", sans-serif;
+  font-family: "CustomFont", "DotGothic16", sans-serif;
   background-color: #fefcff;
 }
 @font-face {
   font-family: "CustomFont";
-  src: url("/font.ttf") format("truetype");
+  src: url("/fonts/font.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-007F, U+0030-0039;
+}
+@font-face {
+  font-family: "DotGothic16";
+  src: url("/fonts/DotGothic16-Regular.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+4E00-9FFF;
 }
 
 .layout {
@@ -44,8 +54,8 @@ a:visited {
   /* cursor: pointer; */
 }
 .navbar-menu-userInfo-avatar {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background-color: #fff;
   margin-right: 0.48rem;
@@ -60,7 +70,7 @@ a:visited {
 
   letter-spacing: 0.16rem;
 }
-.navbar-menu-userInfo-btn_group {
+.icon-arrow-rotate {
   display: flex;
   align-items: center;
   width: 8px;
@@ -71,17 +81,17 @@ a:visited {
 /* .navbar-menu-userInfo-name.rotate {
   margin-right: 4px;
 } */
-.navbar-menu-userInfo-btn {
+.arrow-rotate {
   height: 5px;
   width: 2px;
   background-color: currentColor;
   transform: rotate(315deg);
   border-radius: 5px;
 }
-.navbar-menu-userInfo-btn.rotate {
+.arrow-rotate.rotate {
   transform: rotate(135deg);
 }
-.navbar-menu-userInfo-btn::after {
+.arrow-rotate::after {
   content: "";
   position: absolute;
   top: 2px;
@@ -92,7 +102,7 @@ a:visited {
   border-radius: 5px;
   transform: rotate(90deg);
 }
-.navbar-menu-userInfo-btn::after.rotate {
+.arrow-rotate::after.rotate {
   transform: rotate(270deg);
 }
 .userInfo-dropdown {
@@ -115,11 +125,17 @@ a:visited {
 .userInfo-dropdown-list > li {
   padding: 0.64rem 0.64rem 0;
 }
+.userInfo-dropdown-list > li:hover {
+  background-color: #5ac8fa;
+}
+.userInfo-dropdown-list > li:first-child:hover {
+  background-color: transparent;
+  cursor: default;
+}
 .userInfo-dropdown-list li:last-child {
   padding-bottom: 0.48rem;
 }
 .userInfo-dropdown-list li:last-child:hover {
-  background-color: #5ac8fa;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   cursor: pointer;
@@ -136,6 +152,17 @@ a:visited {
 .navbar-menu-userInfo-balance {
   font-size: 2.08rem;
   margin: 0 0.8rem 0 0.32rem;
+}
+.reset-balance-btn {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 0.32rem;
+}
+.reset-balance-btn:hover {
+  background-color: #5ac8fa;
 }
 .logout-btn {
   color: #fff;
@@ -624,11 +651,11 @@ input:not(:placeholder-shown) + .passWord {
   align-items: center;
 }
 .product-board {
-  padding: 0 12.8rem 8rem 12.8rem;
+  padding: 0 18rem 8rem;
   display: grid;
-  justify-content: space-evenly;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 11.2rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  column-gap: 15rem;
+  row-gap: 5.8rem;
   align-content: flex-start;
   &::after {
     content: "";
@@ -642,8 +669,8 @@ input:not(:placeholder-shown) + .passWord {
   height: 22.4rem;
   margin: 1.6rem auto 0;
   border-radius: 10px;
-  background: linear-gradient(#af1dee, #480d62, #e48eda);
-  box-shadow: 0 0 20px 1px #d59f9f;
+  background: linear-gradient(#d2b5df, rgb(153, 204, 194), #8ecee4);
+  box-shadow: 0 0 20px 1px #bad59f;
   position: relative;
 }
 
@@ -674,27 +701,24 @@ input:not(:placeholder-shown) + .passWord {
   background-position: center;
 }
 .product-title {
-  margin-bottom: 2.4rem;
+  margin: 1.2rem auto;
   white-space: nowrap;
   font-weight: 500;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 14.4rem;
-  position: absolute;
-  top: 1.28rem;
-  left: 3.6rem;
-  color: #ede7e7;
+  color: #4f4e4e;
   font-size: 1.6rem;
 }
 .product-price-display {
   display: inline-flex;
   position: absolute;
   top: 19.2rem;
-  left: 3.2rem;
   align-items: center;
   font-weight: 700;
   font-size: 1.6rem;
+  width: 100%;
+  justify-content: center;
 }
 
 html {
@@ -1095,7 +1119,7 @@ html {
   white-space: nowrap;
   overflow: hidden;
   /* width: 0ch; */
-  animation: txtAnimate 5s steps(26, end) infinite, blink 0.7s step-end infinite;
+  animation: txtAnimate 6s steps(26, end) infinite, blink 0.7s step-end infinite;
   border-right: 2px solid #000;
   margin: 8rem 5.6rem;
 }
@@ -1198,6 +1222,18 @@ html {
   margin-top: auto;
   z-index: 104;
 }
+.product-tabs-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 12.8rem 3.2rem;
+}
+.product-tabs-container {
+  width: 1076px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .home,
 .news-list,
 .product-display,
@@ -1296,6 +1332,7 @@ html {
   padding: 3px 0;
   white-space: nowrap;
   width: fit-content;
+  align-items: baseline;
 }
 .footer-middle-group {
   color: #fff;
@@ -1354,7 +1391,6 @@ html {
 }
 .searchBar {
   margin: 0 12.8rem 3.2rem;
-  position: relative;
   display: flex;
   justify-content: center;
 }
@@ -1375,14 +1411,14 @@ html {
   padding: 0.48rem 9.28rem 0.48rem 5.44rem;
   font-size: 2.08rem;
   font-family: "CustomFont", sans-serif;
-  border: 2px solid;
+  border: 2px dashed silver;
 }
 .productSearch:focus-visible {
   outline: none;
 }
 .icon-search {
   position: absolute;
-  top: 0.32rem;
+  top: 0.4rem;
   left: 0.8rem;
   width: 4rem;
   height: 4rem;
@@ -1391,7 +1427,7 @@ html {
 }
 .product-search_btn {
   position: absolute;
-  top: 0.48rem;
+  top: 0.5rem;
   right: 1.6rem;
   background-color: #2788a9;
   color: white;
@@ -1406,10 +1442,40 @@ html {
 .product-search_btn:hover {
   cursor: pointer;
 }
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.category-item {
+  display: inline-block;
+  padding: 0.48rem 2.28rem;
+  margin-right: 2.8rem;
+  color: #d1f7f4;
+  border-radius: 5px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  border: 3px dotted #fff;
+  letter-spacing: 0.4rem;
+  font-weight: 800;
+}
+.category-item.active,
+.category-item:hover {
+  border: 3px dotted #fffbb4;
+  color: ghostwhite;
+  background: #c5c5c563;
+}
 .scroll-to-top {
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 1000;
 }
 .scroll-to-top-icon {
   position: fixed;

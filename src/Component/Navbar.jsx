@@ -6,6 +6,7 @@ import { useState, useRef } from "react";
 import useCloseOutside from "../Hook/useCloseOutside";
 import { resetBalance } from "../utils/firebaseApi";
 import { toast } from "react-toastify";
+import LoadingEffectV2 from "./LoadingEffectV2";
 const activeClass = ({ isActive }) => {
   return isActive ? "linkIsActive" : "";
 };
@@ -23,7 +24,7 @@ export const Navbar = () => {
   // const logout = useAuthStore((state) => state.logout);
   // const cart = useAuthStore((state) => state.cart);
   // const isAuth = useAuthStore((state) => state.isAuth);
-
+  const [loading, setLoading] = useState(false);
   const [infoShow, setInfoShow] = useState(false);
   const handleInfoShow = () => {
     setInfoShow(!infoShow);
@@ -48,6 +49,7 @@ export const Navbar = () => {
 
   const handleResetBalance = async () => {
     try {
+      setLoading(true);
       const res = await resetBalance();
       toast.success("餘額重置成功", {
         position: "top-center",
@@ -69,6 +71,8 @@ export const Navbar = () => {
         draggable: false,
         theme: "colored",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -108,11 +112,9 @@ export const Navbar = () => {
                   >
                     {user.email}
                   </div>
-                  <div className="navbar-menu-userInfo-btn_group">
+                  <div className="icon-arrow-rotate">
                     <div
-                      className={`navbar-menu-userInfo-btn ${
-                        !infoShow ? "" : "rotate"
-                      }`}
+                      className={`arrow-rotate ${!infoShow ? "" : "rotate"}`}
                     ></div>
                   </div>
                 </div>
@@ -152,6 +154,9 @@ export const Navbar = () => {
             </NavLink>
           )}
         </div>
+      </div>
+      <div>
+        <LoadingEffectV2 loadingState={loading} />
       </div>
     </nav>
   );

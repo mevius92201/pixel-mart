@@ -474,7 +474,9 @@ function GetCart({
                     style={{ display: "inline-flex", alignItems: "center" }}
                   >
                     <Icon type="CP" />
-                    <div style={{ fontSize: "2.08rem" }}>
+                    <div
+                      style={{ fontSize: "2.08rem", letterSpacing: "0.1rem" }}
+                    >
                       {cartProduct.product.discount_price}
                     </div>
                   </span>
@@ -521,6 +523,7 @@ function GetCart({
                         display: "inline-flex",
                         alignItems: "center",
                         fontSize: "2.08rem",
+                        letterSpacing: "0.1rem",
                       }}
                     >
                       <Icon type="CP" />

@@ -11,10 +11,14 @@ function SearchBar({ onSearch }) {
   return (
     <div className="searchBar">
       <div className="searchBar-container">
+        <label htmlFor="productSearch" className="visually-hidden">
+          Search Product
+        </label>
         <input
           type="search"
           className="productSearch"
           placeholder="Search product"
+          id="productSearch"
           value={searchValue}
           onChange={(e) => {
             setSearchValue(e.target.value);
