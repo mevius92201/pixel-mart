@@ -175,6 +175,14 @@ exports.addProduct = onRequest(async (req, res) => {
   }
 
   try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith("Bearer ")) {
+      return res.status(401).json({ success: false, message: "請先登入" });
+    }
+
+    const idToken = authHeader.split("Bearer ")[1];
+    const decodedToken = await getAuth().verifyIdToken(idToken);
+
     const db = getFirestore();
     const {
       name,
@@ -790,6 +798,152 @@ exports.deduct = onRequest(async (req, res) => {
     });
   } catch (error) {
     console.error("deduct error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "伺服器錯誤",
+    });
+  }
+});
+
+exports.addNews = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "POST");
+  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") return res.status(204).send("");
+
+  if (req.method !== "POST") {
+    return res
+      .status(405)
+      .json({ success: false, message: "Method Not Allowed" });
+  }
+
+  try {
+    // const authHeader = req.headers.authorization;
+    // if (!authHeader?.startsWith("Bearer ")) {
+    //   return res.status(401).json({ success: false, message: "請先登入" });
+    // }
+
+    // const idToken = authHeader.split("Bearer ")[1];
+    // const decodedToken = await getAuth().verifyIdToken(idToken);
+
+    const {
+      title,
+      summary,
+      banner,
+      image,
+      category,
+      isPublic,
+      isPinned,
+      content,
+    } = req.body;
+
+    if (!title || !content || !category) {
+      return res.status(400).json({
+        success: false,
+        message: "缺少必要欄位 title, content 或 category",
+      });
+    }
+
+    const db = getFirestore();
+    const now = Timestamp.now();
+    const newDoc = {
+      title,
+      summary: summary || "",
+      banner: banner || "",
+      image: image || "",
+      category,
+      isPublic: Boolean(isPublic),
+      isPinned: Boolean(isPinned),
+      content,
+      created_at: now,
+      updated_at: now,
+    };
+
+    await db.collection("news").add(newDoc);
+
+    return res.json({ success: true, message: "文章新增成功" });
+  } catch (error) {
+    console.error("addNews error:", error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+exports.getNews = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") return res.status(204).send("");
+
+  try {
+    const db = getFirestore();
+    const {
+      category = "",
+      page = 1,
+      pageSize = 6,
+      isPublic = "true",
+    } = req.query;
+
+    const pinnedQuery = db
+      .collection("news")
+      .where("isPublic", "==", isPublic === "true")
+      .where("isPinned", "==", true)
+      .orderBy("created_at", "desc");
+
+    const normalQueryRef = db
+      .collection("news")
+      .where("isPublic", "==", isPublic === "true")
+      .where("isPinned", "==", false);
+
+    const categoryFilteredQuery = category
+      ? normalQueryRef.where("category", "==", category)
+      : normalQueryRef;
+
+    const normalQuery = categoryFilteredQuery
+      .orderBy("created_at", "desc")
+      .offset((page - 1) * pageSize)
+      .limit(Number(pageSize));
+
+    // 查詢 pinned + 非 pinned
+    const [pinnedSnap, normalSnap, totalSnap] = await Promise.all([
+      pinnedQuery.get(),
+      normalQuery.get(),
+      categoryFilteredQuery.get(), // 全部非 pinned，拿來計算總數
+    ]);
+
+    const pinnedNews = pinnedSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const normalNews = normalSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const total = totalSnap.size;
+    const totalPages = Math.ceil(total / pageSize);
+    const hasPrev = Number(page) > 1;
+    const hasNext = Number(page) < totalPages;
+
+    return res.json({
+      success: true,
+      message: "取得新聞成功",
+      data: {
+        pinned: pinnedNews,
+        news: normalNews,
+        pagination: {
+          total,
+          totalPages,
+          currentPage: Number(page),
+          hasPrev,
+          hasNext,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("getNews error:", error);
     return res.status(500).json({
       success: false,
       message: error.message || "伺服器錯誤",
