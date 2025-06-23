@@ -86,7 +86,7 @@ function GetProduct({ productsData, cartChanged, setCartChanged }) {
 
   const handleMouseEnter = (e) => {
     const cardRect = e.target.getBoundingClientRect();
-    console.log("cardRect", cardRect.right, window.innerWidth);
+    // console.log("cardRect", cardRect.right, window.innerWidth);
     if (cardRect.right > window.innerWidth / 1.3) {
       setCardInfoPosition("left");
     } else {

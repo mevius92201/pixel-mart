@@ -35,7 +35,7 @@ function Product() {
   const getProduct = async (searchTerm = "") => {
     setLoading(true);
     const category = selectedTab === "全部" ? "" : selectedTab;
-    const sort = sortOptions === "name" ? "" : sortOptions;
+    // const querySort = sort === "name" ? "" : sort;
     try {
       const res = await axios.get(
         "https://getproducts-3xt565hwvq-uc.a.run.app",
@@ -48,7 +48,7 @@ function Product() {
           },
         }
       );
-      console.log("res", res);
+      // console.log("res", res);
       setProductsData(res.data?.products || []);
     } catch (err) {
       toast.error(err?.response?.data?.message || "無法取得商品資料", {
@@ -66,7 +66,7 @@ function Product() {
   };
   useEffect(() => {
     getProduct();
-  }, [selectedTab]);
+  }, [selectedTab, sort]);
 
   const handleSearch = (value) => {
     setKeyword(value);

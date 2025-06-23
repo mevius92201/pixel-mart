@@ -27,34 +27,39 @@ function SortItems({ sortOptions, onChange, sort }) {
             <div className={`arrow-rotate ${!listShow ? "" : "rotate"}`}></div>
           </div>
         </button>
-        {listShow && (
+        <div className={`sort-dropdown ${!listShow ? "" : "show"}`}>
           <ul className="sort-dropdown-list">
             {sortOptions.map((option) => (
-              <li>
-                <div
-                  key={option.value}
-                  className={`sort-items-option ${
-                    sort === option ? "active" : ""
-                  }`}
-                  onClick={() => {
-                    if (onChange) {
-                      onChange(option);
-                    }
-                    setListShow(false);
-                  }}
-                >
-                  {option.label}
-                </div>
+              <li
+                className={`sort-item-row ${
+                  sort === option.value ? "active" : ""
+                }`}
+                key={option.value}
+                onClick={() => {
+                  console.log("你點了排序項目：", option.value);
+                  onChange(option.value);
+                  setListShow(false);
+                }}
+              >
+                <div className="sort-items-option">{option.label}</div>
               </li>
             ))}
           </ul>
-        )}
+        </div>
       </div>
     </div>
   );
 }
 
 SortItems.propTypes = {
-  onSortChange: PropTypes.func,
+  sortOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  onChange: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
 };
+
 export default SortItems;
