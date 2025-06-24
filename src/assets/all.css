@@ -1153,78 +1153,7 @@ html {
     border-color: transparent;
   }
 }
-.news-list-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 8rem 0;
-}
-.news-block {
-  margin-bottom: 4.8rem;
-}
-.news-article {
-  background-image: url("./images/5.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  height: 33.28rem;
-  width: 74.88rem;
-  flex-direction: column;
-  align-items: flex-start;
-  /* padding: 6rem 7rem; */
-  box-sizing: border-box;
-  /* border: 2px solid rgb(33 37 42);
-  border-radius: 10px; */
-}
-.news-article:hover {
-  border: 2px solid linear-gradient (#af1dee, #480d62, #e48eda);
-}
-.news-list-article-content {
-  background-image: url("./images/456.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  height: 100%;
-  width: 70%;
-  transform: scale(0.6);
-  position: relative;
-  left: -10px;
-  padding: 3.2rem 5.76rem 3.2rem 5.6rem;
-  box-sizing: border-box;
-}
-.news-title,
-.news-description {
-  margin-bottom: 0.64rem;
-}
 
-.news-title-txt,
-.news-description-txt {
-  font-size: 2.88rem;
-  font-weight: 700;
-  -webkit-line-clamp: 2;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.news-description-txt {
-  font-size: 2.4rem;
-  -webkit-line-clamp: 4;
-  font-weight: normal;
-}
-.news-date {
-  position: relative;
-  top: 15px;
-  left: 18px;
-  font-size: 2.24rem;
-  width: 15%;
-}
-.news-date-txt {
-  background: linear-gradient(45deg, #b0a7e8, #5ac8fa);
-  text-align: center;
-  border-radius: 5px;
-  color: #4a4a4a;
-}
 .footer-wrapper {
   /* position: absolute;
   bottom: 0; */
@@ -1306,19 +1235,7 @@ html {
   box-sizing: border-box;
   width: 70%;
 }
-.news-article-link {
-  color: #611085 !important;
-  font-size: 3.2rem;
-}
-.news-article-link:hover {
-  color: #8959dd !important;
-}
-.news-info-btn {
-  position: absolute;
-  bottom: 40px;
-  margin: 0.8rem 0;
-  cursor: pointer;
-}
+
 .footer-container {
   display: flex;
   justify-content: center;

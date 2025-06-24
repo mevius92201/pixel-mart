@@ -1,7 +1,8 @@
 import { Outlet, Link } from "react-router";
 import axios from "axios";
 import { useEffect, useState } from "react";
-const { VITE_APP_API_BASE, VITE_APP_API_PATH } = import.meta.env;
+import "../../../assets/news.css";
+import NewsCard from "./NewsCard";
 // const newsCategory = 1;
 function News() {
   // const params = useParams();
@@ -9,13 +10,20 @@ function News() {
   // const { id } = params;
   // const navigate = useNavigate();
   const [newsList, setNewsList] = useState([]);
+  const [pinnedNews, setPinnedNews] = useState([]);
+  const [page, setPage] = useState(1);
 
   const getNewsList = async () => {
     try {
-      const res = await axios.get(
-        `${VITE_APP_API_BASE}/api/${VITE_APP_API_PATH}/articles`
-      );
-      setNewsList(res.data.articles);
+      const res = await axios.get(`https://getnews-3xt565hwvq-uc.a.run.app`, {
+        params: {
+          page,
+          pageSize: 10,
+          isPublic: true,
+        },
+      });
+      setNewsList(res.data.data.news);
+      setPinnedNews(res.data.data.pinned);
 
       console.log(res);
     } catch (err) {
@@ -24,7 +32,7 @@ function News() {
   };
   useEffect(() => {
     getNewsList();
-  }, []);
+  }, [page]);
 
   // let timestamp;
   // const date = new Date(timestamp);
@@ -43,36 +51,18 @@ function News() {
       <section className="news-list">
         <div className="news-list-main-wrapper">
           <div className="news-list-group">
-            {newsList.map((news) => (
-              <div className="news-block" key={news.id}>
-                <div className="news-article">
-                  <div className="news-list-article-content">
-                    <div className="news-title">
-                      <div className="news-title-txt">{news.title}</div>
-                    </div>
-                    <div className="news-description">
-                      <div className="news-description-txt">
-                        {news.description}
-                      </div>
-                    </div>
-                    <div className="news-info-btn">
-                      <Link to={news.id} className="news-article-link">
-                        READ MORE {">>"}
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-                <div className="news-date">
-                  <div className="news-date-txt">
-                    {new Date(news.create_at).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </div>
-                </div>
+            {pinnedNews.length > 0 && (
+              <div className="news-list-pinned">
+                {pinnedNews.map((news) => (
+                  <NewsCard key={news.id} news={news} isPinned={true} />
+                ))}
               </div>
-            ))}
+            )}
+            {newsList.length > 0 ? (
+              newsList.map((news) => <NewsCard key={news.id} news={news} />)
+            ) : (
+              <div className="no-news">沒有最新消息</div>
+            )}
             <Outlet />
           </div>
         </div>

@@ -174,7 +174,7 @@ exports.getProducts = onRequest(async (req, res) => {
       pageSize,
     });
   } catch (error) {
-    console.error("getProducts error:", error);
+    console.error("getProducts error:", error.code, error.message, error);
     return res.status(500).json({
       success: false,
       products: [],
@@ -238,7 +238,7 @@ exports.addProduct = onRequest(async (req, res) => {
       num: num || 0,
       origin_price: origin_price || 0,
       discount_price: discount_price || 0,
-      final_price: final_price || 0, // 👈 新增欄位
+      final_price: final_price || 0, // 新增欄位
       tag: tag || [],
       is_enabled,
       created_at: new Date(),
