@@ -32,7 +32,7 @@ function Product() {
     setSort("");
     getProduct();
   };
-  const getProduct = async (searchTerm = "") => {
+  const getProduct = async (searchTerm = "", cursor = null) => {
     setLoading(true);
     const category = selectedTab === "全部" ? "" : selectedTab;
     // const querySort = sort === "name" ? "" : sort;
@@ -45,6 +45,8 @@ function Product() {
             category,
             page,
             sort,
+            lastVisible: cursor?.id || "",
+            lastPrice: cursor?.final_price || "",
           },
         }
       );

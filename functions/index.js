@@ -64,11 +64,20 @@ exports.getProducts = onRequest(async (req, res) => {
 
     // 排序條件
     if (sort === "price_asc") {
-      queryRef = queryRef.orderBy("origin_price", "asc");
+      queryRef = queryRef.orderBy("final_price", "asc").orderBy("__name__");
     } else if (sort === "price_desc") {
-      queryRef = queryRef.orderBy("origin_price", "desc");
+      queryRef = queryRef.orderBy("final_price", "desc").orderBy("__name__");
     } else {
-      queryRef = queryRef.orderBy("name"); // 預設按名稱排序
+      queryRef = queryRef.orderBy("name");
+    }
+
+    // 分頁游標處理（特別處理價格排序的複合游標）
+    if (
+      lastVisible &&
+      lastPrice &&
+      (sort === "price_asc" || sort === "price_desc")
+    ) {
+      queryRef = queryRef.startAfter(Number(lastPrice), lastVisible);
     }
 
     // 總數量查詢
@@ -76,15 +85,18 @@ exports.getProducts = onRequest(async (req, res) => {
     // const total = countSnapshot.data().count;
 
     // 分頁游標處理
-    if (lastVisible) {
-      const lastDocSnapshot = await db
-        .collection("products")
-        .doc(lastVisible)
-        .get();
-      if (lastDocSnapshot.exists) {
-        queryRef = queryRef.startAfter(lastDocSnapshot);
-      }
-    }
+    // if (lastVisible && (sort === "price_asc" || sort === "price_desc")) {
+    //   const lastDocSnapshot = await db
+    //     .collection("products")
+    //     .doc(lastVisible)
+    //     .get();
+
+    //   if (lastDocSnapshot.exists) {
+    //     const docData = lastDocSnapshot.data();
+    //     const lastFinalPrice = docData.final_price || 0;
+    //     queryRef = queryRef.startAfter(lastFinalPrice, lastVisible);
+    //   }
+    // }
 
     // 查詢 Firestore
     const snapshot = await queryRef.limit(pageSize).get();
@@ -151,7 +163,12 @@ exports.getProducts = onRequest(async (req, res) => {
       success: true,
       products: data,
       messages: [],
-      lastVisible: lastDoc ? lastDoc.id : null,
+      lastCursor: lastDoc
+        ? {
+            final_price: lastDoc.data().final_price || 0,
+            id: lastDoc.id,
+          }
+        : null,
       total: data.length,
       page: Number(page),
       pageSize,
@@ -197,13 +214,17 @@ exports.addProduct = onRequest(async (req, res) => {
       is_enabled = 1,
     } = req.body;
 
-    // 簡單驗證
+    // 驗證必要欄位
     if (!name || !category || !image || !image.main) {
       return res.status(400).json({
         success: false,
         message: "Missing required fields: name, category, or image.main",
       });
     }
+
+    // 決定 final_price（若 discount_price 為 0 或 undefined 則使用 origin_price）
+    const hasDiscount = discount_price && Number(discount_price) > 0;
+    const final_price = hasDiscount ? discount_price : origin_price;
 
     const newProduct = {
       name,
@@ -217,6 +238,7 @@ exports.addProduct = onRequest(async (req, res) => {
       num: num || 0,
       origin_price: origin_price || 0,
       discount_price: discount_price || 0,
+      final_price: final_price || 0, // 👈 新增欄位
       tag: tag || [],
       is_enabled,
       created_at: new Date(),

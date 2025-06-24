@@ -10,19 +10,19 @@ function News() {
   // const navigate = useNavigate();
   const [newsList, setNewsList] = useState([]);
 
-  useEffect(() => {
-    const getNewsList = async () => {
-      try {
-        const res = await axios.get(
-          `${VITE_APP_API_BASE}/api/${VITE_APP_API_PATH}/articles`
-        );
-        setNewsList(res.data.articles);
+  const getNewsList = async () => {
+    try {
+      const res = await axios.get(
+        `${VITE_APP_API_BASE}/api/${VITE_APP_API_PATH}/articles`
+      );
+      setNewsList(res.data.articles);
 
-        console.log(res);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
     getNewsList();
   }, []);
 
