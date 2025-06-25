@@ -135,11 +135,30 @@
   font-size: 3.2rem;
   font-weight: 700;
   color: #4c7976;
-  padding: 2rem;
+  padding: 0 8rem;
+  margin-bottom: 1rem;
 }
 .article-content {
   font-size: 1.6rem;
-  line-height: 2.4rem;
+  line-height: 3.4rem;
   color: #4c7976;
-  padding: 0 2rem;
+  padding: 0 8rem;
+}
+.article-block {
+  background-color: #ffffffba;
+  width: 65%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 3rem 0;
+}
+.article-image {
+  padding: 3rem 8rem;
+  display: flex;
+  justify-content: center;
+}
+.article-banner-img {
+  width: 700px;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
 }

@@ -31,8 +31,24 @@ function NewsArticle() {
   return (
     <section className="news-article-page">
       <div className="news-article-main-wrapper">
-        <div>
+        <div className="article-block">
+          <div className="article-image">
+            {article.banner && (
+              <img
+                className="article-banner-img"
+                src={article.image}
+                alt={article.title}
+              />
+            )}
+          </div>
           <h1 className="article-title">{article.title}</h1>
+          <hr
+            style={{
+              width: "86.8%",
+              border: "0.5px solid #8d8a8a",
+              margin: "0 8rem",
+            }}
+          />
           <p className="article-content">{article.content}</p>
         </div>
       </div>
