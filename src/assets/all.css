@@ -1188,7 +1188,7 @@ html {
 .news-list-main-wrapper,
 .product-display-main-wrapper,
 .support-center-main-wrapper,
-.auth-center-main-wrapper {
+.auth-center-main-wrapper .news-article-main-wrapper {
   background-image: url("./images/bg_main_pc.jpg");
   /* width: 100vw; */
   height: 100vh;
@@ -1202,6 +1202,13 @@ html {
   background-image: url("./images/bg_news_list_pc.png");
   background-position: right;
   height: 100%;
+}
+.news-article-main-wrapper {
+  background-image: url("./images/bg_news_article_pc.png");
+  background-position: right;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .product-display-main-wrapper {
   background-image: url("./images/bg_01_pc.png");

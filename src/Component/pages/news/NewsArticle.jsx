@@ -1,6 +1,7 @@
 import { useParams } from "react-router";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import "../../../assets/all.css";
 import "../../../assets/news.css";
 import LoadingEffectV2 from "../../LoadingEffectV2";
 function NewsArticle() {
@@ -28,10 +29,14 @@ function NewsArticle() {
   }, [id]);
   if (loading || !article) return <LoadingEffectV2 />;
   return (
-    <div>
-      <h1>{article.title}</h1>
-      <p>{article.content}</p>
-    </div>
+    <section className="news-article-page">
+      <div className="news-article-main-wrapper">
+        <div>
+          <h1 className="article-title">{article.title}</h1>
+          <p className="article-content">{article.content}</p>
+        </div>
+      </div>
+    </section>
   );
 }
 export default NewsArticle;
