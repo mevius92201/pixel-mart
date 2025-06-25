@@ -7,16 +7,27 @@ function NewsCard({ news, isPinned = false }) {
     <div className={`news-block ${isPinned ? "pinned" : ""}`} key={news.id}>
       <div className="news-article">
         <div className="news-list-article-content">
-          <div className="news-title">
-            <div className="news-title-txt">{news.title}</div>
-          </div>
-          <div className="news-summary">
-            <div className="news-summary-txt">{news.summary}</div>
+          <div className="news-article-left">
+            <div className="news-title">
+              <div className="news-title-txt">{news.title}</div>
+            </div>
+            <div className="news-summary">
+              <div className="news-summary-txt">{news.summary}</div>
+            </div>
           </div>
           <div className="news-info-btn">
             <Link to={news.id} className="news-article-link">
               READ MORE {">>"}
             </Link>
+          </div>
+          <div className="news-banner">
+            {news.banner && (
+              <img
+                className="news-banner-img"
+                src={news.banner}
+                alt={news.title}
+              />
+            )}
           </div>
         </div>
         {isPinned && (
