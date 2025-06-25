@@ -1,31 +1,58 @@
 import { useParams } from "react-router";
 import axios from "axios";
 import { useEffect, useState } from "react";
-const { VITE_APP_API_BASE, VITE_APP_API_PATH } = import.meta.env;
+import "../../../assets/all.css";
+import "../../../assets/news.css";
+import LoadingEffectV2 from "../../LoadingEffectV2";
 function NewsArticle() {
   const params = useParams();
   const { id } = params;
   console.log(id);
-  const [article, setArticle] = useState([]);
+  const [article, setArticle] = useState(null);
+  const [loading, setLoading] = useState(false);
   const getArticle = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(
-        `${VITE_APP_API_BASE}/api/${VITE_APP_API_PATH}/article/${id}`
+        `https://getarticle-3xt565hwvq-uc.a.run.app/${id}`
       );
       console.log(res.data.article);
-      setArticle(res.data.article);
+      setArticle(res.data.data);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
-    getArticle();
+    if (id) getArticle();
   }, [id]);
+  if (loading || !article) return <LoadingEffectV2 />;
   return (
-    <div>
-      <h1>{article.title}</h1>
-      <p>{article.content}</p>
-    </div>
+    <section className="news-article-page">
+      <div className="news-article-main-wrapper">
+        <div className="article-block">
+          <div className="article-image">
+            {article.banner && (
+              <img
+                className="article-banner-img"
+                src={article.image}
+                alt={article.title}
+              />
+            )}
+          </div>
+          <h1 className="article-title">{article.title}</h1>
+          <hr
+            style={{
+              width: "86.8%",
+              border: "0.5px solid #8d8a8a",
+              margin: "0 8rem",
+            }}
+          />
+          <p className="article-content">{article.content}</p>
+        </div>
+      </div>
+    </section>
   );
 }
 export default NewsArticle;

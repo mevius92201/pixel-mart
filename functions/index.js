@@ -64,11 +64,20 @@ exports.getProducts = onRequest(async (req, res) => {
 
     // 排序條件
     if (sort === "price_asc") {
-      queryRef = queryRef.orderBy("origin_price", "asc");
+      queryRef = queryRef.orderBy("final_price", "asc").orderBy("__name__");
     } else if (sort === "price_desc") {
-      queryRef = queryRef.orderBy("origin_price", "desc");
+      queryRef = queryRef.orderBy("final_price", "desc").orderBy("__name__");
     } else {
-      queryRef = queryRef.orderBy("name"); // 預設按名稱排序
+      queryRef = queryRef.orderBy("name");
+    }
+
+    // 分頁游標處理（特別處理價格排序的複合游標）
+    if (
+      lastVisible &&
+      lastPrice &&
+      (sort === "price_asc" || sort === "price_desc")
+    ) {
+      queryRef = queryRef.startAfter(Number(lastPrice), lastVisible);
     }
 
     // 總數量查詢
@@ -76,15 +85,18 @@ exports.getProducts = onRequest(async (req, res) => {
     // const total = countSnapshot.data().count;
 
     // 分頁游標處理
-    if (lastVisible) {
-      const lastDocSnapshot = await db
-        .collection("products")
-        .doc(lastVisible)
-        .get();
-      if (lastDocSnapshot.exists) {
-        queryRef = queryRef.startAfter(lastDocSnapshot);
-      }
-    }
+    // if (lastVisible && (sort === "price_asc" || sort === "price_desc")) {
+    //   const lastDocSnapshot = await db
+    //     .collection("products")
+    //     .doc(lastVisible)
+    //     .get();
+
+    //   if (lastDocSnapshot.exists) {
+    //     const docData = lastDocSnapshot.data();
+    //     const lastFinalPrice = docData.final_price || 0;
+    //     queryRef = queryRef.startAfter(lastFinalPrice, lastVisible);
+    //   }
+    // }
 
     // 查詢 Firestore
     const snapshot = await queryRef.limit(pageSize).get();
@@ -151,13 +163,18 @@ exports.getProducts = onRequest(async (req, res) => {
       success: true,
       products: data,
       messages: [],
-      lastVisible: lastDoc ? lastDoc.id : null,
+      lastCursor: lastDoc
+        ? {
+            final_price: lastDoc.data().final_price || 0,
+            id: lastDoc.id,
+          }
+        : null,
       total: data.length,
       page: Number(page),
       pageSize,
     });
   } catch (error) {
-    console.error("getProducts error:", error);
+    console.error("getProducts error:", error.code, error.message, error);
     return res.status(500).json({
       success: false,
       products: [],
@@ -175,6 +192,14 @@ exports.addProduct = onRequest(async (req, res) => {
   }
 
   try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith("Bearer ")) {
+      return res.status(401).json({ success: false, message: "請先登入" });
+    }
+
+    const idToken = authHeader.split("Bearer ")[1];
+    const decodedToken = await getAuth().verifyIdToken(idToken);
+
     const db = getFirestore();
     const {
       name,
@@ -189,13 +214,17 @@ exports.addProduct = onRequest(async (req, res) => {
       is_enabled = 1,
     } = req.body;
 
-    // 簡單驗證
+    // 驗證必要欄位
     if (!name || !category || !image || !image.main) {
       return res.status(400).json({
         success: false,
         message: "Missing required fields: name, category, or image.main",
       });
     }
+
+    // 決定 final_price（若 discount_price 為 0 或 undefined 則使用 origin_price）
+    const hasDiscount = discount_price && Number(discount_price) > 0;
+    const final_price = hasDiscount ? discount_price : origin_price;
 
     const newProduct = {
       name,
@@ -209,6 +238,7 @@ exports.addProduct = onRequest(async (req, res) => {
       num: num || 0,
       origin_price: origin_price || 0,
       discount_price: discount_price || 0,
+      final_price: final_price || 0, // 新增欄位
       tag: tag || [],
       is_enabled,
       created_at: new Date(),
@@ -790,6 +820,200 @@ exports.deduct = onRequest(async (req, res) => {
     });
   } catch (error) {
     console.error("deduct error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "伺服器錯誤",
+    });
+  }
+});
+
+exports.addNews = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "POST");
+  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") return res.status(204).send("");
+
+  if (req.method !== "POST") {
+    return res
+      .status(405)
+      .json({ success: false, message: "Method Not Allowed" });
+  }
+
+  try {
+    // const authHeader = req.headers.authorization;
+    // if (!authHeader?.startsWith("Bearer ")) {
+    //   return res.status(401).json({ success: false, message: "請先登入" });
+    // }
+
+    // const idToken = authHeader.split("Bearer ")[1];
+    // const decodedToken = await getAuth().verifyIdToken(idToken);
+
+    const {
+      title,
+      summary,
+      banner,
+      image,
+      category,
+      isPublic,
+      isPinned,
+      content,
+    } = req.body;
+
+    if (!title || !content || !category) {
+      return res.status(400).json({
+        success: false,
+        message: "缺少必要欄位 title, content 或 category",
+      });
+    }
+
+    const db = getFirestore();
+    const now = Timestamp.now();
+    const newDoc = {
+      title,
+      summary: summary || "",
+      banner: banner || "",
+      image: image || "",
+      category,
+      isPublic: Boolean(isPublic),
+      isPinned: Boolean(isPinned),
+      content,
+      created_at: now,
+      updated_at: now,
+    };
+
+    await db.collection("news").add(newDoc);
+
+    return res.json({ success: true, message: "文章新增成功" });
+  } catch (error) {
+    console.error("addNews error:", error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+exports.getNews = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") return res.status(204).send("");
+
+  try {
+    const db = getFirestore();
+    const {
+      category = "",
+      page = 1,
+      pageSize = 6,
+      isPublic = "true",
+    } = req.query;
+
+    const pinnedQueryRef = db
+      .collection("news")
+      .where("isPublic", "==", isPublic === "true")
+      .where("isPinned", "==", true);
+
+    const categoryFilteredPinnedQuery = category
+      ? pinnedQueryRef.where("category", "==", category)
+      : pinnedQueryRef;
+
+    const pinnedQuery = categoryFilteredPinnedQuery.orderBy(
+      "created_at",
+      "desc"
+    );
+
+    const normalQueryRef = db
+      .collection("news")
+      .where("isPublic", "==", isPublic === "true")
+      .where("isPinned", "==", false);
+
+    const categoryFilteredQuery = category
+      ? normalQueryRef.where("category", "==", category)
+      : normalQueryRef;
+
+    const normalQuery = categoryFilteredQuery
+      .orderBy("created_at", "desc")
+      .offset((page - 1) * pageSize)
+      .limit(Number(pageSize));
+
+    // 查詢 pinned + 非 pinned
+    const [pinnedSnap, normalSnap, totalSnap] = await Promise.all([
+      pinnedQuery.get(),
+      normalQuery.get(),
+      categoryFilteredQuery.get(), // 全部非 pinned，拿來計算總數
+    ]);
+
+    const pinnedNews = pinnedSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const normalNews = normalSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const total = totalSnap.size;
+    const totalPages = Math.ceil(total / pageSize);
+    const hasPrev = Number(page) > 1;
+    const hasNext = Number(page) < totalPages;
+
+    return res.json({
+      success: true,
+      message: "取得新聞成功",
+      data: {
+        pinned: pinnedNews,
+        news: normalNews,
+        pagination: {
+          total,
+          totalPages,
+          currentPage: Number(page),
+          hasPrev,
+          hasNext,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("getNews error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "伺服器錯誤",
+    });
+  }
+});
+exports.getArticle = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") return res.status(204).send("");
+
+  try {
+    const db = getFirestore();
+    const articleId = req.path.split("/").pop();
+
+    if (!articleId) {
+      return res.status(400).json({
+        success: false,
+        message: "缺少文章 ID",
+      });
+    }
+
+    const doc = await db.collection("news").doc(articleId).get();
+
+    if (!doc.exists) {
+      return res.status(404).json({
+        success: false,
+        message: "查無此文章",
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: "取得文章成功",
+      data: { id: doc.id, ...doc.data() },
+    });
+  } catch (error) {
+    console.error("getArticle error:", error);
     return res.status(500).json({
       success: false,
       message: error.message || "伺服器錯誤",
