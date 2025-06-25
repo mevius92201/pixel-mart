@@ -52,9 +52,24 @@
   text-overflow: ellipsis;
   color: sienna;
 }
+.news-category {
+  position: absolute;
+  top: 1rem;
+  left: 22rem;
+}
+.news-category-txt {
+  color: aliceblue;
+  background-color: #77c6c6;
+  width: fit-content;
+  white-space: nowrap;
+  border-radius: 5px;
+  padding: 0.2rem 0.6rem;
+  font-size: 1.6rem;
+  transform: rotate(-15deg);
+}
 .news-summary-txt {
-  font-size: 1.8rem;
-  -webkit-line-clamp: 5;
+  font-size: 1.6rem;
+  -webkit-line-clamp: 4;
   font-weight: normal;
   color: #89695b;
 }

@@ -3,6 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "../../../assets/news.css";
 import NewsCard from "./NewsCard";
+import FilterTabs from "../../FilterTabs";
+import LoadingEffectV2 from "../../LoadingEffectV2";
 // const newsCategory = 1;
 function News() {
   // const params = useParams();
@@ -12,27 +14,38 @@ function News() {
   const [newsList, setNewsList] = useState([]);
   const [pinnedNews, setPinnedNews] = useState([]);
   const [page, setPage] = useState(1);
-
+  const [selectedTab, setSelectedTab] = useState("");
+  const [tabs, setTab] = useState(["全部", "公告", "活動", "道具解析"]);
+  const [category, setCategory] = useState("");
+  const [loading, setLoading] = useState(false);
+  // const handleTabChange = (tab) => {
+  //   setSelectedTab(tab);
+  //   setPage(1); // Reset to the first page when changing tabs
+  // };
   const getNewsList = async () => {
+    setLoading(true);
+    const category = selectedTab === "全部" ? "" : selectedTab;
     try {
       const res = await axios.get(`https://getnews-3xt565hwvq-uc.a.run.app`, {
         params: {
           page,
+          category,
           pageSize: 10,
           isPublic: true,
         },
       });
       setNewsList(res.data.data.news);
       setPinnedNews(res.data.data.pinned);
-
       console.log(res);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
     getNewsList();
-  }, [page]);
+  }, [selectedTab, page]);
 
   // let timestamp;
   // const date = new Date(timestamp);
@@ -50,6 +63,11 @@ function News() {
     <>
       <section className="news-list">
         <div className="news-list-main-wrapper">
+          <FilterTabs
+            tabs={tabs}
+            activeTab={selectedTab}
+            onChange={setSelectedTab}
+          />
           <div className="news-list-group">
             {pinnedNews.length > 0 && (
               <div className="news-list-pinned">

@@ -14,20 +14,26 @@ function NewsCard({ news, isPinned = false }) {
             <div className="news-summary">
               <div className="news-summary-txt">{news.summary}</div>
             </div>
+
+            <div className="news-info-btn">
+              <Link to={news.id} className="news-article-link">
+                READ MORE {">>"}
+              </Link>
+            </div>
           </div>
-          <div className="news-info-btn">
-            <Link to={news.id} className="news-article-link">
-              READ MORE {">>"}
-            </Link>
-          </div>
-          <div className="news-banner">
-            {news.banner && (
-              <img
-                className="news-banner-img"
-                src={news.banner}
-                alt={news.title}
-              />
-            )}
+          <div className="news-article-right">
+            <div className="news-category">
+              <div className="news-category-txt">{news.category}</div>
+            </div>
+            <div className="news-banner">
+              {news.banner && (
+                <img
+                  className="news-banner-img"
+                  src={news.banner}
+                  alt={news.title}
+                />
+              )}
+            </div>
           </div>
         </div>
         {isPinned && (

@@ -907,11 +907,19 @@ exports.getNews = onRequest(async (req, res) => {
       isPublic = "true",
     } = req.query;
 
-    const pinnedQuery = db
+    const pinnedQueryRef = db
       .collection("news")
       .where("isPublic", "==", isPublic === "true")
-      .where("isPinned", "==", true)
-      .orderBy("created_at", "desc");
+      .where("isPinned", "==", true);
+
+    const categoryFilteredPinnedQuery = category
+      ? pinnedQueryRef.where("category", "==", category)
+      : pinnedQueryRef;
+
+    const pinnedQuery = categoryFilteredPinnedQuery.orderBy(
+      "created_at",
+      "desc"
+    );
 
     const normalQueryRef = db
       .collection("news")
@@ -966,6 +974,46 @@ exports.getNews = onRequest(async (req, res) => {
     });
   } catch (error) {
     console.error("getNews error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "伺服器錯誤",
+    });
+  }
+});
+exports.getArticle = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") return res.status(204).send("");
+
+  try {
+    const db = getFirestore();
+    const articleId = req.path.split("/").pop();
+
+    if (!articleId) {
+      return res.status(400).json({
+        success: false,
+        message: "缺少文章 ID",
+      });
+    }
+
+    const doc = await db.collection("news").doc(articleId).get();
+
+    if (!doc.exists) {
+      return res.status(404).json({
+        success: false,
+        message: "查無此文章",
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: "取得文章成功",
+      data: { id: doc.id, ...doc.data() },
+    });
+  } catch (error) {
+    console.error("getArticle error:", error);
     return res.status(500).json({
       success: false,
       message: error.message || "伺服器錯誤",
