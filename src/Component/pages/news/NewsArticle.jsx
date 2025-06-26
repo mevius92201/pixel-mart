@@ -52,6 +52,9 @@ function NewsArticle() {
           <p className="article-content">{article.content}</p>
         </div>
       </div>
+      <div>
+        <LoadingEffectV2 loadingState={loading} />
+      </div>
     </section>
   );
 }
