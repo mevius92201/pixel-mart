@@ -41,6 +41,16 @@ function NewsArticle() {
               />
             )}
           </div>
+          <div className="article-date">
+            {new Date(article.created_at._seconds * 1000).toLocaleDateString(
+              "en-US",
+              {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              }
+            )}
+          </div>
           <h1 className="article-title">{article.title}</h1>
           <hr
             style={{

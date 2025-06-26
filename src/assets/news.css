@@ -174,3 +174,9 @@
   object-fit: cover;
   object-position: center;
 }
+.article-date {
+  position: absolute;
+  font-size: 2rem;
+  right: 23rem;
+  top: 56rem;
+}
