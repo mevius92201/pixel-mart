@@ -149,6 +149,9 @@ a:visited {
 .userInfo-reset-group,
 .userInfo-logout-group {
   display: flex;
+  align-items: flex-end;
+}
+.userInfo-CP-group {
   align-items: center;
 }
 .navbar-menu-userInfo-balance {
@@ -160,7 +163,7 @@ a:visited {
   color: #fff;
   font-size: 1.6rem;
   cursor: pointer;
-  margin: 0 0.8rem 0 0.32rem;
+  margin-left: 0.32rem;
 }
 .reset-icon {
   width: 16px;
@@ -389,7 +392,7 @@ navbar-menu > a {
 
 .form-label,
 .support-form-label {
-  margin-bottom: 0.64rem;
+  margin: 0.64rem 0 0 0;
   font-weight: 500;
   font-size: 1.6rem;
 }
@@ -443,7 +446,7 @@ navbar-menu > a {
   height: 100%;
 }
 .support-input-fields {
-  margin-top: 21rem;
+  margin-top: 22rem;
   width: 420px;
 }
 .signIn-createAccount-tab {
