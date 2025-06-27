@@ -23,9 +23,9 @@ function News() {
   //   setPage(1); // Reset to the first page when changing tabs
   // };
   const getNewsList = async () => {
-    setLoading(true);
     const category = selectedTab === "全部" ? "" : selectedTab;
     try {
+      setLoading(true);
       const res = await axios.get(`https://getnews-3xt565hwvq-uc.a.run.app`, {
         params: {
           page,
@@ -63,11 +63,13 @@ function News() {
     <>
       <section className="news-list">
         <div className="news-list-main-wrapper">
-          <FilterTabs
-            tabs={tabs}
-            activeTab={selectedTab}
-            onChange={setSelectedTab}
-          />
+          <div className="news-list-header">
+            <FilterTabs
+              tabs={tabs}
+              activeTab={selectedTab}
+              onChange={setSelectedTab}
+            />
+          </div>
           <div className="news-list-group">
             {pinnedNews.length > 0 && (
               <div className="news-list-pinned">
@@ -85,6 +87,9 @@ function News() {
           </div>
         </div>
       </section>
+      <div>
+        <LoadingEffectV2 loadingState={loading} />
+      </div>
     </>
   );
 }

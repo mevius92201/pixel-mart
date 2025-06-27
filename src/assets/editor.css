@@ -1,0 +1,81 @@
+.editor-toolbar button {
+  padding: 4px 10px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+.editor-toolbar button:hover {
+  background: #f3f3f3;
+}
+
+p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+  font-size: 1.6rem;
+}
+.title-txt {
+  font-size: 2.4rem;
+  color: #333;
+}
+.editor h1,
+.editor h2,
+.editor h3 {
+  font-weight: bold;
+  margin: 1rem 0 0.5rem;
+}
+.editor h1 {
+  font-size: 2.4rem;
+}
+.editor h2 {
+  font-size: 2rem;
+}
+.editor h3 {
+  font-size: 1.8rem;
+}
+.editor {
+  font-family: Arial, sans-serif;
+  font-size: 1.6rem;
+  color: #333;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.editor p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.editor blockquote {
+  padding: 0.5rem 1rem;
+  border-left: 4px solid #ccc;
+  background: #f9f9f9;
+  color: #555;
+}
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 2.2rem;
+}
+input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.radio-label {
+  display: flex;
+  font-size: 1.6rem;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 1rem;
+}
+.pinned-label {
+  display: flex;
+  font-size: 1.6rem;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 2.2rem;
+}

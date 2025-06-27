@@ -9,7 +9,8 @@ function NewsCard({ news, isPinned = false }) {
         <div className="news-list-article-content">
           <div className="news-article-left">
             <div className="news-title">
-              <div className="news-title-txt">{news.title}</div>
+              <span className="news-category-tag">{news.category}</span>
+              {news.title}
             </div>
             <div className="news-summary">
               <div className="news-summary-txt">{news.summary}</div>
@@ -22,10 +23,8 @@ function NewsCard({ news, isPinned = false }) {
             </div>
           </div>
           <div className="news-article-right">
-            <div className="news-category">
-              <div className="news-category-txt">{news.category}</div>
-            </div>
             <div className="news-banner">
+              <div className="news-banner-frame"></div>
               {news.banner && (
                 <img
                   className="news-banner-img"
