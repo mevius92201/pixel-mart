@@ -1,11 +1,13 @@
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
-
+import useAuthStore from "./store/auth-store";
 import PropTypes from "prop-types";
 
 function SupportForm({ setLoading }) {
+  const user = useAuthStore((state) => state.user);
   const {
     register,
     handleSubmit,
@@ -16,12 +18,12 @@ function SupportForm({ setLoading }) {
     mode: "onTouched",
     defaultValues: {
       name: "",
-      email: "",
+      email: user?.email || "",
       tel: "",
       message: "",
     },
   });
-  const db = getFirestore();
+
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -56,6 +58,9 @@ function SupportForm({ setLoading }) {
       setTimeout(() => setLoading(false), 1000);
     }
   };
+  useEffect(() => {
+    reset((prev) => ({ ...prev, email: user?.email || "" }));
+  }, [user]);
 
   return (
     <div className="support-form-container">

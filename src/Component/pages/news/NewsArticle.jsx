@@ -1,7 +1,6 @@
 import { useParams } from "react-router";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import "../../../assets/all.css";
 import "../../../assets/news.css";
 import LoadingEffectV2 from "../../LoadingEffectV2";
 import Editor from "../../Editor";
