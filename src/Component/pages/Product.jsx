@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import LoadingEffect from "../LoadingEffect.jsx";
+import LoadingEffectV2 from "../LoadingEffectV2.jsx";
 import GetProduct from "../GetProduct.jsx";
 import CenterMode from "../Slider.jsx";
 import sliderData from "../../data.json";
@@ -33,10 +33,10 @@ function Product() {
     getProduct();
   };
   const getProduct = async (searchTerm = "", cursor = null) => {
-    setLoading(true);
     const category = selectedTab === "全部" ? "" : selectedTab;
     // const querySort = sort === "name" ? "" : sort;
     try {
+      setLoading(true);
       const res = await axios.get(
         "https://getproducts-3xt565hwvq-uc.a.run.app",
         {
@@ -105,7 +105,7 @@ function Product() {
         </div>
       </section>
       <div>
-        <LoadingEffect loadingState={loading} />
+        <LoadingEffectV2 loadingState={loading} />
       </div>
     </>
   );

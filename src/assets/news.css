@@ -1,5 +1,6 @@
-.category-tabs {
+.news-list-header {
   padding-left: 20rem;
+  margin-top: 5rem;
 }
 .news-list-group {
   display: flex;
@@ -148,13 +149,14 @@
   font-weight: 700;
   color: #4c7976;
   padding: 0 8rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1rem 0;
 }
 .article-content {
   font-size: 1.6rem;
   line-height: 3.4rem;
   color: #4c7976;
   padding: 0 8rem;
+  margin-bottom: 5rem;
 }
 .article-block {
   background-color: #ffffffba;
@@ -162,6 +164,7 @@
   height: 100%;
   margin: 0 auto;
   padding: 3rem 0;
+  position: relative;
 }
 .article-image {
   padding: 3rem 8rem;
@@ -169,14 +172,14 @@
   justify-content: center;
 }
 .article-banner-img {
-  width: 700px;
-  height: 300px;
+  width: 770px;
+  height: 400px;
   object-fit: cover;
   object-position: center;
 }
 .article-date {
   position: absolute;
   font-size: 2rem;
-  right: 23rem;
-  top: 56rem;
+  right: 8rem;
+  bottom: 1rem;
 }

@@ -54,7 +54,7 @@ function NewsArticle() {
           <h1 className="article-title">{article.title}</h1>
           <hr
             style={{
-              width: "86.8%",
+              padding: "0 80px",
               border: "0.5px solid #8d8a8a",
               margin: "0 8rem",
             }}

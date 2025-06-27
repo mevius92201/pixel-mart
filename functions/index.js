@@ -49,7 +49,7 @@ exports.getProducts = onRequest(async (req, res) => {
     // 解析 query 參數
     const { page = 1, category, tag, keyword, sort, lastVisible } = req.query;
 
-    const pageSize = 16;
+    const pageSize = 20;
     let queryRef = db.collection("products").where("is_enabled", "==", 1);
 
     // 類別篩選
@@ -903,7 +903,7 @@ exports.getNews = onRequest(async (req, res) => {
     const {
       category = "",
       page = 1,
-      pageSize = 6,
+      pageSize = 10,
       isPublic = "true",
     } = req.query;
 

@@ -63,11 +63,13 @@ function News() {
     <>
       <section className="news-list">
         <div className="news-list-main-wrapper">
-          <FilterTabs
-            tabs={tabs}
-            activeTab={selectedTab}
-            onChange={setSelectedTab}
-          />
+          <div className="news-list-header">
+            <FilterTabs
+              tabs={tabs}
+              activeTab={selectedTab}
+              onChange={setSelectedTab}
+            />
+          </div>
           <div className="news-list-group">
             {pinnedNews.length > 0 && (
               <div className="news-list-pinned">

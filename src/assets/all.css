@@ -1200,13 +1200,13 @@ html {
 }
 .news-list-main-wrapper {
   background-image: url("./images/bg_news_list_pc.png");
-  background-position: right;
+  background-position: center;
   height: 100%;
 }
 .news-article-main-wrapper {
   background-image: url("./images/bg_news_article_pc.png");
-  background-position: right;
-  height: 100vh;
+  background-position: center;
+  height: calc(100% - 1rem);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -1442,4 +1442,7 @@ html {
   cursor: pointer;
   /* transform: translateY(0);
   transition: transform 0.3s ease-in-out; */
+}
+.category-tabs {
+  padding-left: 0;
 }

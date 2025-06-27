@@ -11,6 +11,8 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@tiptap/react": "^2.23.0",
+    "@tiptap/starter-kit": "^2.23.0",
     "axios": "^1.8.2",
     "firebase": "^11.4.0",
     "firebase-admin": "^13.2.0",
