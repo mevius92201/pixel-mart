@@ -1,11 +1,10 @@
-import axios from "axios";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { db } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
+
 import PropTypes from "prop-types";
 
-const API_BASE = "https://ec-course-api.hexschool.io/v2";
-const API_PATH = "mevius";
 function SupportForm({ setLoading }) {
   const {
     register,
@@ -22,54 +21,18 @@ function SupportForm({ setLoading }) {
       message: "",
     },
   });
+  const db = getFirestore();
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const res = await axios.post(`${API_BASE}/api/${API_PATH}/order`, {
-        data: {
-          user: {
-            name: data.name,
-            email: data.email,
-            tel: data.tel,
-          },
-          message: data.message,
-        },
+      await addDoc(collection(db, "feedbacks"), {
+        name: data.name,
+        email: data.email,
+        tel: data.tel,
+        message: data.message,
+        created_at: new Date(),
       });
-      console.log(res.data.orderId);
-      await orderPaid(res.data.orderId);
-    } catch (err) {
-      toast.error(err.response.data.message, {
-        position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "colored",
-      });
-    } finally {
-      setTimeout(() => setLoading(false), 500);
-    }
-  };
-
-  const orderPaid = async (orderId) => {
-    try {
-      await axios.post(`${API_BASE}/api/${API_PATH}/pay/${orderId}`);
-    } catch (err) {
-      toast.error(err.response.data.message, {
-        position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "colored",
-      });
-    }
-  };
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      toast.success("訂單已送出", {
+      toast.success("感謝您的回饋！", {
         position: "top-center",
         autoClose: 1500,
         hideProgressBar: true,
@@ -79,8 +42,20 @@ function SupportForm({ setLoading }) {
         theme: "colored",
       });
       reset({ name: "", email: "", tel: "", message: "" });
+    } catch (err) {
+      toast.error(err?.response?.data?.message || err?.message || "送出失敗", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "colored",
+      });
+    } finally {
+      setTimeout(() => setLoading(false), 1000);
     }
-  }, [isSubmitSuccessful, reset]);
+  };
 
   return (
     <div className="support-form-container">
@@ -93,7 +68,6 @@ function SupportForm({ setLoading }) {
               </label>
               <input
                 id="name"
-                name="姓名"
                 type="text"
                 {...register("name", {
                   required: {
@@ -203,9 +177,6 @@ function SupportForm({ setLoading }) {
 
 SupportForm.propTypes = {
   setLoading: PropTypes.func.isRequired,
-  cartChanged: PropTypes.bool.isRequired,
-  setCartChanged: PropTypes.func.isRequired,
-  cartProductData: PropTypes.array.isRequired,
-  watch: PropTypes.func.isRequired,
+  // watch: PropTypes.func.isRequired,
 };
 export default SupportForm;
