@@ -5,9 +5,9 @@ import StarterKit from "@tiptap/starter-kit";
 import "../../../assets/editor.css";
 
 const categoryOptions = [
-  { value: "announcement", label: "公告" },
-  { value: "update", label: "更新" },
-  { value: "event", label: "活動" },
+  { value: "公告", label: "公告" },
+  { value: "更新", label: "更新" },
+  { value: "活動", label: "活動" },
 ];
 
 function NewsConfig() {
@@ -97,14 +97,17 @@ function NewsConfig() {
     <div style={{ maxWidth: 800, margin: "0 auto", height: "100%" }}>
       <h2 className="title-txt">新增新聞</h2>
 
-      <label>標題：</label>
-      <input
-        type="text"
-        placeholder="輸入新聞標題"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        style={{ width: "100%", padding: 8, marginBottom: "1rem" }}
-      />
+      <label for="title">
+        標題：
+        <input
+          type="text"
+          id="title"
+          placeholder="輸入新聞標題"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          style={{ width: "100%", padding: 8, marginBottom: "1rem" }}
+        />
+      </label>
 
       <label>摘要：</label>
       <textarea
@@ -167,8 +170,8 @@ function NewsConfig() {
       <input
         type="url"
         placeholder="https://cdn.example.com/your-image.jpg"
-        value={imageURL}
-        onChange={(e) => setImageURL(e.target.value)}
+        value={bannerURL}
+        onChange={(e) => setBannerURL(e.target.value)}
         style={{ width: "100%", marginBottom: "1rem", padding: "8px" }}
       />
       {bannerFile && (
