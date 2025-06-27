@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import "../../../assets/all.css";
 import "../../../assets/news.css";
 import LoadingEffectV2 from "../../LoadingEffectV2";
+import Editor from "../../Editor";
+import DOMPurify from "dompurify";
 function NewsArticle() {
   const params = useParams();
   const { id } = params;
@@ -59,7 +61,17 @@ function NewsArticle() {
               margin: "0 8rem",
             }}
           />
-          <p className="article-content">{article.content}</p>
+          <div className="article-content">
+            {/<[a-z][\s\S]*>/i.test(article.content) ? (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(article.content),
+                }}
+              />
+            ) : (
+              <p>{article.content}</p>
+            )}
+          </div>
         </div>
       </div>
       <div>

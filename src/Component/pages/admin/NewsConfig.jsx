@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import "../../../assets/editor.css";
 
 const categoryOptions = [
   { value: "announcement", label: "公告" },
@@ -54,8 +55,8 @@ function NewsConfig() {
       return;
     }
 
-    const image = await uploadImage(imageFile, "news_images");
-    const banner = await uploadImage(bannerFile, "news_banners");
+    const image = imageURL || (await uploadImage(imageFile, "news_images"));
+    const banner = bannerURL || (await uploadImage(bannerFile, "news_banners"));
 
     try {
       const response = await fetch("https://addnews-3xt565hwvq-uc.a.run.app", {
@@ -93,8 +94,8 @@ function NewsConfig() {
   };
 
   return (
-    <div style={{ maxWidth: 800, margin: "2rem auto" }}>
-      <h2>新增新聞</h2>
+    <div style={{ maxWidth: 800, margin: "0 auto", height: "100%" }}>
+      <h2 className="title-txt">新增新聞</h2>
 
       <label>標題：</label>
       <input
@@ -127,12 +128,20 @@ function NewsConfig() {
         ))}
       </select>
 
-      <label>上傳封面圖片 image（內容用圖）</label>
+      <label>內文圖上傳</label>
       <input
         type="file"
         accept="image/*"
         onChange={(e) => setImageFile(e.target.files?.[0] || null)}
         style={{ marginBottom: "1rem" }}
+      />
+      <label>連結：</label>
+      <input
+        type="url"
+        placeholder="https://cdn.example.com/your-image.jpg"
+        value={imageURL}
+        onChange={(e) => setImageURL(e.target.value)}
+        style={{ width: "100%", marginBottom: "1rem", padding: "8px" }}
       />
       {imageFile && (
         <img
@@ -147,12 +156,20 @@ function NewsConfig() {
         />
       )}
 
-      <label>上傳橫幅圖片 banner（頁面大圖）</label>
+      <label>封面用圖</label>
       <input
         type="file"
         accept="image/*"
         onChange={(e) => setBannerFile(e.target.files?.[0] || null)}
         style={{ marginBottom: "1rem" }}
+      />
+      <label>連結：</label>
+      <input
+        type="url"
+        placeholder="https://cdn.example.com/your-image.jpg"
+        value={imageURL}
+        onChange={(e) => setImageURL(e.target.value)}
+        style={{ width: "100%", marginBottom: "1rem", padding: "8px" }}
       />
       {bannerFile && (
         <img
@@ -169,19 +186,21 @@ function NewsConfig() {
 
       <label>是否公開：</label>
       <div style={{ marginBottom: "1rem" }}>
-        <label>
+        <label className="radio-label">
           <input
             type="radio"
             name="public"
+            style={{ width: "fit-content" }}
             checked={isPublic === true}
             onChange={() => setIsPublic(true)}
           />{" "}
           是
         </label>
-        <label style={{ marginLeft: "1rem" }}>
+        <label className="radio-label">
           <input
             type="radio"
             name="public"
+            style={{ width: "fit-content" }}
             checked={isPublic === false}
             onChange={() => setIsPublic(false)}
           />{" "}
@@ -189,17 +208,53 @@ function NewsConfig() {
         </label>
       </div>
 
-      <label>
+      <label className="pinned-label">
         <input
           type="checkbox"
           checked={isPinned}
+          style={{ width: "fit-content" }}
           onChange={(e) => setIsPinned(e.target.checked)}
         />
-        是否置頂
+        設為置頂文章
       </label>
 
       <div style={{ margin: "1rem 0" }}>
         <label>新聞內文：</label>
+
+        {editor && (
+          <div className="editor-toolbar" style={{ marginBottom: "0.5rem" }}>
+            <button onClick={() => editor.chain().focus().toggleBold().run()}>
+              粗體
+            </button>
+            <button
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level: 1 }).run()
+              }
+            >
+              H1
+            </button>
+            <button
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level: 2 }).run()
+              }
+            >
+              H2
+            </button>
+            <button onClick={() => editor.chain().focus().setParagraph().run()}>
+              段落
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+            >
+              無序清單
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            >
+              有序清單
+            </button>
+          </div>
+        )}
         <div
           className="editor border p-2 rounded-md"
           style={{ border: "1px solid #ccc" }}

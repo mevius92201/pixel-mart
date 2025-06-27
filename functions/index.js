@@ -903,7 +903,7 @@ exports.getNews = onRequest(async (req, res) => {
     const {
       category = "",
       page = 1,
-      pageSize = 10,
+      pageSize = 15,
       isPublic = "true",
     } = req.query;
 
