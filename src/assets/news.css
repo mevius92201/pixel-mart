@@ -1,6 +1,9 @@
 .news-list-header {
-  padding-left: 20rem;
   margin-top: 5rem;
+  padding-right: 20rem;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 .news-list-group {
   display: flex;
@@ -182,4 +185,10 @@
   font-size: 2rem;
   right: 8rem;
   bottom: 1rem;
+}
+.no-news {
+  font-size: 2.4rem;
+  color: #a5c7c58f;
+  text-align: center;
+  margin-top: 45rem;
 }

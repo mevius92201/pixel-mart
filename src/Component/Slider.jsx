@@ -41,9 +41,10 @@ const Sliders = ({ sliderData }) => {
                 key={index}
                 className="image"
                 style={{
-                  objectFit: "contain",
+                  objectFit: "cover",
                   width: "1076px",
                   height: "615px",
+                  border: "5px solid #ccc",
                 }}
               />
             </div>
