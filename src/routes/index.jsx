@@ -9,7 +9,7 @@ import CustomerService from "../Component/pages/admin/CustomerService";
 import ProductConfig from "../Component/pages/admin/ProductConfig";
 import NewsConfig from "../Component/pages/admin/NewsConfig";
 import Auth from "../Component/pages/Auth";
-import Home from "../Component/pages/Home";
+import Home from "../Component/pages/home/Home";
 import SupportCenter from "../Component/pages/SupportCenter";
 
 const routes = [

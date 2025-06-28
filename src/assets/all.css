@@ -1184,11 +1184,15 @@ html {
   padding-top: 6.4rem;
 }
 .home-main-wrapper,
+.home {
+  width: 100%;
+  height: 100%;
+}
 .news-list-main-wrapper,
 .product-display-main-wrapper,
 .support-center-main-wrapper,
 .auth-center-main-wrapper .news-article-main-wrapper {
-  background-image: url("./images/bg_main_pc.jpg");
+  /* background-image: url("./images/bg_main_pc.jpg"); */
   /* width: 100vw; */
   height: 100vh;
   background-repeat: no-repeat;

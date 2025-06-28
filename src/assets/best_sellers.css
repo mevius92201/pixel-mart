@@ -1,0 +1,48 @@
+.best-sellers-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./images/stone_wall.png");
+}
+/* .stone01 {
+  background-image: url(./images/stone01.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 540px;
+  left: 40px;
+} */
+.stone-group {
+  display: flex;
+  justify-content: center;
+}
+.stone02,
+.stone01,
+.stone03 {
+  background-image: url(./images/stone02.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 440px;
+  height: 440px;
+  position: relative;
+}
+
+/* .stone03 {
+  background-image: url(./images/stone03.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 790px;
+  left: 90px;
+} */
