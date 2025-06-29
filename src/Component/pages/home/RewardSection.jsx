@@ -17,6 +17,7 @@ export default function RewardSection() {
       initial={{ opacity: 0, y: 100 }}
       animate={visible ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.9 }}
+      style={{ position: "relative", top: "10rem" }}
     >
       <RewardList />
     </motion.section>

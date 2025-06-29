@@ -26,7 +26,6 @@ function HomeNews() {
   return (
     <section className="home_news">
       <div className="home_news-wrapper">
-        <div></div>
         <div
           className="cloud-island"
           data-speed="0.4"

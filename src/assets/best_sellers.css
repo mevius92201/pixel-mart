@@ -7,6 +7,7 @@
   justify-content: center;
   align-items: center;
   background-image: url("./images/stone_wall.png");
+  box-shadow: -1px -2px 9px 3px #2c2a2a;
 }
 
 .product-box {
@@ -86,14 +87,24 @@
     background-position-x: -512px;
   }
 }
+.best-sellers-title {
+  position: relative;
+}
 .best-sellers-board {
   position: absolute;
-  top: 47px;
-  left: 239px;
+  top: -400px;
+  left: 179px;
   width: 310px;
-  height: 172px;
-  background-image: url("./images/best_sellers4.png");
+  height: 238px;
+  background-image: url("./images/best_sellers5.png");
   background-size: cover;
   background-position: center;
-  background-color: #7b7272;
+}
+.best-sellers-txt {
+  font-size: 6rem;
+  position: absolute;
+  top: -300px;
+  left: 258px;
+  text-align: center;
+  color: #cdd3d8;
 }
