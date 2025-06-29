@@ -5,6 +5,7 @@ import "../../../assets/news.css";
 import NewsCard from "./NewsCard";
 import FilterTabs from "../../FilterTabs";
 import LoadingEffectV2 from "../../LoadingEffectV2";
+import ScrollToTop from "../../ScrollToTop";
 // const newsCategory = 1;
 function News() {
   // const params = useParams();
@@ -89,6 +90,9 @@ function News() {
       </section>
       <div>
         <LoadingEffectV2 loadingState={loading} />
+      </div>
+      <div>
+        <ScrollToTop />
       </div>
     </>
   );

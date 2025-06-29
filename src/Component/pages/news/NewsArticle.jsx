@@ -28,7 +28,7 @@ function NewsArticle() {
   useEffect(() => {
     if (id) getArticle();
   }, [id]);
-  if (loading || !article) return <LoadingEffectV2 />;
+  if (loading || !article) return <LoadingEffectV2 loadingState={loading} />;
   return (
     <section className="news-article-page">
       <div className="news-article-main-wrapper">

@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import LoadingEffectV2 from "../LoadingEffectV2.jsx";
 import GetProduct from "../GetProduct.jsx";
 import CenterMode from "../Slider.jsx";
-import sliderData from "../../data.json";
+import sliderData from "../../data/silderData.json";
 import SearchBar from "../SearchBar.jsx";
 import ScrollToTop from "../ScrollToTop.jsx";
 import FilterTabs from "../FilterTabs.jsx";

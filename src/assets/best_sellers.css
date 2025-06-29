@@ -1,0 +1,99 @@
+.best-sellers-wrapper {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./images/stone_wall.png");
+}
+
+.product-box {
+  background-image: url(./images/stone02.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 34rem;
+  height: 34rem;
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.reward-display-area {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 32px 0;
+}
+.reward-list {
+  display: flex;
+  justify-content: space-between;
+  max-width: 108rem;
+  width: 108rem;
+}
+.product-box img {
+  width: 19rem;
+  height: 19rem;
+  object-fit: cover;
+  position: relative;
+  top: 2.5rem;
+  left: 7.5rem;
+}
+.product-box-product-name {
+  text-align: center;
+  padding: 0 3rem;
+  position: relative;
+  top: 4.4rem;
+  font-size: 1.8rem;
+  color: #102025;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 27rem;
+  align-self: center;
+}
+.product-price-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.product-price-group {
+  position: relative;
+  top: 3rem;
+}
+.product-box-reward-price {
+  font-size: 2.4rem;
+  color: #102025;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+.torch_sprite {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 10rem;
+  left: 20rem;
+  background-image: url("./icons/torch.png");
+  animation: torch 1s steps(16) infinite;
+  scale: 2;
+}
+@keyframes torch {
+  100% {
+    background-position-x: -512px;
+  }
+}
+.best-sellers-board {
+  position: absolute;
+  top: 47px;
+  left: 239px;
+  width: 310px;
+  height: 172px;
+  background-image: url("./images/best_sellers4.png");
+  background-size: cover;
+  background-position: center;
+  background-color: #7b7272;
+}

@@ -1,0 +1,59 @@
+.parallax-landing {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 6.4rem);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.parallax-wrapper {
+  position: absolute;
+  background-image: url("./images/landing_bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.parallax-layer {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  background-repeat: repeat;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+  will-change: transform;
+}
+.island-layer {
+  animation: floatingIsland 2.5s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes floatingIsland {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.parallax-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #102025;
+  top: 35rem;
+}
+.parallax-content-txt {
+  color: #102025;
+  font-size: 5.4rem;
+}
