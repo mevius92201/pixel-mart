@@ -3,6 +3,7 @@ import "../../../assets/parallax.css";
 import starsYellow from "../../../assets/images/stars_yellow.png";
 import starsWhite from "../../../assets/images/stars_white.png";
 import island from "../../../assets/images/landing_island.png";
+import starsLittle from "../../../assets/images/stars_little.png";
 function LandingParallax() {
   useEffect(() => {
     const handleScroll = () => {
@@ -43,6 +44,12 @@ function LandingParallax() {
           data-speed="0.4"
           data-scale-speed="-0.002"
           style={{ backgroundImage: `url(${starsWhite})`, top: "5%" }}
+        ></div>
+        <div
+          className="parallax-layer"
+          data-speed="0.4"
+          data-scale-speed="-0.002"
+          style={{ backgroundImage: `url(${starsLittle})`, top: "45%" }}
         ></div>
         <div className="parallax-layer" data-speed="1" data-scale-speed="0.003">
           <div

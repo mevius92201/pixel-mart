@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, forwardRef } from "react";
 import "../../../assets/best_sellers.css";
 
-const BestSeller = () => {
+const BestSeller = forwardRef((props, ref) => {
   useEffect(() => {
     const handleScroll = () => {
       const layers = document.querySelectorAll(".parallax-layer");
@@ -10,7 +10,6 @@ const BestSeller = () => {
       layers.forEach((layer) => {
         const speed = parseFloat(layer.dataset.speed) || 0;
         const scaleSpeed = parseFloat(layer.dataset.scaleSpeed) || 0;
-
         const translateY = scrollY * speed;
         const scale = 1 + scrollY * scaleSpeed;
 
@@ -24,7 +23,7 @@ const BestSeller = () => {
   }, []);
 
   return (
-    <section className="best-sellers">
+    <section ref={ref} className="best-sellers" id="second-section">
       <div className="best-sellers-wrapper">
         <div className="stone-group">
           <div className="stone01">
@@ -68,11 +67,11 @@ const BestSeller = () => {
           </div>
         </div>
       </div>
-      <div className="best-sellers-content">
+      {/* <div className="best-sellers-content">
         <p className="parallax-content-txt">SCROLL</p>
-      </div>
+      </div> */}
     </section>
   );
-};
+});
 
 export default BestSeller;

@@ -1,4 +1,4 @@
-.parallax-landing {
+.home_news {
   position: relative;
   width: 100%;
   height: calc(100vh - 6.4rem);
@@ -7,9 +7,9 @@
   justify-content: center;
   align-items: center;
 }
-.parallax-wrapper {
+.home_news-wrapper {
   position: absolute;
-  background-image: url("./images/landing_bg.png");
+  background-image: url("./images/home_news.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -21,31 +21,15 @@
   z-index: 0;
 }
 
-.parallax-layer {
-  position: absolute;
-  width: 90%;
-  height: 90%;
-  background-repeat: repeat;
+.cloud-island {
+  background-image: url("./images/cloud_island.png");
   background-size: cover;
   background-position: center;
-  pointer-events: none;
-  will-change: transform;
+  background-repeat: no-repeat;
+  width: 500px;
+  height: 500px;
 }
-.island-layer {
-  animation: floatingIsland 2.5s ease-in-out infinite;
-  z-index: 1;
-}
-@keyframes floatingIsland {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
+
 .parallax-content {
   position: relative;
   z-index: 2;

@@ -1,4 +1,4 @@
-.parallax-landing {
+.map {
   position: relative;
   width: 100%;
   height: calc(100vh - 6.4rem);
@@ -7,9 +7,9 @@
   justify-content: center;
   align-items: center;
 }
-.parallax-wrapper {
+.map-wrapper {
   position: absolute;
-  background-image: url("./images/landing_bg.png");
+  background-image: url("./images/map.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -21,15 +21,13 @@
   z-index: 0;
 }
 
-.parallax-layer {
-  position: absolute;
-  width: 90%;
-  height: 90%;
-  background-repeat: repeat;
+.land {
+  background-image: url("./images/land.png");
   background-size: cover;
   background-position: center;
-  pointer-events: none;
-  will-change: transform;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
 }
 .island-layer {
   animation: floatingIsland 2.5s ease-in-out infinite;
