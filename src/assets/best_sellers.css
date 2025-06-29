@@ -71,11 +71,29 @@
   font-weight: bold;
   margin-left: 0.5rem;
 }
-.best-sellers-title img {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
+.torch_sprite {
+  width: 32px;
+  height: 32px;
   position: absolute;
-  top: -2rem;
-  left: -2rem;
+  top: 10rem;
+  left: 20rem;
+  background-image: url("./icons/torch.png");
+  animation: torch 1s steps(16) infinite;
+  scale: 2;
+}
+@keyframes torch {
+  100% {
+    background-position-x: -512px;
+  }
+}
+.best-sellers-board {
+  position: absolute;
+  top: 47px;
+  left: 239px;
+  width: 310px;
+  height: 172px;
+  background-image: url("./images/best_sellers4.png");
+  background-size: cover;
+  background-position: center;
+  background-color: #7b7272;
 }

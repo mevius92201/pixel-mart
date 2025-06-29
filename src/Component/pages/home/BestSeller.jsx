@@ -8,7 +8,9 @@ const BestSeller = forwardRef((props, ref) => {
     <section ref={ref} className="best-sellers" id="second-section">
       <div className="best-sellers-wrapper">
         <div className="best-sellers-title">
-          <img src="src/assets/icons/torch.png" alt="Best Sellers" />
+          <div className="torch_sprite" />
+          <div className="best-sellers-board"></div>
+          <div className="best-sellers-txt">BEST SELLERS</div>
         </div>
         <RewardSection />
       </div>
