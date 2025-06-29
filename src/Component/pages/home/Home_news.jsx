@@ -32,6 +32,7 @@ function HomeNews() {
           data-speed="0.4"
           data-scale-speed="-0.002"
         ></div>
+        <div className="cloud" data-speed="0.4" data-scale-speed="-0.002"></div>
       </div>
       <div className="parallax-content">
         <p className="parallax-content-txt">SCROLL</p>

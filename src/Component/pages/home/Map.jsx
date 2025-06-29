@@ -28,9 +28,8 @@ function Map() {
       <div className="map-wrapper">
         <div className="land"></div>
         <div></div>
-        <div className="parallax-layer" data-speed="1" data-scale-speed="0.003">
-          <div></div>
-        </div>
+
+        <div className="cloud" data-speed="0.4" data-scale-speed="-0.002"></div>
       </div>
       <div className="parallax-content">
         <p className="parallax-content-txt">SCROLL</p>

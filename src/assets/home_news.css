@@ -29,7 +29,14 @@
   width: 500px;
   height: 500px;
 }
-
+.cloud-island {
+  background-image: url("./images/cloud.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 80%;
+  height: 80%;
+}
 .parallax-content {
   position: relative;
   z-index: 2;
