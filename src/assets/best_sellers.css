@@ -73,18 +73,31 @@
   margin-left: 0.5rem;
 }
 .torch_sprite {
-  width: 32px;
-  height: 32px;
+  width: 243px;
+  height: 432px;
   position: absolute;
-  top: 10rem;
-  left: 20rem;
+  top: -560px;
+  left: 73px;
   background-image: url("./icons/torch.png");
-  animation: torch 1s steps(16) infinite;
-  scale: 2;
+  animation: torch 1s steps(4) infinite;
+  scale: 0.3;
+  z-index: 1;
+}
+.torch_sprite::after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: 887px;
+  width: 243px;
+  height: 432px;
+  background-image: url("./icons/torch.png");
+  animation: torch 1s steps(4) infinite;
+  scale: 0.9;
+  z-index: 1;
 }
 @keyframes torch {
   100% {
-    background-position-x: -512px;
+    background-position-x: -1535px;
   }
 }
 .best-sellers-title {
