@@ -4,7 +4,6 @@ import "../assets/rope_climb.css";
 function RopeClimber() {
   const climberRef = useRef(null);
   const [isClimbing, setIsClimbing] = useState(false);
-  const [isFixed, setIsFixed] = useState(false);
   const lastScrollY = useRef(0);
   const scrollTimeout = useRef(null);
 
@@ -54,13 +53,13 @@ function RopeClimber() {
         climber.style.top = "0";
         climber.style.left = "40px";
         climber.style.transform = `translateY(${scrollY}px) scale(0.3)`;
-      } else if (sectionTopInViewport > navbarHeight) {
-        // 第二段：角色在 fixY 停住，慢慢被畫面推上去
-        climber.style.position = "absolute";
-        climber.style.top = "0";
-        climber.style.left = "40px";
-        climber.style.transform = `translateY(${fixY}px) scale(0.3)`;
-        setIsClimbing(false);
+        // } else if (sectionTopInViewport > navbarHeight) {
+        //   // 第二段：角色在 fixY 停住，慢慢被畫面推上去
+        //   climber.style.position = "absolute";
+        //   climber.style.top = "0";
+        //   climber.style.left = "40px";
+        //   climber.style.transform = `translateY(${fixY}px) scale(0.3)`;
+        //   setIsClimbing(false);
       } else {
         // 第三段：第二屏頂部碰到 navbar，繼續往下爬
         const offset = fixY + (scrollY - (sectionTop - navbarHeight));

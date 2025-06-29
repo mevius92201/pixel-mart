@@ -8,41 +8,74 @@
   align-items: center;
   background-image: url("./images/stone_wall.png");
 }
-/* .stone01 {
-  background-image: url(./images/stone01.png);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  top: 540px;
-  left: 40px;
-} */
-.stone-group {
-  display: flex;
-  justify-content: center;
-}
-.stone02,
-.stone01,
-.stone03 {
+
+.product-box {
   background-image: url(./images/stone02.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  width: 440px;
-  height: 440px;
+  width: 34rem;
+  height: 34rem;
   position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-/* .stone03 {
-  background-image: url(./images/stone03.png);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 100px;
-  height: 100px;
+.reward-display-area {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 32px 0;
+}
+.reward-list {
+  display: flex;
+  justify-content: space-between;
+  max-width: 108rem;
+  width: 108rem;
+}
+.product-box img {
+  width: 19rem;
+  height: 19rem;
+  object-fit: cover;
+  position: relative;
+  top: 2.5rem;
+  left: 7.5rem;
+}
+.product-box-product-name {
+  text-align: center;
+  padding: 0 3rem;
+  position: relative;
+  top: 4.4rem;
+  font-size: 1.8rem;
+  color: #102025;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 27rem;
+  align-self: center;
+}
+.product-price-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.product-price-group {
+  position: relative;
+  top: 3rem;
+}
+.product-box-reward-price {
+  font-size: 2.4rem;
+  color: #102025;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+.best-sellers-title img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
   position: absolute;
-  top: 790px;
-  left: 90px;
-} */
+  top: -2rem;
+  left: -2rem;
+}
