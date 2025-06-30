@@ -8,6 +8,7 @@ import LoadingEffectV2 from "../../LoadingEffectV2";
 import ScrollToTop from "../../ScrollToTop";
 import RopeClimber from "../../RopeClimber";
 import climbCat from "../../../assets/images/climb_cat.png";
+
 // const newsCategory = 1;
 function News() {
   // const params = useParams();
@@ -69,8 +70,9 @@ function News() {
         spriteImage={climbCat}
         scale={0.35}
         leftOffset="60px"
+        topOffset="175px"
       />
-      <section className="news-list">
+      <section id="news-list">
         <div className="news-list-main-wrapper">
           <div className="news-list-header">
             <FilterTabs

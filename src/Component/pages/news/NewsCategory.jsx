@@ -1,6 +1,5 @@
 import { Outlet, Link, useNavigate } from "react-router";
 import { useParams } from "react-router";
-import NewsArticle from "./NewsArticle";
 
 function NewsCategory() {
   const params = useParams();

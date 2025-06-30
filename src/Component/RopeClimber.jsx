@@ -7,6 +7,7 @@ function RopeClimber({
   spriteImage = "/src/assets/images/climb_cat.png",
   scale = 0.3,
   leftOffset = "40px",
+  topOffset = "0px",
 }) {
   const climberRef = useRef(null);
   const [isClimbing, setIsClimbing] = useState(false);
@@ -16,10 +17,15 @@ function RopeClimber({
   useEffect(() => {
     const climber = climberRef.current;
     const section = document.getElementById(fixSectionId);
-    if (!climber || !section) return;
+    if (!climber) return;
 
     const handleScroll = () => {
       const scrollY = window.scrollY;
+
+      if (!section) {
+        climber.style.transform = `translateY(${scrollY}px) scale(${scale})`;
+        return;
+      }
 
       const navbarHeight = 69.4;
       const climberHeight = 512 * scale;
@@ -53,7 +59,7 @@ function RopeClimber({
       }
 
       climber.style.position = "absolute";
-      climber.style.top = "0";
+      climber.style.top = topOffset;
       climber.style.left = leftOffset;
       climber.style.backgroundImage = `url(${spriteImage})`;
 
