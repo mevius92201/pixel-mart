@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import "../../../assets/parallax.css";
 import starsYellow from "../../../assets/images/stars_yellow.png";
 import starsWhite from "../../../assets/images/stars_white.png";

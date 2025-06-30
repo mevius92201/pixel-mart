@@ -24,12 +24,6 @@
   justify-content: center;
 }
 
-.reward-display-area {
-  display: flex;
-  justify-content: center;
-  gap: 32px;
-  padding: 32px 0;
-}
 .reward-list {
   display: flex;
   justify-content: space-between;
@@ -50,7 +44,7 @@
   position: relative;
   top: 4.4rem;
   font-size: 1.8rem;
-  color: #102025;
+  color: #d1d1d1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

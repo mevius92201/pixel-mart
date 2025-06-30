@@ -1,7 +1,7 @@
-import { useEffect, forwardRef } from "react";
+import { forwardRef } from "react";
 import "../../../assets/best_sellers.css";
 import RewardList from "./RewardList";
-import RewardSection from "./RewardSection";
+import FadeInSectionEffect from "../../FadeInSectionEffect";
 
 const BestSeller = forwardRef((props, ref) => {
   return (
@@ -12,7 +12,9 @@ const BestSeller = forwardRef((props, ref) => {
           <div className="best-sellers-board"></div>
           <div className="best-sellers-txt">BEST SELLERS</div>
         </div>
-        <RewardSection />
+        <FadeInSectionEffect style={{ position: "relative", top: "10rem" }}>
+          <RewardList />
+        </FadeInSectionEffect>
       </div>
     </section>
   );
