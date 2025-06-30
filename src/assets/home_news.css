@@ -29,15 +29,15 @@
   width: 500px;
   height: 500px;
 }
-.cloud {
+/* .cloud {
   background-image: url("./images/cloud.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  width: 80%;
-  height: 80%;
+  width: 100rem;
+  height: 150rem;
   position: absolute;
-}
+} */
 .news-card-box {
   background-image: url(./images/stone_01.png);
   background-size: cover;
@@ -93,4 +93,14 @@
   height: 7rem;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.news-parallax-layer {
+  position: absolute;
+  width: 153.6rem;
+  height: 102.4rem;
+  background-repeat: repeat;
+  background-size: cover;
+  background-position: right;
+  pointer-events: none;
+  will-change: transform;
 }
