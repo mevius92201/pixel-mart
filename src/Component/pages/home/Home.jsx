@@ -2,7 +2,7 @@ import BestSeller from "./BestSeller";
 import ParallaxStars from "./LandingParallax";
 import { useInView } from "react-intersection-observer";
 import RopeClimber from "../../RopeClimber";
-import HomeNews from "./home_news";
+import NewsParallax from "./NewsParallax";
 import Map from "./Map";
 function Home() {
   const { ref, inView } = useInView({ threshold: 1.0 });
@@ -19,7 +19,7 @@ function Home() {
           />
           <ParallaxStars />
           <BestSeller ref={ref} />
-          <HomeNews />
+          <NewsParallax />
           <Map />
         </div>
       </section>

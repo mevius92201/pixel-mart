@@ -1,4 +1,4 @@
-import "../../../assets/home_news.css";
+import "../../../assets/news_parallax.css";
 import newsData from "../../../data/newsData.json";
 import FadeInSectionEffect from "../../FadeInSectionEffect";
 import NewsBox from "./NewsBox";
@@ -19,7 +19,7 @@ function renderLayers(config, index) {
     <div key={index} className="news-parallax-layer" style={config.style}></div>
   );
 }
-function HomeNewsParallax() {
+function NewsParallax() {
   const [transforms, setTransforms] = useState([]);
   useEffect(() => {
     const handleScroll = () => {
@@ -44,14 +44,16 @@ function HomeNewsParallax() {
     <section className="home_news">
       <div className="home_news-wrapper">
         {layers.map((config, index) => {
-          return renderLayers({
-            ...config,
-            style: {
-              ...config.style,
-              transform: transforms[index] || "translateY(0) scale(1)",
+          return renderLayers(
+            {
+              ...config,
+              style: {
+                ...config.style,
+                transform: transforms[index] || "translateY(0) scale(1)",
+              },
             },
-            index,
-          });
+            index
+          );
         })}
         <div className="home_news-list">
           {newsData.map((news, index) => {
@@ -61,7 +63,7 @@ function HomeNewsParallax() {
                 key={news.id}
                 style={{ position: "relative", delay: `${index} * 0.5s` }}
               >
-                <NewsBox {...news} />
+                <NewsBox {...news} index={index} />
               </FadeInSectionEffect>
             );
           })}
@@ -72,4 +74,4 @@ function HomeNewsParallax() {
   );
 }
 
-export default memo(HomeNewsParallax);
+export default memo(NewsParallax);
