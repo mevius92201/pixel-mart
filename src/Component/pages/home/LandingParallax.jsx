@@ -1,10 +1,52 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../../../assets/parallax.css";
 import starsYellow from "../../../assets/images/stars_yellow.png";
 import starsWhite from "../../../assets/images/stars_white.png";
 import island from "../../../assets/images/landing_island.png";
 import starsLittle from "../../../assets/images/stars_little.png";
 function LandingParallax() {
+  const [layers, setLayers] = useState([
+    {
+      speed: 0.2,
+      scaleSpeed: -0.0005,
+      style: {
+        backgroundImage: `url(${starsYellow})`,
+        top: "-3%",
+        left: "28%",
+      },
+    },
+    {
+      speed: 0.4,
+      scaleSpeed: -0.002,
+      style: {
+        backgroundImage: `url(${starsWhite})`,
+        top: "5%",
+      },
+    },
+    {
+      speed: 0.4,
+      scaleSpeed: -0.002,
+      style: {
+        backgroundImage: `url(${starsLittle})`,
+        top: "45%",
+      },
+    },
+    {
+      speed: 1,
+      scaleSpeed: 0.003,
+      isIsland: true,
+      style: {
+        backgroundImage: `url(${island})`,
+        backgroundSize: "cover",
+        height: "500px",
+        width: "450px",
+        top: "30%",
+        left: "55%",
+        position: "absolute",
+      },
+    },
+  ]);
+
   useEffect(() => {
     const handleScroll = () => {
       const layers = document.querySelectorAll(".parallax-layer");

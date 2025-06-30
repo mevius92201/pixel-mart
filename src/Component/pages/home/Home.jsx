@@ -10,7 +10,13 @@ function Home() {
     <>
       <section className="home">
         <div className="home-main-wrapper">
-          <RopeClimber isActive={inView} />
+          <RopeClimber
+            fixSectionId="second-section"
+            fixRatio={0.075}
+            spriteImage="/src/assets/images/climb_cat.png"
+            scale={0.3}
+            leftOffset="40px"
+          />
           <ParallaxStars />
           <BestSeller ref={ref} />
           <HomeNews />

@@ -7,7 +7,7 @@
   justify-content: center;
   align-items: center;
   background-image: url("./images/stone_wall.png");
-  box-shadow: -1px -2px 9px 3px #2c2a2a;
+  box-shadow: 0px -4px 7px 3px #2c2a2a;
 }
 
 .product-box {
