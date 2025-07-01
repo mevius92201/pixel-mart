@@ -61,7 +61,13 @@ function NewsParallax() {
             return (
               <FadeInSectionEffect
                 key={news.id}
-                style={{ position: "relative", delay: `${index} * 0.5s` }}
+                style={{ position: "relative" }}
+                delay={index * 0.2}
+                direction="left"
+                duration={1}
+                threshold={0.3}
+                stagger
+                staggerDelay={0.3}
               >
                 <NewsBox {...news} index={index} />
               </FadeInSectionEffect>
