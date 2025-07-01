@@ -22,6 +22,7 @@ function renderLayers(config, index) {
 }
 function NewsParallax() {
   const [transforms, setTransforms] = useState([]);
+  const [scrollY, setScrollY] = useState(0);
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -79,7 +80,6 @@ function NewsParallax() {
           <SocialMedia />
         </FadeInSectionEffect>
       </div>
-      <div className="parallax-content"></div>
     </section>
   );
 }
