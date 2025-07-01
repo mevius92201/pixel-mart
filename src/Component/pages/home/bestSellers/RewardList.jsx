@@ -1,4 +1,4 @@
-import rewardData from "../../../data/productData.json";
+import rewardData from "../../../../data/productData.json";
 import RewardBox from "./RewardBox";
 import { useEffect, useState } from "react";
 const getRandomRewards = (data, n = 3) => {

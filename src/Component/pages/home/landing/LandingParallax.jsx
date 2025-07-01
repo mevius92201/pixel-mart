@@ -1,9 +1,9 @@
 import { memo, useEffect, useState } from "react";
-import "../../../assets/parallax.css";
-import starsYellow from "../../../assets/images/stars_yellow.png";
-import starsWhite from "../../../assets/images/stars_white.png";
-import island from "../../../assets/images/landing_island.png";
-import starsLittle from "../../../assets/images/stars_little.png";
+import "../../../../assets/parallax.css";
+import starsYellow from "../../../../assets/images/stars_yellow.png";
+import starsWhite from "../../../../assets/images/stars_white.png";
+import island from "../../../../assets/images/landing_island.png";
+import starsLittle from "../../../../assets/images/stars_little.png";
 
 const layers = [
   {

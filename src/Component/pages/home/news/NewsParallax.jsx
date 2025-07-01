@@ -1,11 +1,12 @@
-import "../../../assets/news_parallax.css";
-import newsData from "../../../data/newsData.json";
-import FadeInSectionEffect from "../../FadeInSectionEffect";
+import "../../../../assets/news_parallax.css";
+import newsData from "../../../../data/newsData.json";
+import FadeInSectionEffect from "../../../FadeInSectionEffect";
 import NewsBox from "./NewsBox";
+import SocialMedia from "./SocialMedia";
 import { useEffect, useState, memo } from "react";
 const layers = [
   {
-    speed: 0.3,
+    speed: 0.4,
     scaleSpeed: -0.002,
     style: {
       backgroundImage: `url(/src/assets/images/cloud.png)`,
@@ -64,7 +65,7 @@ function NewsParallax() {
                 style={{ position: "relative" }}
                 delay={index * 0.2}
                 direction="left"
-                duration={1}
+                duration={1.2}
                 threshold={0.3}
                 stagger
                 staggerDelay={0.3}
@@ -74,6 +75,9 @@ function NewsParallax() {
             );
           })}
         </div>
+        <FadeInSectionEffect direction="up">
+          <SocialMedia />
+        </FadeInSectionEffect>
       </div>
       <div className="parallax-content"></div>
     </section>

@@ -146,7 +146,7 @@ export const Navbar = () => {
             </div>
           ) : (
             <NavLink to="/auth" className="navbar-menu-items">
-              註冊/登入
+              <div className="navbar-menu-txt">註冊/登入</div>
             </NavLink>
           )}
         </div>

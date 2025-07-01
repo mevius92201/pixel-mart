@@ -1,4 +1,4 @@
-import Icon from "../../Icon";
+import Icon from "../../../Icon";
 export default function RewardBox({ name, image, price }) {
   return (
     <div className="product-box">

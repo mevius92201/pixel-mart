@@ -572,6 +572,8 @@ input:not(:placeholder-shown) + .passWord {
   cursor: pointer;
   position: relative;
   top: 1.6rem;
+  display: flex;
+  white-space: nowrap;
 }
 /* .form-check {
   top: -3%;
