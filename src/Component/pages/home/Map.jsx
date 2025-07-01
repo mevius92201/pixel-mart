@@ -2,26 +2,25 @@ import { useEffect } from "react";
 import "../../../assets/map.css";
 
 function Map() {
-  useEffect(() => {
-    const handleScroll = () => {
-      const layers = document.querySelectorAll(".parallax-layer");
-      const scrollY = window.scrollY;
+  //     const handleScroll = () => {
+  //       const layers = document.querySelectorAll(".parallax-layer");
+  //       const scrollY = window.scrollY;
 
-      layers.forEach((layer) => {
-        const speed = parseFloat(layer.dataset.speed) || 0;
-        const scaleSpeed = parseFloat(layer.dataset.scaleSpeed) || 0;
+  //       layers.forEach((layer) => {
+  //         const speed = parseFloat(layer.dataset.speed) || 0;
+  //         const scaleSpeed = parseFloat(layer.dataset.scaleSpeed) || 0;
 
-        const translateY = scrollY * speed;
-        const scale = 1 + scrollY * scaleSpeed;
+  //         const translateY = scrollY * speed;
+  //         const scale = 1 + scrollY * scaleSpeed;
 
-        layer.style.transform = `translateY(${translateY}px) scale(${scale})`;
-      });
-    };
+  //         layer.style.transform = `translateY(${translateY}px) scale(${scale})`;
+  //       });
+  //     };
 
-    window.addEventListener("scroll", handleScroll);
+  //     window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  //     return () => window.removeEventListener("scroll", handleScroll);
+  //   }, []);
 
   return (
     <section className="map">

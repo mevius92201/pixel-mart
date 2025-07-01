@@ -2,7 +2,7 @@ import BestSeller from "./BestSeller";
 import ParallaxStars from "./LandingParallax";
 import { useInView } from "react-intersection-observer";
 import RopeClimber from "../../RopeClimber";
-import HomeNews from "./home_news";
+import NewsParallax from "./NewsParallax";
 import Map from "./Map";
 function Home() {
   const { ref, inView } = useInView({ threshold: 1.0 });
@@ -10,10 +10,16 @@ function Home() {
     <>
       <section className="home">
         <div className="home-main-wrapper">
-          <RopeClimber isActive={inView} />
+          <RopeClimber
+            fixSectionId="second-section"
+            fixRatio={0.075}
+            spriteImage="/src/assets/images/climb_cat.png"
+            scale={0.3}
+            leftOffset="40px"
+          />
           <ParallaxStars />
           <BestSeller ref={ref} />
-          <HomeNews />
+          <NewsParallax />
           <Map />
         </div>
       </section>

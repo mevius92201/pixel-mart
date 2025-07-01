@@ -6,6 +6,9 @@ import NewsCard from "./NewsCard";
 import FilterTabs from "../../FilterTabs";
 import LoadingEffectV2 from "../../LoadingEffectV2";
 import ScrollToTop from "../../ScrollToTop";
+import RopeClimber from "../../RopeClimber";
+import climbCat from "../../../assets/images/climb_cat.png";
+
 // const newsCategory = 1;
 function News() {
   // const params = useParams();
@@ -17,7 +20,6 @@ function News() {
   const [page, setPage] = useState(1);
   const [selectedTab, setSelectedTab] = useState("");
   const [tabs, setTab] = useState(["全部", "公告", "活動", "道具解析"]);
-  const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(false);
   // const handleTabChange = (tab) => {
   //   setSelectedTab(tab);
@@ -62,7 +64,15 @@ function News() {
   // }
   return (
     <>
-      <section className="news-list">
+      <RopeClimber
+        fixSectionId="news-list"
+        fixRatio={0.25}
+        spriteImage={climbCat}
+        scale={0.35}
+        leftOffset="60px"
+        topOffset="175px"
+      />
+      <section id="news-list">
         <div className="news-list-main-wrapper">
           <div className="news-list-header">
             <FilterTabs

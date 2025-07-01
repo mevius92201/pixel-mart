@@ -1397,7 +1397,7 @@ html {
 
 .category-item {
   display: inline-block;
-  padding: 0.48rem 2.28rem;
+  padding: 0.48rem 2.24rem 0.48rem 2.28rem;
   margin-right: 2.8rem;
   color: #d1f7f4;
   border-radius: 5px;
