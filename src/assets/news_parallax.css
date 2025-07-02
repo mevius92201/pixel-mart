@@ -143,6 +143,7 @@
   align-items: center;
   position: relative;
   bottom: -12rem;
+  z-index: 1;
 }
 .follow-social-medias p {
   font-size: 2.4rem;
@@ -159,4 +160,15 @@
 .follow-social-medias img:hover {
   scale: 1.3;
   cursor: pointer;
+}
+.cloud-wrapper-up {
+  background-image: url(/src/assets/images/half_cloud_u.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 192rem;
+  height: 25.4rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }

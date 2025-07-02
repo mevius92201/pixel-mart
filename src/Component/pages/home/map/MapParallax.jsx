@@ -14,6 +14,7 @@ function Map() {
         <MouseParallaxWrapper strength={10}>
           <img src="/src/assets/images/starssss.png" className="starsss" />
         </MouseParallaxWrapper>
+        <div className="cloud-wrapper-down"></div>
       </div>
     </section>
   );

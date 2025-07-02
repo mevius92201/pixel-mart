@@ -80,6 +80,7 @@ function NewsParallax() {
           <SocialMedia />
         </FadeInSectionEffect>
       </div>
+      <div className="cloud-wrapper-up"></div>
     </section>
   );
 }

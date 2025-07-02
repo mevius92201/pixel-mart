@@ -39,7 +39,7 @@
   width: 857px;
   height: 200px;
   position: absolute;
-  bottom: 78px;
+  bottom: 6rem;
   animation: floating-island 2.5s ease-in-out infinite;
 }
 
@@ -64,25 +64,25 @@
   width: 784px;
   height: 689px;
   position: absolute;
-  bottom: 255px;
+  bottom: 20rem;
   pointer-events: none;
 }
-.parallax-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: #102025;
-  top: 35rem;
-}
-.parallax-content-txt {
-  color: #102025;
-  font-size: 5.4rem;
+.cloud-wrapper-down {
+  background-image: url(/src/assets/images/half_cloud_d.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 192rem;
+  height: 19.4rem;
+  position: absolute;
+  top: 0;
+  z-index: -1;
 }
 .youtube-wrapper {
   position: relative;
   width: 44rem;
   height: 29rem;
-  top: 16.2rem;
+  top: 18rem;
   left: 1rem;
   z-index: 1;
 }
