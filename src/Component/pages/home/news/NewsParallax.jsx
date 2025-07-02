@@ -7,11 +7,13 @@ import { useEffect, useState, memo } from "react";
 const layers = [
   {
     speed: 0.4,
-    scaleSpeed: -0.002,
+    scaleSpeed: 0.001,
     style: {
       backgroundImage: `url(/src/assets/images/cloud.png)`,
-      top: "-10%",
-      left: "60%",
+      top: "-50%",
+      left: "25%",
+      width: "100rem",
+      height: "40rem",
     },
   },
 ];

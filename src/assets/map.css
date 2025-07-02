@@ -92,7 +92,8 @@
 }
 .starsss {
   position: relative;
-  width: 100%;
-  height: 85vh;
+  width: 55%;
+  height: 55%;
   bottom: 100rem;
+  left: 45rem;
 }

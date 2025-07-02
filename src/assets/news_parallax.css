@@ -144,6 +144,7 @@
   position: relative;
   bottom: -12rem;
   z-index: 1;
+  cursor: pointer;
 }
 .follow-social-medias p {
   font-size: 2.4rem;
