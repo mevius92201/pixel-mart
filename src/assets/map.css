@@ -27,7 +27,7 @@
   background-position: center;
   background-repeat: no-repeat;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   position: relative;
@@ -65,8 +65,8 @@
   width: 63.1538rem;
   height: 48.3846rem;
   position: absolute;
-  bottom: 27rem;
-  pointer-events: none;
+  bottom: 0;
+  margin-bottom: 28rem;
 }
 .cloud-wrapper-down {
   background-image: url(/src/assets/images/half_cloud_d.png);
@@ -81,14 +81,18 @@
 }
 .youtube-wrapper {
   position: relative;
-  width: 44rem;
-  height: 29rem;
-  top: 24.2rem;
-  z-index: 1;
+  width: 38rem;
+  height: 21.6rem;
+  margin: 9.8rem 0 0 13rem;
+  background: black;
+  border: 1px solid #855b5b;
+  overflow: hidden;
 }
+
 .youtube-wrapper iframe {
   width: 100%;
   height: 100%;
+  display: block;
 }
 .starsss {
   position: relative;
@@ -96,4 +100,5 @@
   height: 108rem;
   bottom: 100rem;
   left: -1rem;
+  -webkit-user-drag: none;
 }
