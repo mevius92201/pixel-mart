@@ -30,6 +30,7 @@
   height: 100vh;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 .floating-island {
   background-image: url("./images/float_island.png");
@@ -61,10 +62,10 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  width: 784px;
-  height: 689px;
+  width: 63.1538rem;
+  height: 48.3846rem;
   position: absolute;
-  bottom: 20rem;
+  bottom: 27rem;
   pointer-events: none;
 }
 .cloud-wrapper-down {
@@ -82,8 +83,7 @@
   position: relative;
   width: 44rem;
   height: 29rem;
-  top: 18rem;
-  left: 1rem;
+  top: 24.2rem;
   z-index: 1;
 }
 .youtube-wrapper iframe {
@@ -92,8 +92,8 @@
 }
 .starsss {
   position: relative;
-  width: 55%;
-  height: 55%;
+  width: 192rem;
+  height: 108rem;
   bottom: 100rem;
-  left: 45rem;
+  left: -1rem;
 }
