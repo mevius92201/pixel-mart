@@ -2,6 +2,7 @@ import { memo, useEffect, useState } from "react";
 import "../../../../assets/parallax.css";
 import starsYellow from "../../../../assets/images/stars_yellow.png";
 import starsWhite from "../../../../assets/images/stars_white.png";
+import starsPink from "../../../../assets/images/stars_pink.png";
 import island from "../../../../assets/images/landing_island.png";
 import starsLittle from "../../../../assets/images/stars_little.png";
 
@@ -11,8 +12,10 @@ const layers = [
     scaleSpeed: -0.0005,
     style: {
       backgroundImage: `url(${starsYellow})`,
-      top: "-3%",
-      left: "28%",
+      top: "-5%",
+      left: "5rem",
+      width: "153.6rem",
+      height: "102.4rem",
     },
   },
   {
@@ -20,7 +23,21 @@ const layers = [
     scaleSpeed: -0.002,
     style: {
       backgroundImage: `url(${starsWhite})`,
-      top: "5%",
+      top: "-11%",
+      left: "20%",
+      width: "153.6rem",
+      height: "102.4rem",
+    },
+  },
+  {
+    speed: 0.4,
+    scaleSpeed: -0.002,
+    style: {
+      backgroundImage: `url(${starsPink})`,
+      top: "-5%",
+      left: "19%",
+      width: "153.6rem",
+      height: "102.4rem",
     },
   },
   {
@@ -28,7 +45,8 @@ const layers = [
     scaleSpeed: -0.002,
     style: {
       backgroundImage: `url(${starsLittle})`,
-      top: "45%",
+      width: "153.6rem",
+      height: "102.4rem",
     },
   },
   {
