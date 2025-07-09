@@ -17,28 +17,24 @@ const layers = [
     },
   },
 ];
-function renderLayers(config, index) {
+function renderLayers(scrollY, index) {
+  const { speed = 0, scaleSpeed = 0, style = {} } = layers[index] || {};
+  const translateY = Math.floor(scrollY * speed);
+  const scale = 1 + scrollY * scaleSpeed;
+  const transform = `translateY(${translateY}px) scale(${scale})`;
   return (
-    <div key={index} className="news-parallax-layer" style={config.style}></div>
+    <div
+      key={index}
+      className="news-parallax-layer"
+      style={{ ...style, transform }}
+    ></div>
   );
 }
 function NewsParallax() {
-  const [transforms, setTransforms] = useState([]);
   const [scrollY, setScrollY] = useState(0);
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const newTransforms = layers.map((_, index) => {
-        const { speed, scaleSpeed } = layers[index] || {
-          speed: 0,
-          scaleSpeed: 0,
-        };
-        const translateY = Math.floor(scrollY * speed);
-        const scale = 1 + scrollY * scaleSpeed;
-
-        return `translateY(${translateY}px) scale(${scale})`;
-      });
-      setTransforms(newTransforms);
+      setScrollY(window.scrollY);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -47,17 +43,8 @@ function NewsParallax() {
   return (
     <section className="home_news">
       <div className="home_news-wrapper">
-        {layers.map((config, index) => {
-          return renderLayers(
-            {
-              ...config,
-              style: {
-                ...config.style,
-                transform: transforms[index] || "translateY(0) scale(1)",
-              },
-            },
-            index
-          );
+        {layers.map((_, index) => {
+          return renderLayers(scrollY, index);
         })}
         <div className="home_news-list">
           {newsData.map((news, index) => {

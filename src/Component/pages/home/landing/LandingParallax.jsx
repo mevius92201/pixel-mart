@@ -56,10 +56,20 @@ const layers = [
   },
 ];
 
-function renderLayer(config, index) {
+function renderLayer(scrollY, index) {
+  const {
+    speed = 0,
+    scaleSpeed = 0,
+    isIsland,
+    style = {},
+  } = layers[index] || {};
+  const translateY = Math.floor(scrollY * speed);
+  const scale = 1 + scrollY * scaleSpeed;
+  const transform = `translateY(${translateY}px) scale(${scale})`;
+
   return (
-    <div key={index} className="parallax-layer" style={config.style}>
-      {config.isIsland && (
+    <div key={index} className="parallax-layer" style={{ ...style, transform }}>
+      {isIsland && (
         <div
           className="island-layer"
           style={{
@@ -78,25 +88,11 @@ function renderLayer(config, index) {
 }
 
 function LandingParallax() {
-  const [transforms, setTransforms] = useState([]);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-
-      const nextTransforms = layers.map((_, index) => {
-        const { speed, scaleSpeed } = layers[index] || {
-          speed: 0,
-          scaleSpeed: 0,
-        };
-
-        const translateY = Math.floor(scrollY * speed);
-        const scale = 1 + scrollY * scaleSpeed;
-
-        return `translateY(${translateY}px) scale(${scale})`;
-      });
-
-      setTransforms(nextTransforms);
+      setScrollY(window.scrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -107,14 +103,8 @@ function LandingParallax() {
   return (
     <section className="parallax-landing">
       <div className="parallax-wrapper">
-        {layers.map((config, index) => {
-          return renderLayer(
-            {
-              ...config,
-              style: { ...config.style, transform: transforms[index] },
-            },
-            index
-          );
+        {layers.map((_, index) => {
+          return renderLayer(scrollY, index);
         })}
       </div>
       <div className="parallax-content">
