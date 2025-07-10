@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
-import "../../../assets/best_sellers.css";
+import "../../../../assets/best_sellers.css";
 import RewardList from "./RewardList";
-import FadeInSectionEffect from "../../FadeInSectionEffect";
+import FadeInSectionEffect from "../../../FadeInSectionEffect";
 
 const BestSeller = forwardRef((props, ref) => {
   return (

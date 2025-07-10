@@ -21,31 +21,84 @@
   z-index: 0;
 }
 
-.land {
+.land-wrapper {
   background-image: url("./images/land.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
 }
-.cloud {
-  background-image: url("./images/cloud.png");
+.floating-island {
+  background-image: url("./images/float_island.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  width: 80%;
-  height: 80%;
+  width: 857px;
+  height: 200px;
+  position: absolute;
+  bottom: 6rem;
+  animation: floating-island 2.5s ease-in-out infinite;
 }
 
-.parallax-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: #102025;
-  top: 35rem;
+@keyframes floating-island {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
-.parallax-content-txt {
-  color: #102025;
-  font-size: 5.4rem;
+
+.floating-book {
+  z-index: 2;
+  background-image: url(/src/assets/images/book.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 63.1538rem;
+  height: 48.3846rem;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 28rem;
+}
+.cloud-wrapper-down {
+  background-image: url(/src/assets/images/half_cloud_d.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 192rem;
+  height: 19.4rem;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+.youtube-wrapper {
+  position: relative;
+  width: 38rem;
+  height: 21.6rem;
+  margin: 9.8rem 0 0 13rem;
+  background: black;
+  border: 1px solid #855b5b;
+  overflow: hidden;
+}
+
+.youtube-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.starsss {
+  position: relative;
+  width: 192rem;
+  height: 108rem;
+  bottom: 100rem;
+  left: -1rem;
+  -webkit-user-drag: none;
 }

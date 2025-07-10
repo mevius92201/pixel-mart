@@ -1,9 +1,9 @@
-import BestSeller from "./BestSeller";
-import ParallaxStars from "./LandingParallax";
+import BestSeller from "./bestSellers/BestSeller";
+import ParallaxStars from "./landing/LandingParallax";
 import { useInView } from "react-intersection-observer";
 import RopeClimber from "../../RopeClimber";
-import NewsParallax from "./NewsParallax";
-import Map from "./Map";
+import NewsParallax from "./news/NewsParallax";
+import Map from "./map/MapParallax";
 function Home() {
   const { ref, inView } = useInView({ threshold: 1.0 });
   return (
