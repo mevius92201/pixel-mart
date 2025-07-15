@@ -11,6 +11,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@splinetool/react-spline": "^4.0.0",
     "@tiptap/react": "^2.23.0",
     "@tiptap/starter-kit": "^2.23.0",
     "axios": "^1.8.2",

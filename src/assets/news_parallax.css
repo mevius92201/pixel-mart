@@ -147,6 +147,12 @@
   z-index: 1;
   cursor: pointer;
 }
+.news-social-media-icons {
+  cursor: pointer;
+}
+.social-media-group {
+  cursor: pointer;
+}
 .follow-social-medias p {
   font-size: 2.4rem;
   z-index: 1;
@@ -159,9 +165,11 @@
 .follow-social-medias img {
   width: 6rem;
   height: 6rem;
+  cursor: pointer;
 }
 .follow-social-medias img:hover {
   scale: 1.3;
+  transition: transform 0.3s ease;
   cursor: pointer;
 }
 .cloud-wrapper-up {

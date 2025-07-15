@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import "../../../assets/news.css";
 import LoadingEffectV2 from "../../LoadingEffectV2";
 import Editor from "../../Editor";
+import { useNavigate } from "react-router";
 import DOMPurify from "dompurify";
 function NewsArticle() {
+  const navigate = useNavigate();
   const params = useParams();
   const { id } = params;
   console.log(id);
@@ -21,6 +23,11 @@ function NewsArticle() {
       setArticle(res.data.data);
     } catch (err) {
       console.error(err);
+      if (err.response?.status === 404) {
+        navigate("*");
+      } else {
+        console.error(err);
+      }
     } finally {
       setLoading(false);
     }

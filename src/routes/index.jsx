@@ -10,6 +10,8 @@ import NewsConfig from "../Component/pages/admin/NewsConfig";
 import Auth from "../Component/pages/Auth";
 import Home from "../Component/pages/home/Home";
 import SupportCenter from "../Component/pages/SupportCenter";
+import { element } from "prop-types";
+import ErrorPage from "../Component/pages/ErrorPage";
 
 const routes = [
   {
@@ -40,6 +42,10 @@ const routes = [
       {
         path: "support",
         element: <SupportCenter />,
+      },
+      {
+        path: "*",
+        element: <ErrorPage />,
       },
     ],
   },
